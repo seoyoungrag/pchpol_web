@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:aop="http://www.springframework.org/schema/aop"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
-	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
 
 	<aop:config>
-		<aop:pointcut id="serviceMethod" expression="execution(* egovframework.example.example..impl.*Impl.*(..))" />
+		<aop:pointcut id="serviceMethod" expression="execution(* com.dwebs..impl.*Impl.*(..))" />
 
 		<aop:aspect ref="exceptionTransfer">
 			<aop:after-throwing throwing="exception" pointcut-ref="serviceMethod" method="transfer" />
@@ -32,7 +32,7 @@
 		</property>
 		<property name="handlers">
 			<list>
-				<ref bean="egovHandler" />
+				<ref bean="defaultHandler" />
 			</list>
 		</property>
 	</bean>
@@ -53,7 +53,7 @@
 		</property>
 	</bean>
 
-	<bean id="egovHandler" class="egovframework.example.cmmn.EgovSampleExcepHndlr" />
-	<bean id="otherHandler" class="egovframework.example.cmmn.EgovSampleOthersExcepHndlr" />	
+	<bean id="defaultHandler" class="com.dwebs.pchpol.common.handler.DefaultExcepHndlr" />
+	<bean id="otherHandler" class="com.dwebs.pchpol.common.handler.OthersExcepHndlr" />	
 	
 </beans>

@@ -3,7 +3,7 @@
 	reloadable="true" source="org.eclipse.jst.jee.server:pchpol">
 	<Resource auth="Container"
 		type="javax.sql.DataSource"
-		url="jdbc:db2://220.74.55.61:50000/sample" 
+		url="jdbc:db2://220.74.55.61:50000/pchpol" 
 		name="jdbc/pchpol"
 		username="dasusr1"
 		password="dlfgkwk9!" 
