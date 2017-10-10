@@ -1,0 +1,7 @@
+@font-face{
+	font-family: 'kt-font';
+	src: url('../fonts/DroidSansFallback.ttf');
+	}
+body{
+	font-family: kt-font
+	}

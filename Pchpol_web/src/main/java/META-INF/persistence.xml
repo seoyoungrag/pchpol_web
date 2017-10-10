@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="Pchpol_web">
+		<class>model.Admin</class>
+		<class>model.Code</class>
+		<class>model.Facility</class>
+		<class>model.TroopsFacilityPlacement</class>
+		<class>model.TroopsPlacement</class>
+		<class>model.Unit</class>
+		<class>model.WorkplacePlacement</class>
+		<class>model.WorkplacePlacementDetail</class>
+	</persistence-unit>
+</persistence>

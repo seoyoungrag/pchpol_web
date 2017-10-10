@@ -1,0 +1,147 @@
+<%@ page contentType="text/html; charset=UTF-8" 
+%><%@ include file="/collaboration/jsp/common/header.jsp"
+%><%@ page import="org.springframework.web.bind.ServletRequestUtils"
+%><%String moduleType = ServletRequestUtils.getStringParameter(request, "moduleType", ""); 
+	boolean h5 = BaseUtils.isHtml5Support(request);
+	String h5_img = (h5) ? "_h5" : "";	%>
+<title><spring:message code="common.attach.img.title" text="이미지 첨부"/></title>
+<link rel="stylesheet" type="text/css" href="<c:url value='/collaboration/ref/css/common/default.css'/>" charset="utf-8"/>
+<link rel="stylesheet" type="text/css" href="<c:url value='/collaboration/ndaum/css/popup.css'/>" charset="utf-8"/> 
+<script type="text/javascript" src="<c:url value='/collaboration/ndaum/js/popup.js'/>" charset="utf-8"></script>
+<!-- // 공통 스크립트 START -->
+<jsp:include page="/collaboration/jsp/common/js_impl.jsp" flush="true">
+	<jsp:param name="ui" value="true" />
+	<jsp:param name="rmb" value="true" />
+</jsp:include>
+<!-- // 공통 스크립트 END -->
+<script type="text/javascript" src="<c:url value='/collaboration/ref/jquery/jquery/jquery.form.js'/>" charset="utf-8"></script>
+<script type="text/javascript" src="<c:url value='/collaboration/ndaum/js/jquery.imgareaselect.pack.js'/>" charset="utf-8"></script>
+<script type="text/javascript" src="<c:url value='/collaboration/ndaum/js/editor_image_attach.js'/>" charset="utf-8"></script>
+<script type="text/javascript">
+	var edt_cfg = {
+		msg01:'<spring:message code="common.attach.img.msg.01" text="이미지만 첨부가능합니다."/>',
+		msg02:'<spring:message code="common.attach.img.msg.02" text="이미지를 선택해주시기 바랍니다."/>',
+		msg03:'<spring:message code="common.attach.img.msg.03" text="이미지사이즈 조절을 위해 숫자만 입력해주시기 바랍니다."/>',
+		msg04:'<spring:message code="common.attach.img.msg.04" text="해당 페이지에 잘못된 경로로 접근하셨습니다."/>',
+		msg05:'<spring:message code="common.attach.img.msg.18" text="이미지 높이 및 넓이가 초기화 됩니다. 계속 진행하시겠습니까?"/>',
+		msg06:'<spring:message code="common.attach.img.msg.19" text="이미지 잘라내기  적용을 먼저 실행하시기 바랍니다."/>',
+		imgprv:'<c:url value='/collaboration/ref/images/common/editor_img_preview.gif'/>',
+		h5url:'<c:url value='/common/ComFileAttach.do?method=uploadImage&h5=Y&moduleType='/><%= moduleType %>',
+		crurl:'<c:url value='/common/ComFileAttach.do?method=cropImage'/>',
+		dlurl:'<c:url value='/common/ComFileAttach.do?method=deleteImage'/>'
+	};
+</script>
+</head>
+<body onload='javascript:initUploader();'>
+<div id='crop_desc' class='daum_edt_msgbox'><spring:message code="common.attach.img.msg.20" text="잘라내기 영역을 지정하시기 바랍니다."/></div>
+<form action='<c:url value='/common/ComFileAttach.do?method=uploadImage&moduleType='/><%= moduleType %>' enctype='multipart/form-data' method='post' name='imgForm' id='imgForm'>
+	<input type='hidden' id='pos_x' name='pos_x'/>
+	<input type='hidden' id='pos_y' name='pos_y'/>
+	<input type='hidden' id='pos_w' name='pos_w'/>
+	<input type='hidden' id='pos_h' name='pos_h'/>
+	<input type='hidden' id='flid' name='flid'/>
+	<div class='pop_title02'>
+		<h3><spring:message code="common.attach.img.title" text="이미지 첨부"/><span><a id='close_img_window' href='#' class='icon_close02' title='<spring:message code="common.attach.img.btn.close" text="닫기"/>'></a></span></h3>
+	</div>
+    <section class='pop_wrap02'>
+        <div class='view_box_g03'>
+            <div class='privateinfo_g03'> <span class='tl_g03'></span> <span class='tr_g03'></span></div>
+            <div class='cont_g03'> 
+                <table class='table_write03'>
+                    <tr>
+                        <td class='w100'>
+							<div class='filecontent'>
+								<div id='upload1' class='filestyle'><input accept='image/gif,image/jpg,image/png,image/bmp' type='file' id='daum_editor_img' name='file1' class='filetag' /></div> 
+							</div>
+                        </td>
+						<td>
+							<div class='daum_edt_float'><img id='img_preview' src='<c:url value='/collaboration/ref/images/common/editor_img'/><%= h5_img %>.gif' class='daum_edt_thumbail' /></div>
+							<div class='daum_edt_filename' id='img_name'></div>
+							<div class='daum_edt_filesize' id='img_size'></div>
+						</td>
+                    </tr>
+                </table>
+            </div>
+            <div class='privateinfo_g03'> <span class='lb_g03'></span> <span class='rb_g03'></span></div>
+		</div>
+		<div class='list_wrap padding10_t'>
+			<div class='content_width border w200'>
+				<div class='div_width h390'>
+					<div class='daum_edt_pd10'>
+						<div><input type='radio' name='type_sel' id='type_percentage' checked='checked' disabled='disabled'><spring:message code="common.attach.img.msg.05" text="확대/축소할 비율 지정"/></div>
+						<div class='daum_edt_resize_panel'>
+							<table border=0 cellspacing=0 cellpadding=0>
+								<tbody>
+									<tr>
+										<td rowspan=2 colspan=1><spring:message code="common.attach.img.msg.06" text="비율"/></td>
+										<td rowspan=2 colspan=1><input size=3 maxlength=3 type='text' id='ratio_percentage' disabled='disabled' value='100' class='daum_edt_h16'></td>
+										<td class='daum_edt_w11'><a href='#' class='edt_up_btn' id='percentage_up'></a></td>
+										<td rowspan=2 colspan=1>%</td>
+									</tr>
+									<tr>
+										<td><a href='#' class='edt_down_btn' id='percentage_down'></a></td>
+									</tr>
+								</tbody>
+							</table>						
+						</div>
+					</div>
+					<div class='daum_edt_clear daum_edt_pd10'>
+						<div><input type='radio' name='type_sel' id='type_pixel' disabled='disabled'><spring:message code="common.attach.img.msg.07" text="이미지 크기 지정"/></div>
+						<div class='daum_edt_ml20'><input type='checkbox' id='aspect_ratio' checked='checked' disabled='disabled'><spring:message code="common.attach.img.msg.08" text="가로세로 비율 고정"/></div>
+						<div class='daum_edt_ml30'>
+							<table border="0" cellspacing="0" cellpadding="0">
+								<tbody>
+									<tr>
+										<td rowspan=2 colspan=1><spring:message code="common.attach.img.msg.09" text="가로"/></td>
+										<td rowspan=2 colspan=1><input size=4 maxlength=4 type='text' id='horizontal_pixel' disabled='disabled' class='daum_edt_h16'></td>
+										<td class='daum_edt_w11'><a href='#' class='edt_up_btn' id='pixel_horizon_up'></a></td>
+										<td rowspan=2 colspan=1>px</td>
+									</tr>
+									<tr>
+										<td><a href='#' class='edt_down_btn' id='pixel_horizon_down'></a></td>
+									</tr>
+								</tbody>
+							</table>						
+						</div>
+						<div class='daum_edt_ml30'>
+							<table border="0" cellspacing="0" cellpadding="0">
+								<tbody>
+									<tr>
+										<td rowspan=2 colspan=1><spring:message code="common.attach.img.msg.10" text="세로"/></td>
+										<td rowspan=2 colspan=1><input size=4 maxlength=4 type='text' id='vertical_pixel' disabled='disabled' class='daum_edt_h16'></td>
+										<td class='daum_edt_w11'><a href='#' class='edt_up_btn' id='pixel_vertic_up'></a></td>
+										<td rowspan=2 colspan=1>px</td>
+									</tr>
+									<tr>
+										<td><a href='#' class='edt_down_btn' id='pixel_vertic_down'></a></td>
+									</tr>
+								</tbody>
+							</table>						
+						</div>
+					</div>	
+					<div class='daum_edt_align'>
+						<div><spring:message code="common.attach.img.msg.11" text="이미지 정렬"/></div>
+						<div class='daum_edt_ml20'><input type='radio' name='img_align' id='img_align_left' value='L'><spring:message code="common.attach.img.msg.12" text="왼쪽 정렬"/></div>
+						<div class='daum_edt_ml20'><input type='radio' name='img_align' id='img_align_center' checked='checked' value='C'><spring:message code="common.attach.img.msg.13" text="가운데 정렬"/></div>
+						<div class='daum_edt_ml20'><input type='radio' name='img_align' id='img_align_floatleft' value='FL'><spring:message code="common.attach.img.msg.14" text="왼쪽 글흐름"/></div>
+						<div class='daum_edt_ml20'><input type='radio' name='img_align' id='img_align_floatright' value='FR'><spring:message code="common.attach.img.msg.15" text="오른쪽 글흐름"/></div>
+					</div>
+					<div class='daum_edt_align'>
+						<div><input type='checkbox' id='img_crop' disabled='disabled'/><spring:message code="common.attach.img.msg.16" text="이미지 잘라내기"/>&nbsp;<span class="main_btn_s02" title="<spring:message code="common.attach.img.msg.17" text="적용"/>"><a href='#' id='img_crop_save'><spring:message code="common.attach.img.msg.17" text="적용"/></a></span></div>
+					</div>
+				</div>
+			</div>
+			<div class='content_width border w540 align_right'>
+				<div id='img_resizer' class='daum_edt_resizer'><img src='<c:url value='/collaboration/ref/images/common/editor_img_preview.gif'/>' class='daum_edt_preview'/></div>
+			</div>
+		</div>
+		<div class='daum_edt_clear'>
+			<div class='align_center padding10_t'>
+				<span class='main_btn_s03' title="<spring:message code="common.attach.img.btn.insert" text="이미지 삽입"/>"><a id='img_insert_editor' href='#'><spring:message code="common.attach.img.btn.insert" text="이미지 삽입"/></a></span>
+				<span class='main_btn_s04' title="<spring:message code="common.attach.img.btn.cancel" text="취소"/>"><a id='img_cancel_editor' href='#'><spring:message code="common.attach.img.btn.cancel" text="취소"/></a></span>
+			</div>
+		</div>		
+    </section>
+</form>
+</body>
+</html>

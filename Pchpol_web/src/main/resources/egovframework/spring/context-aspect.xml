@@ -3,7 +3,7 @@
 	xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
-
+<!-- 
 	<aop:config>
 		<aop:pointcut id="serviceMethod" expression="execution(* com.dwebs..impl.*Impl.*(..))" />
 
@@ -55,5 +55,5 @@
 
 	<bean id="defaultHandler" class="com.dwebs.pchpol.common.handler.DefaultExcepHndlr" />
 	<bean id="otherHandler" class="com.dwebs.pchpol.common.handler.OthersExcepHndlr" />	
-	
+	 -->
 </beans>
