@@ -56,7 +56,7 @@ public class AdminController extends BaseController {
 	 * <PRE>
 	 * 1. MethodName : main
 	 * 2. ClassName  : AdminController
-	 * 3. Comment   : 
+	 * 3. Comment   : 메인화면을 호출한다. 현재 프로젝트의 index.jsp에서 main.do를 호출하게 되어있다.
 	 * 4. 작성자    : yrseo
 	 * 5. 작성일    : 2017. 9. 26. 오후 12:30:41
 	 * </PRE>
@@ -74,7 +74,7 @@ public class AdminController extends BaseController {
 	 * <PRE>
 	 * 1. MethodName : empty
 	 * 2. ClassName  : AdminController
-	 * 3. Comment   : 
+	 * 3. Comment   :  빈화면이다. 메인화면의 본문페이지로 뿌려주고 있다.
 	 * 4. 작성자    : yrseo
 	 * 5. 작성일    : 2017. 9. 26. 오후 2:49:02
 	 * </PRE>
@@ -93,7 +93,7 @@ public class AdminController extends BaseController {
 	 * <PRE>
 	 * 1. MethodName : adminList
 	 * 2. ClassName  : AdminController
-	 * 3. Comment   : 
+	 * 3. Comment   : '상단메뉴-관리자 정보-관리자 리스트' 페이지로 이동한다.
 	 * 4. 작성자    : yrseo
 	 * 5. 작성일    : 2017. 9. 26. 오후 3:34:52
 	 * </PRE>
@@ -112,7 +112,7 @@ public class AdminController extends BaseController {
 	 * <PRE>
 	 * 1. MethodName : getAdminList
 	 * 2. ClassName  : AdminController
-	 * 3. Comment   : 
+	 * 3. Comment   : '상단메뉴-관리자 정보-관리자 리스트'페이지에서 jqgrid의 데이터를 채우기 위해 호출한다. 검색조건과 페이징정보는 PagingVO에 담아서 사용한다.
 	 * 4. 작성자    : yrseo
 	 * 5. 작성일    : 2017. 10. 10. 오전 11:40:38
 	 * </PRE>

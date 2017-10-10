@@ -163,15 +163,18 @@ public class AdminDaoImpl implements AdminDao {
 	 */
 	@Override
 	public List<Admin> getList(PagingVO pagingVO) throws Exception{
+		//기본 select ~ from ~ 쿼리를 생성한다.
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaQuery<Admin> cQuery = builder.createQuery(Admin.class);
 		Root<Admin> from = cQuery.from(Admin.class);
 
+		//검색조건이 있는 경우 검색조건 쿼리를 생성한다.
 		if(!pagingVO.getSearchType().equals("")){
 			Predicate restriction = builder.like(from.<String>get(pagingVO.getSearchType()), "%"+pagingVO.getSearchWord()+"%");
 			cQuery.where(restriction);
 		}
 		
+		//정렬순서조건이 있는경우 정렬순서 조건 쿼리를 생성한다.
 		if(!pagingVO.getSidx().equals("")&&!pagingVO.getSord().equals("")){
 			if(pagingVO.getSord().equals("asc")){
 				cQuery.orderBy(builder.asc(from.get(pagingVO.getSidx())));
@@ -180,6 +183,7 @@ public class AdminDaoImpl implements AdminDao {
 			}
 		}
 		
+		//생성한 쿼리를 실행한다.
 		TypedQuery<Admin> typedQuery = em.createQuery(cQuery);
 		List<Admin> result = new ArrayList<Admin>();
 		if(pagingVO.getPage()>0){
@@ -189,8 +193,8 @@ public class AdminDaoImpl implements AdminDao {
 			typedQuery.setFirstResult(startIndex);
 			typedQuery.setMaxResults(pageSize);
 		}
+		
 		result = typedQuery.getResultList();
-
 		return result;
 	}
 
@@ -199,14 +203,18 @@ public class AdminDaoImpl implements AdminDao {
 	 */
 	@Override
 	public int getTotCnt(PagingVO pagingVO) {
+		//select count(*) from ~ 쿼리를 생성한다.
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaQuery<Long> cQuery = builder.createQuery(Long.class);
 		Root<Admin> entityRoot = cQuery.from(Admin.class);
 		cQuery.select(builder.count(entityRoot));
+		
+		//검색조건이 있는경우 정렬순서 조건 쿼리를 생성한다.
 		if(!pagingVO.getSearchType().equals("")){
 			cQuery.where(builder.like(entityRoot.<String>get(pagingVO.getSearchType()), "%"+pagingVO.getSearchWord()+"%"));
 		}
 		
+		//쿼리를 실행한다.
 		Long result = em.createQuery(cQuery).getSingleResult();
 		
 		return result.intValue();
