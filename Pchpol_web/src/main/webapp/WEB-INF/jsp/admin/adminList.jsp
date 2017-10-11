@@ -51,7 +51,7 @@ function gridReload(){
 }
 function regPopup(){
  	    	var popWidth = 640;
-     		var popHeight = 500;
+     		var popHeight = 400;
      		var width = screen.width;
  			var height = screen.height;
  			var left = (screen.width/2)-(popWidth/2);

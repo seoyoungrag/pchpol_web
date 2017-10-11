@@ -1,5 +1,5 @@
 /**
- * 0. Project  : 문서변환서버
+ * 0. Project  : 평창올림픽 동원경찰 업무시스템
  *
  * 1. FileName : AdminService.java
  * 2. Package : com.dwebs.pchpol.admin
@@ -36,8 +36,6 @@ public interface AdminService {
 	
 	public Admin getAdmin(String adminId, String adminPassword);
 
-	public Admin setAdmin(Admin Admin);
-
 	/**
 	 * <PRE>
 	 * 1. MethodName : getList
@@ -66,5 +64,18 @@ public interface AdminService {
 	 *   @return
 	 */
 	public int getTotCnt(PagingVO pagingVO);
+
+	/**
+	 * <PRE>
+	 * 1. MethodName : reg
+	 * 2. ClassName  : AdminService
+	 * 3. Comment   : 
+	 * 4. 작성자    : yrseo
+	 * 5. 작성일    : 2017. 10. 11. 오후 1:51:08
+	 * </PRE>
+	 *   @return void
+	 *   @param admin
+	 */
+	public void reg(Admin admin);
 
 }

@@ -1,0 +1,27 @@
+.margin-top5{
+	margin-top:5px;
+	border-right-width: 1px;
+    border-right-style: solid;
+    border-right-color: #ddd;
+}
+.bottom-line{
+	padding-bottom:10px; 
+	border-bottom-width:1px; 
+	border-bottom-style:dotted; 
+	border-bottom-color:#ddd; 
+	margin-bottom:10px;
+}
+.updown-padding{
+	padding-bottom:0px; 
+	padding-top:10px;
+}
+.leftright-padding{
+	padding-left:0px; 
+	padding-right:0px;
+}
+.popup-title{
+	padding:10px; 
+	padding-top:15px; 
+	margin-bottom:0px;
+	align:center;
+}

@@ -1,16 +1,3 @@
-/**
- * 0. Project  : 문서변환서버
- *
- * 1. FileName : AdminController.java
- * 2. Package : com.dwebs.pchpol.admin
- * 3. Comment : 
- * 4. 작성자  : yrseo
- * 5. 작성일  : 2017. 9. 26. 오후 12:30:08
- * 6. 변경이력 : 
- *                    이름     : 일자          : 근거자료   : 변경내용
- *                   ------------------------------------------------------
- *                    yrseo : 2017. 9. 26. :            : 신규 개발.
- */
 package com.dwebs.pchpol.admin.controller;
 
 import java.util.ArrayList;
@@ -22,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -148,6 +136,32 @@ public class AdminController extends BaseController {
 			res.setData(list);
 		}
 		//return할때 join되는 entity가 섞여 있으면 @ManyToOne(fetch = FetchType.EAGER)를 설정하거나 @jsonpropertyignore로 설정해야 한다.
+		return ResponseEntity.ok(res);
+	}
+	
+
+	/**
+	 * <PRE>
+	 * 1. MethodName : adminRegPage
+	 * 2. ClassName  : AdminController
+	 * 3. Comment   : 
+	 * 4. 작성자    : yrseo
+	 * 5. 작성일    : 2017. 10. 11. 오후 1:12:35
+	 * </PRE>
+	 *   @return ModelAndView
+	 *   @return
+	 */
+	@RequestMapping(value = "/admin/reg.do")
+	public ModelAndView adminRegPage() {
+		return new ModelAndView("admin/adminReg");
+	}
+	
+
+	@RequestMapping(value = "/admin", method = RequestMethod.POST)
+	public ResponseEntity<?> requestConvert(@ModelAttribute Admin admin) throws Exception {
+		Response res = new Response();
+		adminService.reg(admin);
+		res.setData(admin);
 		return ResponseEntity.ok(res);
 	}
 }

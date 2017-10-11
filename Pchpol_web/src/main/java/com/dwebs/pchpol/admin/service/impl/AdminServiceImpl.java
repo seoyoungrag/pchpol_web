@@ -1,5 +1,5 @@
 /**
- * 0. Project  : 문서변환서버
+ * 0. Project  : 평창올림픽 동원경찰 업무시스템
  *
  * 1. FileName : AdminServiceImpl.java
  * 2. Package : com.dwebs.pchpol.admin
@@ -55,14 +55,6 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.dwebs.pchpol.admin.AdminService#setAdmin(com.dwebs.pchpol.model.Admin)
-	 */
-	@Override
-	public Admin setAdmin(Admin Admin) {
-		return adminDao.setAdmin(Admin);
-	}
-
-	/* (non-Javadoc)
 	 * @see com.dwebs.pchpol.admin.service.AdminService#getList(com.dwebs.pchpol.common.vo.PagingVO)
 	 */
 	@Override
@@ -76,6 +68,14 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public int getTotCnt(PagingVO pagingVO) {
 		return adminDao.getTotCnt(pagingVO);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.dwebs.pchpol.admin.service.AdminService#reg(com.dwebs.pchpol.model.Admin)
+	 */
+	@Override
+	public void reg(Admin admin) {
+		adminDao.reg(admin);
 	}
 
 }

@@ -29,7 +29,6 @@
 	<link rel="stylesheet" type="text/css" media="screen" href="${pageContext.request.contextPath}/ref/bootstrap/css/jquery-ui.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="${pageContext.request.contextPath}/ref/jqgrid/css/ui.jqgrid.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="${pageContext.request.contextPath}/ref/jqgrid/css/ui.jqgrid-bootstrap.css" />
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/ref/bootstrap/css/bootstrap-select.css" />
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/ref/bootstrap/ndaum/css/editor.css" charset="utf-8"/>
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/ref/bootstrap/popModal/popModal.min.css" charset="utf-8"/>
 
@@ -44,3 +43,7 @@
 
 	<script type="text/javascript" src="${pageContext.request.contextPath}/ref/jqgrid/js/i18n/grid.locale-kr.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/ref/jqgrid/js/jquery.jqGrid.min.js"></script>
+	
+	<!-- selectpicker필요 -->
+	<script src="${pageContext.request.contextPath}/ref/bootstrap/js/bootstrap-select.js"></script>
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/ref/bootstrap/css/bootstrap-select.css" />

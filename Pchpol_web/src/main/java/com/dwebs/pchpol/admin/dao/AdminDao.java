@@ -36,8 +36,6 @@ public interface AdminDao {
 	
 	public Admin getAdmin(String adminId, String adminPassword);
 
-	public Admin setAdmin(Admin Admin);
-
 	public String getUserDisplayInfo(String adminId);
 
 	/**
@@ -68,4 +66,17 @@ public interface AdminDao {
 	 *   @return
 	 */
 	public int getTotCnt(PagingVO pagingVO);
+
+	/**
+	 * <PRE>
+	 * 1. MethodName : reg
+	 * 2. ClassName  : AdminDao
+	 * 3. Comment   : 
+	 * 4. 작성자    : yrseo
+	 * 5. 작성일    : 2017. 10. 11. 오후 1:52:13
+	 * </PRE>
+	 *   @return void
+	 *   @param admin
+	 */
+	public void reg(Admin admin);
 }

@@ -1,5 +1,5 @@
 /**
- * 0. Project  : 문서변환서버
+ * 0. Project  : 평창올림픽 동원경찰 업무시스템
  *
  * 1. FileName : AdminDaoImpl.java
  * 2. Package : com.dwebs.pchpol.admin
@@ -17,25 +17,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.springframework.dao.DataAccessException;
-import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.dwebs.pchpol.admin.dao.AdminDao;
 import com.dwebs.pchpol.common.vo.PagingVO;
 import com.dwebs.pchpol.model.Admin;
-import com.dwebs.pchpol.model.Admin_;
 
 /**
  * <PRE>
@@ -48,10 +44,13 @@ import com.dwebs.pchpol.model.Admin_;
  * </PRE>
  */
 @Component("adminDao")
-@Transactional
 public class AdminDaoImpl implements AdminDao {
+	@Autowired
+	private EntityManagerFactory emf;
+	/*
 	@PersistenceContext
 	private EntityManager em;
+	 */
 	/*
     SessionFactory sessionFactory;
     
@@ -122,35 +121,6 @@ public class AdminDaoImpl implements AdminDao {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.dwebs.pchpol.admin.AdminDao#setAdmin(com.dwebs.pchpol.admin.Admin)
-	 */
-	@Override
-	public Admin setAdmin(Admin admin) {
-		/*Session session = null;
-		try {
-			session = getHibernateTemplate().getSessionFactory().openSession();
-			Transaction tx = session.beginTransaction();
-			if(admin.getAdminNo()==0){
-				session.persist(admin);
-			}else{
-				session.update(admin);
-			}
-			tx.commit();
-		} catch (DataAccessException e) {
-			e.printStackTrace();
-			//throw new MessageException(Utility.getRootCause(e).getMessage());
-		} catch (Throwable e) {
-			e.printStackTrace();
-			//throw new MessageException(Utility.getRootCause(e).getMessage());
-		} finally {
-			if (session != null && session.isOpen())
-				session.close();
-		}*/
-		
-		return null;
-	}
-
-	/* (non-Javadoc)
 	 * @see com.dwebs.pchpol.admin.AdminDao#getUserDisplayInfo(java.lang.String)
 	 */
 	@Override
@@ -163,6 +133,7 @@ public class AdminDaoImpl implements AdminDao {
 	 */
 	@Override
 	public List<Admin> getList(PagingVO pagingVO) throws Exception{
+		EntityManager em = emf.createEntityManager();
 		//기본 select ~ from ~ 쿼리를 생성한다.
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaQuery<Admin> cQuery = builder.createQuery(Admin.class);
@@ -203,6 +174,7 @@ public class AdminDaoImpl implements AdminDao {
 	 */
 	@Override
 	public int getTotCnt(PagingVO pagingVO) {
+		EntityManager em = emf.createEntityManager();
 		//select count(*) from ~ 쿼리를 생성한다.
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaQuery<Long> cQuery = builder.createQuery(Long.class);
@@ -220,5 +192,16 @@ public class AdminDaoImpl implements AdminDao {
 		return result.intValue();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.dwebs.pchpol.admin.dao.AdminDao#reg(com.dwebs.pchpol.model.Admin)
+	 */
+	@Override
+	public void reg(Admin admin) {
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		em.persist(admin);
+		em.getTransaction().commit();
+		em.close();
+	}
 
 }
