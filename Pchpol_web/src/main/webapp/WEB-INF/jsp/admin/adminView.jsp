@@ -6,22 +6,63 @@
 <jsp:include page="common/header.jsp" flush="false" />
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/ref/reg.css" />
 <script type="text/javascript">
-function setSelectpickerByCode(divName, category){
+function setSelectpickerByCode(divName, category, selectVal){
 	$.ajax({
 	 type: "GET",
 	 url:'${pageContext.request.contextPath}/code/list/'+category, 
 		 contentType: "application/json; charset=utf-8",
 		 dataType: "json",
 		 success: function(res) {
-		   			$.each(res.data, function (index, text) {
-		   			    $('select#'+divName).append($('<option>', {
-		   			        value: res.data[index].codeNo,
-		   			        text : res.data[index].code1depth
-		   			    }));
-		   			});
-		   			$('select#'+divName).selectpicker('refresh');
+			 if(res.success){
+				$.each(res.data, function (index, text) {
+				    $('select#'+divName).append($('<option>', {
+				        value: res.data[index].codeNo,
+				        text : res.data[index].code1depth
+				    }));
+				});
+				if(typeof selectVal === 'undefined'){
+				}else{
+					$('select#codeAdminType').val(selectVal);
 				}
+				$('.selectpicker').selectpicker('refresh')
+			 }else{
+					alert('데이터 조회를 실패하였습니다.');
+					self.close();
+			 }
+		 },
+			error : function(res){
+					alert('데이터 조회를 실패하였습니다.');
+					self.close();
+			}
 		});
+}
+function getViewById(adminNo){
+	$.ajax({
+		type : 'GET',
+		url : '${pageContext.request.contextPath}/admin/'+adminNo,
+		contentType: "application/json; charset=utf-8",
+		dataType: "json",
+		cache : false,
+		success : function(res){
+			if(res.success){
+				$("#adminNo").val(res.data.adminNo);
+				$("#adminDept").val(res.data.adminDept);
+				$("#adminEtc").val(res.data.adminEtc);
+				$("#adminName").val(res.data.adminName);
+				$("#adminId").val(res.data.adminId);
+				$("#adminPassword").val(res.data.adminPassword);
+				$("#adminRank").val(res.data.adminRank);
+				setSelectpickerByCode("codeAdminType","ADMIN", res.data.code.codeNo);
+			}else{
+				alert('데이터 조회를 실패하였습니다.');
+				self.close();
+			}
+		},
+		error : function(res){
+				alert('데이터 조회를 실패하였습니다.');
+				self.close();
+		}
+	});
 }
 function sendFormByAjax(){
 	var regForm = $("#regForm");
@@ -31,25 +72,28 @@ function sendFormByAjax(){
 		url : regForm.attr("action"),
 		cache : false,
 		data : formData,
-		success : function(response){
-			console.log(response);
-			if(response.success){
+		success : function(res){
+			if(res.success){
 				alert('데이터를 입력하였습니다.');
 				window.opener.jQuery("#list-grid").trigger("reloadGrid");
 				self.close();
 			}else{
-			alert('데이터 입력을 실패하였습니다.');
+				alert('데이터 입력을 실패하였습니다.');
+				alert(res.message);
 			}
 		},
-		error : function(response){
-			console.log(response);
+		error : function(res){
 			alert('데이터 입력을 실패하였습니다.');
 		}
 	});
 	return false;
 }
 jQuery(document).ready(function($) {
-	setSelectpickerByCode("codeAdminType","ADMIN");
+	if('${type}'=='view'){
+		getViewById('${adminNo}');
+	}else if('${type}'=='reg'){
+		setSelectpickerByCode("codeAdminType","ADMIN");
+	}
 });
 </script>
 </head>
@@ -80,20 +124,20 @@ jQuery(document).ready(function($) {
 									&nbsp;소속
 								</label>
 								<div class="col-xs-10 col-sm-10">
-									<input class="form-control" required=""  placeholder="지방청/구분까지 입력, 예)서울 경찰청 경찰기동대" name="adminDept" required >
+									<input class="form-control" required=""  placeholder="지방청/구분까지 입력, 예)서울 경찰청 경찰기동대" name="adminDept" id="adminDept" required >
 								</div>
 							</div>
 							<div class="form-group bottom-line">
 								<label class="col-xs-2 col-sm-2 margin-top5 control-label">
 								&nbsp;계급</label>
 								<div class="col-xs-4 col-sm-4">
-									<input class="form-control" type="text" placeholder="계급을 입력 하세요" name="adminRank" >
+									<input class="form-control" type="text" placeholder="계급을 입력 하세요" name="adminRank" id="adminRank" >
 								</div>
 								<label class="col-xs-2 col-sm-2 margin-top5 control-label">
 								&nbsp;성명
 								</label>
 								<div class="col-xs-4 col-sm-4">
-									<input class="form-control" required="" type="text" placeholder="성명을 입력 하세요" name="adminName" required>
+									<input class="form-control" required="" type="text" placeholder="성명을 입력 하세요" name="adminName" id="adminName" required>
 								</div>
 							</div>
 							<div class="form-group bottom-line">
@@ -101,13 +145,13 @@ jQuery(document).ready(function($) {
 								&nbsp;아이디
 								</label>
 								<div class="col-xs-4 col-sm-4">
-									<input class="form-control" required="" type="text" placeholder="아이디를 입력 하세요" name="adminId" required>
+									<input class="form-control" required="" type="text" placeholder="아이디를 입력 하세요" name="adminId" id="adminId" required>
 								</div>
 								<label class="col-xs-2 col-sm-2 margin-top5 control-label">
 								&nbsp;패스워드
 								</label>
 								<div class="col-xs-4 col-sm-4">
-									<input class="form-control" required="" type="text" placeholder="패스워드를 입력 하세요" name="adminPassword" required>
+									<input class="form-control" required="" type="text" placeholder="패스워드를 입력 하세요" name="adminPassword" id="adminPassword" required>
 								</div>
 							</div>
 							<div class="form-group bottom-line">
@@ -115,7 +159,7 @@ jQuery(document).ready(function($) {
 								&nbsp;비고
 								</label>
 								<div class="col-xs-10 col-sm-10">
-									<input class="form-control" type="text" placeholder="비고를 입력 하세요" name="adminEtc">
+									<input class="form-control" type="text" placeholder="비고를 입력 하세요" name="adminEtc" id="adminEtc">
 								</div>
 							</div>
 							<div class="form-group encdecButton">
@@ -128,6 +172,7 @@ jQuery(document).ready(function($) {
 									</button>
 								</div>
 							</div>
+							<input type="hidden" name="adminNo" id="adminNo" value="0">
 						</form>	
 					</div>
                	</div>

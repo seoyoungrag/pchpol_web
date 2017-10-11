@@ -18,13 +18,11 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -47,86 +45,6 @@ import com.dwebs.pchpol.model.Admin;
 public class AdminDaoImpl implements AdminDao {
 	@Autowired
 	private EntityManagerFactory emf;
-	/*
-	@PersistenceContext
-	private EntityManager em;
-	 */
-	/*
-    SessionFactory sessionFactory;
-    
-	public AdminDaoImpl(SessionFactory sessionfactory){
-	    setSessionFactory(sessionfactory);
-	}
- */
-	/* (non-Javadoc)
-	 * @see com.dwebs.pchpol.admin.AdminDao#getAdmin(java.lang.String)
-	 */
-	@Override
-	public Admin getAdmin(String adminId) {
-		/*
-		//Get Session
-		Session session = sessionFactory.getCurrentSession();
-		
-		// Create CriteriaBuilder
-		CriteriaBuilder cb = session.getCriteriaBuilder();
-
-		// Create CriteriaQuery
-		CriteriaQuery<Admin> query = cb.createQuery(Admin.class);
-		
-		// Create Root(query) 
-		Root<Admin> root = query.from(Admin.class);
-		query.select(root)
-			.where(cb.equal(root.get(Admin_.adminId), adminId));
-		
-		// Excute Root
-		Admin result = session.createQuery(query).getSingleResult();
-
-		return result;*/
-		return null;
-	}
-
-	/* (non-Javadoc)
-	 * @see com.dwebs.pchpol.admin.AdminDao#getAllAdmin()
-	 */
-	@Transactional
-	@Override
-	public List<Admin> getAllAdmin() {
-		/*Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
-		Transaction tx = session.beginTransaction();
-		CriteriaBuilder cb = session.getCriteriaBuilder();
-		CriteriaQuery<Admin> query = cb.createQuery(Admin.class);
-		Root<Admin> root = query.from(Admin.class);
-		query.select(root);
-		List<Admin> result = session.createQuery(query).getResultList();
-		return result;
-*/
-		return null;
-	}
-	/* (non-Javadoc)
-	 * @see com.dwebs.pchpol.admin.AdminDao#getAdmin(java.lang.String, java.lang.String)
-	 */
-	@Override
-	public Admin getAdmin(String adminId, String adminPassword) {
-		/*Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
-		CriteriaBuilder cb = session.getCriteriaBuilder();
-		CriteriaQuery<Admin> query = cb.createQuery(Admin.class);
-		Root<Admin> root = query.from(Admin.class);
-		query.select(root)
-			.where(cb.equal(root.get(Admin_.adminId), adminId))
-			.where(cb.equal(root.get(Admin_.adminPassword), adminPassword));
-		Admin result = session.createQuery(query).getSingleResult();
-
-		return result;*/
-		return null;
-	}
-
-	/* (non-Javadoc)
-	 * @see com.dwebs.pchpol.admin.AdminDao#getUserDisplayInfo(java.lang.String)
-	 */
-	@Override
-	public String getUserDisplayInfo(String adminId) {
-		return null;
-	}
 
 	/* (non-Javadoc)
 	 * @see com.dwebs.pchpol.admin.dao.AdminDao#getList(com.dwebs.pchpol.common.vo.PagingVO)
@@ -196,12 +114,27 @@ public class AdminDaoImpl implements AdminDao {
 	 * @see com.dwebs.pchpol.admin.dao.AdminDao#reg(com.dwebs.pchpol.model.Admin)
 	 */
 	@Override
-	public void reg(Admin admin) {
+	public void insertOrUpdate(Admin admin) {
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
-		em.persist(admin);
+		//id가 0보다 크면 update
+		if(admin.getAdminNo()>0){
+			em.merge(admin);
+		}else{
+			em.persist(admin);
+		}
 		em.getTransaction().commit();
 		em.close();
+	}
+
+	/* (non-Javadoc)
+	 * @see com.dwebs.pchpol.admin.dao.AdminDao#getById(java.lang.String)
+	 */
+	@Override
+	public Admin getById(String id) {
+		EntityManager em = emf.createEntityManager();
+		Admin result = em.find(Admin.class, Integer.parseInt(id));
+		return result;
 	}
 
 }

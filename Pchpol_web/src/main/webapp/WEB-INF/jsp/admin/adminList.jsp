@@ -38,6 +38,10 @@ jQuery(function ($) {
    	    sortorder: "desc",
    	    autowidth:true,
    	    shrinkToFit: true,
+	   	onSelectRow:function(rowid){
+	   		var id = jQuery(grid).jqGrid ('getCell', rowid, 'adminNo');
+	   		popup('view',id);
+	   	},
    	    loadComplete : function()
    		{	
    	    }
@@ -48,6 +52,21 @@ var pager = "#list-pager";
 var url = '${pageContext.request.contextPath}/admin/list?listType=jqgrid';
 function gridReload(){
 	jQuery(grid).jqGrid('setGridParam',{url:encodeURI(url+"&searchType="+jQuery("#searchType").val()+"&searchWord="+jQuery("#searchWord").val()),page:1}).trigger("reloadGrid");
+}
+
+function popup(type, rowid){
+	var windowtitle ='';
+	if(type=='view'){
+		windowtitle='관리자정보 보기';
+	}
+   	var popWidth = 640;
+  		var popHeight = 400;
+  		var width = screen.width;
+	var height = screen.height;
+	var left = (screen.width/2)-(popWidth/2);
+	var top = (screen.height/2)-(popHeight/2);
+	var param = "width="+popWidth+",height="+popHeight+",left="+left+",top="+top;
+	window.open("${pageContext.request.contextPath}/admin/view.do?type="+type+"&adminNo="+rowid,windowtitle,param);
 }
 function regPopup(){
  	    	var popWidth = 640;
@@ -80,12 +99,10 @@ function regPopup(){
 					<div class="col-sm-5">
 						<h4 class="m-t-0 header-title" style="padding:10px;"><b>관리자 리스트</b></h4>
 					</div>
-					<%-- <%if(isAdmin){ %> --%>
 					<div class="col-sm-7 text-right" style="padding-right:30px;">
 						<button class="btn btn-default waves-effect waves-light" type="button" onclick="javascript:regPopup();">등록</button>
 					</div>
-					<%-- <%} %> --%>
-					<form class="form-horizontal" role="form" id="noticeSearchForm" method="post" action="#" accept-charset="utf-8">
+					<form onsubmit="gridReload(); return false" class="form-horizontal" role="form" id="noticeSearchForm" method="post" action="#" accept-charset="utf-8">
 						<div class="col-sm-12" style="">
 							<div class="card-box" style="margin-bottom:10px; padding-bottom:0px;">
 								<div class="row">

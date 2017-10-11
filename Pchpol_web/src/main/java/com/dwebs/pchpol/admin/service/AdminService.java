@@ -30,12 +30,6 @@ import com.dwebs.pchpol.model.Admin;
  */
 public interface AdminService {
 
-	public List<Admin> getAllAdmin();
-	
-	public Admin getAdmin(String adminId);
-	
-	public Admin getAdmin(String adminId, String adminPassword);
-
 	/**
 	 * <PRE>
 	 * 1. MethodName : getList
@@ -76,6 +70,20 @@ public interface AdminService {
 	 *   @return void
 	 *   @param admin
 	 */
-	public void reg(Admin admin);
+	public void insertOrUpdate(Admin admin);
+
+	/**
+	 * <PRE>
+	 * 1. MethodName : getById
+	 * 2. ClassName  : AdminService
+	 * 3. Comment   : 
+	 * 4. 작성자    : yrseo
+	 * 5. 작성일    : 2017. 10. 11. 오후 3:59:02
+	 * </PRE>
+	 *   @return List<Code>
+	 *   @param adminNo
+	 *   @return
+	 */
+	public Admin getById(String adminNo);
 
 }

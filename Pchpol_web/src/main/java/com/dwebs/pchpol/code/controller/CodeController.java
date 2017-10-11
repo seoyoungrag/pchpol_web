@@ -32,6 +32,18 @@ public class CodeController extends BaseController {
 	@Qualifier("codeService")
 	CodeService codeService;
 	
+	/**
+	 * <PRE>
+	 * 1. MethodName : getCodeList
+	 * 2. ClassName  : CodeController
+	 * 3. Comment   : 
+	 * 4. 작성자    : yrseo
+	 * 5. 작성일    : 2017. 10. 11. 오후 3:57:39
+	 * </PRE>
+	 *   @return ResponseEntity<?>
+	 *   @param category
+	 *   @return
+	 */
 	@RequestMapping(value = "/code/list/{category}", method = RequestMethod.GET)
 	public ResponseEntity<?> getCodeList(@PathVariable("category") String category) {
 		Response res = new Response();

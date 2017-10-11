@@ -31,30 +31,6 @@ public class AdminServiceImpl implements AdminService {
 	public AdminDao adminDao;
 
 	/* (non-Javadoc)
-	 * @see com.dwebs.pchpol.admin.AdminService#getAllAdmin()
-	 */
-	@Override
-	public List<Admin> getAllAdmin() {
-		return adminDao.getAllAdmin();
-	}
-
-	/* (non-Javadoc)
-	 * @see com.dwebs.pchpol.admin.AdminService#getAdmin(java.lang.String)
-	 */
-	@Override
-	public Admin getAdmin(String adminId) {
-		return adminDao.getAdmin(adminId);
-	}
-
-	/* (non-Javadoc)
-	 * @see com.dwebs.pchpol.admin.AdminService#getAdmin(java.lang.String, java.lang.String)
-	 */
-	@Override
-	public Admin getAdmin(String adminId, String adminPassword) {
-		return adminDao.getAdmin(adminId, adminPassword);
-	}
-
-	/* (non-Javadoc)
 	 * @see com.dwebs.pchpol.admin.service.AdminService#getList(com.dwebs.pchpol.common.vo.PagingVO)
 	 */
 	@Override
@@ -74,8 +50,16 @@ public class AdminServiceImpl implements AdminService {
 	 * @see com.dwebs.pchpol.admin.service.AdminService#reg(com.dwebs.pchpol.model.Admin)
 	 */
 	@Override
-	public void reg(Admin admin) {
-		adminDao.reg(admin);
+	public void insertOrUpdate(Admin vo) {
+		adminDao.insertOrUpdate(vo);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.dwebs.pchpol.admin.service.AdminService#getById(java.lang.String)
+	 */
+	@Override
+	public Admin getById(String id) {
+		return adminDao.getById(id);
 	}
 
 }

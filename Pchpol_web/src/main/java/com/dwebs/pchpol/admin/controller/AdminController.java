@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -100,7 +101,7 @@ public class AdminController extends BaseController {
 	 * <PRE>
 	 * 1. MethodName : getAdminList
 	 * 2. ClassName  : AdminController
-	 * 3. Comment   : '상단메뉴-관리자 정보-관리자 리스트'페이지에서 jqgrid의 데이터를 채우기 위해 호출한다. 검색조건과 페이징정보는 PagingVO에 담아서 사용한다.
+	 * 3. Comment   : '상단메뉴-관리자 정보-관리자 리스트'페이지에서 jqgrid의 데이터를 채우기 위해 ajax호출된다. 검색조건과 페이징정보는 PagingVO에 담아서 사용한다.
 	 * 4. 작성자    : yrseo
 	 * 5. 작성일    : 2017. 10. 10. 오전 11:40:38
 	 * </PRE>
@@ -144,7 +145,7 @@ public class AdminController extends BaseController {
 	 * <PRE>
 	 * 1. MethodName : adminRegPage
 	 * 2. ClassName  : AdminController
-	 * 3. Comment   : 
+	 * 3. Comment   : '상단메뉴-관리자 정보-관리자 리스트-등록' 등록화면 페이지로 이동한다. 등록,수정,삭제가 동일한 페이지를 사용한다. type으로 구분한다. 등록:reg, 수정/뷰:view
 	 * 4. 작성자    : yrseo
 	 * 5. 작성일    : 2017. 10. 11. 오후 1:12:35
 	 * </PRE>
@@ -153,14 +154,74 @@ public class AdminController extends BaseController {
 	 */
 	@RequestMapping(value = "/admin/reg.do")
 	public ModelAndView adminRegPage() {
-		return new ModelAndView("admin/adminReg");
+		//return new ModelAndView("admin/adminReg");
+		ModelAndView mav = new ModelAndView("admin/adminView");
+		mav.addObject("type","reg");
+		return mav;
 	}
 	
 
+	/**
+	 * <PRE>
+	 * 1. MethodName : insertAdmin
+	 * 2. ClassName  : AdminController
+	 * 3. Comment   : '상단메뉴-관리자 정보-관리자 리스트-등록/뷰에서 확인 클릭' 등록 및 수정을 수행한다. model의 id가 0이면 등록, 0보다 크면 수정한다. id = adminNo
+	 * 4. 작성자    : yrseo
+	 * 5. 작성일    : 2017. 10. 11. 오후 3:58:04
+	 * </PRE>
+	 *   @return ResponseEntity<?>
+	 *   @param admin
+	 *   @return
+	 *   @throws Exception
+	 */
 	@RequestMapping(value = "/admin", method = RequestMethod.POST)
-	public ResponseEntity<?> requestConvert(@ModelAttribute Admin admin) throws Exception {
+	public ResponseEntity<?> insertOrUpdateAdmin(@ModelAttribute Admin admin) throws Exception {
 		Response res = new Response();
-		adminService.reg(admin);
+		adminService.insertOrUpdate(admin);
+		res.setData(admin);
+		return ResponseEntity.ok(res);
+	}
+	
+	/**
+	 * <PRE>
+	 * 1. MethodName : adminRegPage
+	 * 2. ClassName  : AdminController
+	 * 3. Comment   : '상단메뉴-관리자 정보-관리자 리스트-뷰' 뷰화면 페이지로 이동한다. 등록,수정,삭제가 동일한 페이지를 사용한다. type으로 구분한다. 등록:reg, 수정/뷰:view
+	 * 4. 작성자    : yrseo
+	 * 5. 작성일    : 2017. 10. 11. 오후 3:57:46
+	 * </PRE>
+	 *   @return ModelAndView
+	 *   @param type
+	 *   @param adminNo
+	 *   @return
+	 */
+	@RequestMapping(value = "/admin/view.do")
+	public ModelAndView adminView(
+			@RequestParam(value="type", required=true, defaultValue="view") String type,
+			@RequestParam(value="adminNo", required=false) String adminNo) {
+		ModelAndView mav = new ModelAndView("admin/adminView");
+		mav.addObject("type",type);
+		mav.addObject("adminNo",adminNo);
+		return mav;
+	}
+	
+
+	/**
+	 * <PRE>
+	 * 1. MethodName : getAdminById
+	 * 2. ClassName  : AdminController
+	 * 3. Comment   : '상단메뉴-관리자 정보-관리자 리스트-뷰' 뷰화면에서 관리자 정보를 불러오기 위해 ajax호출된다. id를 받아 조회한다. id = adminNo
+	 * 4. 작성자    : yrseo
+	 * 5. 작성일    : 2017. 10. 11. 오후 3:58:58
+	 * </PRE>
+	 *   @return ResponseEntity<?>
+	 *   @param adminNo
+	 *   @return
+	 */
+	@RequestMapping(value = "/admin/{adminNo}", method = RequestMethod.GET)
+	public ResponseEntity<?> getAdminById(@PathVariable("adminNo") String adminNo) {
+		Response res = new Response();
+		Admin admin = adminService.getById(adminNo); 
 		res.setData(admin);
 		return ResponseEntity.ok(res);
 	}

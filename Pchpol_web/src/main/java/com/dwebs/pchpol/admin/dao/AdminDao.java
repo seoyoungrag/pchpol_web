@@ -29,14 +29,6 @@ import com.dwebs.pchpol.model.Admin;
  * </PRE>
  */
 public interface AdminDao {
-	
-	public List<Admin> getAllAdmin();
-	
-	public Admin getAdmin(String adminId);
-	
-	public Admin getAdmin(String adminId, String adminPassword);
-
-	public String getUserDisplayInfo(String adminId);
 
 	/**
 	 * <PRE>
@@ -78,5 +70,19 @@ public interface AdminDao {
 	 *   @return void
 	 *   @param admin
 	 */
-	public void reg(Admin admin);
+	public void insertOrUpdate(Admin admin);
+
+	/**
+	 * <PRE>
+	 * 1. MethodName : getById
+	 * 2. ClassName  : AdminDao
+	 * 3. Comment   : 
+	 * 4. 작성자    : yrseo
+	 * 5. 작성일    : 2017. 10. 11. 오후 4:00:22
+	 * </PRE>
+	 *   @return Admin
+	 *   @param id
+	 *   @return
+	 */
+	public Admin getById(String id);
 }
