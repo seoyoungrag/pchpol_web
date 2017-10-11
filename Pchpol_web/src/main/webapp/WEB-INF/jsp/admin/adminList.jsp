@@ -42,8 +42,14 @@ jQuery(function ($) {
 	   		var id = jQuery(grid).jqGrid ('getCell', rowid, 'adminNo');
 	   		popup('view',id);
 	   	},
-   	    loadComplete : function()
+	   	loadError : function(xhr,st,err) { 
+	   	    alert("리스트갱신이 실패했습니다.\nType: "+st+"; Response: "+ xhr.status + " "+xhr.statusText);
+	   	},
+   	    loadComplete : function(res)
    		{	
+   	    	if(!res.success){
+	   	    	alert("리스트갱신이 실패했습니다.\nmessage: "+res.message+"; execDt: "+ res.execDt);
+   			}
    	    }
    	});
 });        
