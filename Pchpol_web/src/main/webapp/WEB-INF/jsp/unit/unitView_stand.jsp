@@ -172,7 +172,7 @@ jQuery(document).ready(function($) {
 									</button>
 								</div>
 							</div>
-							<input type="hidden" name="adminNo" id="adminNo" value="0">
+							<input type="hidden" name="unitNo" id="unitNo" value="0">
 						</form>	
 					</div>
                	</div>
