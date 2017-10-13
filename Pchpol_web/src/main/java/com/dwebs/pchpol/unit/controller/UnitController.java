@@ -74,7 +74,7 @@ public class UnitController extends BaseController {
 	 */
 	@RequestMapping(value = "/unit/list/{type}", method = RequestMethod.GET)
 	public ResponseEntity<?> getUnitList(
-			@PathVariable(value="type") String type, 
+			@PathVariable(value="type") String troopsType, 
 			@RequestParam(value="listType", required=false, defaultValue="jqgrid") String listType,
 			@ModelAttribute Code code,
 			HttpServletRequest req){
@@ -84,8 +84,8 @@ public class UnitController extends BaseController {
 		PagingVO pagingVO = new PagingVO();
 		pagingVO.setPaging(req);
 		try {
-			list = unitService.getListByType(pagingVO,type); //조회 결과
-			totCnt = unitService.getTotCntByType(pagingVO,type); //전체 페이지의 게시물 수
+			list = unitService.getListByTroopsTypeAndCode(pagingVO,troopsType,code); //조회 결과
+			totCnt = unitService.getTotCntByTroopsTypeAndCode(pagingVO,troopsType,code); //전체 페이지의 게시물 수
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseEntity.ok(new Response(false, e.getMessage()));

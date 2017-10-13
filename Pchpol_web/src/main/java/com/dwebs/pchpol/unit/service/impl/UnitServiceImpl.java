@@ -20,7 +20,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import com.dwebs.pchpol.common.vo.PagingVO;
-import com.dwebs.pchpol.model.Admin;
+import com.dwebs.pchpol.model.Code;
 import com.dwebs.pchpol.model.Unit;
 import com.dwebs.pchpol.unit.dao.UnitDao;
 import com.dwebs.pchpol.unit.service.UnitService;
@@ -42,35 +42,19 @@ public class UnitServiceImpl implements UnitService {
 	public UnitDao unitDao;
 
 	/* (non-Javadoc)
-	 * @see com.dwebs.pchpol.unit.service.UnitService#getList(com.dwebs.pchpol.common.vo.PagingVO)
+	 * @see com.dwebs.pchpol.unit.service.UnitService#getListByTroopsTypeAndCode(com.dwebs.pchpol.common.vo.PagingVO, java.lang.String, com.dwebs.pchpol.model.Code)
 	 */
 	@Override
-	public List<Unit> getList(PagingVO pagingVO) {
-		return unitDao.getList(pagingVO);
+	public List<Unit> getListByTroopsTypeAndCode(PagingVO pagingVO, String troopsType, Code code) {
+		return unitDao.getListByTroopsTypeAndCode(pagingVO, troopsType, code);
 	}
 
 	/* (non-Javadoc)
-	 * @see com.dwebs.pchpol.unit.service.UnitService#getTotCnt(com.dwebs.pchpol.common.vo.PagingVO)
+	 * @see com.dwebs.pchpol.unit.service.UnitService#getTotCntByTroopsTypeAndCode(com.dwebs.pchpol.common.vo.PagingVO, java.lang.String, com.dwebs.pchpol.model.Code)
 	 */
 	@Override
-	public int getTotCnt(PagingVO pagingVO) {
-		return unitDao.getTotCnt(pagingVO);
-	}
-
-	/* (non-Javadoc)
-	 * @see com.dwebs.pchpol.unit.service.UnitService#getListByType(com.dwebs.pchpol.common.vo.PagingVO, java.lang.String)
-	 */
-	@Override
-	public List<Unit> getListByType(PagingVO pagingVO, String type) {
-		return unitDao.getListByType(pagingVO, type);
-	}
-
-	/* (non-Javadoc)
-	 * @see com.dwebs.pchpol.unit.service.UnitService#getTotCntByType(com.dwebs.pchpol.common.vo.PagingVO, java.lang.String)
-	 */
-	@Override
-	public int getTotCntByType(PagingVO pagingVO, String type) {
-		return unitDao.getTotCntByType(pagingVO, type);
+	public int getTotCntByTroopsTypeAndCode(PagingVO pagingVO, String troopsType, Code code) {
+		return unitDao.getTotCntByTroopsTypeAndCode(pagingVO, troopsType, code);
 	}
 
 }

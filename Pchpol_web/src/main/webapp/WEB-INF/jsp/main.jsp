@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<jsp:include page="common/header.jsp" flush="false" />
+<jsp:include page="/common/header.jsp" flush="false" />
 </head>
 <body>
 	<!-- Begin menu -->
@@ -11,7 +11,7 @@
 	<!-- 로고를 상단 가운데에 따로 띄우려면 topbar 주석 -->
 	<div class="container-fluid">
 		<div class="topbar">
-			<jsp:include page="common/topmenu.jsp" flush="false" />
+			<jsp:include page="/common/topmenu.jsp" flush="false" />
 		</div>
 	</div>
 	</header>

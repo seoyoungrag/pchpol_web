@@ -16,7 +16,7 @@ package com.dwebs.pchpol.unit.dao;
 import java.util.List;
 
 import com.dwebs.pchpol.common.vo.PagingVO;
-import com.dwebs.pchpol.model.Admin;
+import com.dwebs.pchpol.model.Code;
 import com.dwebs.pchpol.model.Unit;
 
 /**
@@ -33,60 +33,34 @@ public interface UnitDao {
 
 	/**
 	 * <PRE>
-	 * 1. MethodName : getList
+	 * 1. MethodName : getListByTroopsTypeAndCode
 	 * 2. ClassName  : UnitDao
 	 * 3. Comment   : 
 	 * 4. 작성자    : yrseo
-	 * 5. 작성일    : 2017. 10. 13. 오전 9:45:47
-	 * </PRE>
-	 *   @return List<Admin>
-	 *   @param pagingVO
-	 *   @return
-	 */
-	List<Unit> getList(PagingVO pagingVO);
-
-	/**
-	 * <PRE>
-	 * 1. MethodName : getTotCnt
-	 * 2. ClassName  : UnitDao
-	 * 3. Comment   : 
-	 * 4. 작성자    : yrseo
-	 * 5. 작성일    : 2017. 10. 13. 오전 9:45:51
-	 * </PRE>
-	 *   @return int
-	 *   @param pagingVO
-	 *   @return
-	 */
-	int getTotCnt(PagingVO pagingVO);
-
-	/**
-	 * <PRE>
-	 * 1. MethodName : getListByType
-	 * 2. ClassName  : UnitDao
-	 * 3. Comment   : 
-	 * 4. 작성자    : yrseo
-	 * 5. 작성일    : 2017. 10. 13. 오전 10:11:47
+	 * 5. 작성일    : 2017. 10. 13. 오후 1:15:24
 	 * </PRE>
 	 *   @return List<Unit>
 	 *   @param pagingVO
-	 *   @param type
+	 *   @param troopsType
+	 *   @param code
 	 *   @return
 	 */
-	List<Unit> getListByType(PagingVO pagingVO, String type);
+	List<Unit> getListByTroopsTypeAndCode(PagingVO pagingVO, String troopsType, Code code);
 
 	/**
 	 * <PRE>
-	 * 1. MethodName : getTotCntByType
+	 * 1. MethodName : getTotCntByTroopsTypeAndCode
 	 * 2. ClassName  : UnitDao
 	 * 3. Comment   : 
 	 * 4. 작성자    : yrseo
-	 * 5. 작성일    : 2017. 10. 13. 오전 10:11:54
+	 * 5. 작성일    : 2017. 10. 13. 오후 1:15:27
 	 * </PRE>
 	 *   @return int
 	 *   @param pagingVO
-	 *   @param type
+	 *   @param troopsType
+	 *   @param code
 	 *   @return
 	 */
-	int getTotCntByType(PagingVO pagingVO, String type);
+	int getTotCntByTroopsTypeAndCode(PagingVO pagingVO, String troopsType, Code code);
 
 }

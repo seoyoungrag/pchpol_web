@@ -188,16 +188,20 @@ jQuery(function ($) {
 });        
 var grid = "#list-grid";
 var pager = "#list-pager";
-var url = '${pageContext.request.contextPath}/unit/list/stand?listType=jqgrid';
+var url = "${pageContext.request.contextPath}/unit/list/stand?listType=jqgrid";
 function gridReload(){
 	jQuery(grid).jqGrid('setGridParam',{
 		url:encodeURI(
-				url+
-				+"&code1depth="+jQuery("#code1.code1depth").val()
-				+"&code2depth="+jQuery("#code1.code2depth").val()
-				+"&code3depth="+jQuery("#code1.code3depth").val()
-				+"&code4depth="+jQuery("#code1.code4depth").val()
-				+"&searchType=unitName&searchWord="+jQuery("#searchWord").val()),page:1}).trigger("reloadGrid");
+				url
+				+"&code1depth="+jQuery("#code1depth").val()
+				+"&code2depth="+jQuery("#code2depth").val()
+				+"&code3depth="+jQuery("#code3depth").val()
+				+"&code4depth="+jQuery("#code4depth").val()
+				+"&searchType=unitName&searchWord="+
+				jQuery("#searchWord").val()
+				)
+				,page:1
+				}).trigger("reloadGrid");
 }
 
 function popup(type, unitType, rowid){

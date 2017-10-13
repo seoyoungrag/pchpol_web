@@ -56,7 +56,7 @@ public class AdminController extends BaseController {
 	 */
 	@RequestMapping(value = "/admin/main.do")
 	public ModelAndView main(HttpServletRequest request, HttpServletResponse response) {
-		ModelAndView mav = new ModelAndView("admin/main");
+		ModelAndView mav = new ModelAndView("main");
 		return mav;
 	}
 	/**

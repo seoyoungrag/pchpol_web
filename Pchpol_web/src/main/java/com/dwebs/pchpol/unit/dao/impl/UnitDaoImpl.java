@@ -28,6 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.dwebs.pchpol.common.vo.PagingVO;
+import com.dwebs.pchpol.model.Code;
 import com.dwebs.pchpol.model.Unit;
 import com.dwebs.pchpol.model.Unit_;
 import com.dwebs.pchpol.unit.dao.UnitDao;
@@ -48,74 +49,10 @@ public class UnitDaoImpl implements UnitDao {
 	private EntityManagerFactory emf;
 
 	/* (non-Javadoc)
-	 * @see com.dwebs.pchpol.unit.dao.UnitDao#getList(com.dwebs.pchpol.common.vo.PagingVO)
+	 * @see com.dwebs.pchpol.unit.dao.UnitDao#getListByTroopsTypeAndCode(com.dwebs.pchpol.common.vo.PagingVO, java.lang.String, com.dwebs.pchpol.model.Code)
 	 */
 	@Override
-	public List<Unit> getList(PagingVO pagingVO) {
-		EntityManager em = emf.createEntityManager();
-		//기본 select ~ from ~ 쿼리를 생성한다.
-		CriteriaBuilder builder = em.getCriteriaBuilder();
-		CriteriaQuery<Unit> cQuery = builder.createQuery(Unit.class);
-		Root<Unit> from = cQuery.from(Unit.class);
-
-		//검색조건이 있는 경우 검색조건 쿼리를 생성한다.
-		if(!pagingVO.getSearchType().equals("")){
-			Predicate restriction = builder.like(from.<String>get(pagingVO.getSearchType()), "%"+pagingVO.getSearchWord()+"%");
-			cQuery.where(restriction);
-		}
-		
-		//정렬순서조건이 있는경우 정렬순서 조건 쿼리를 생성한다.
-		if(!pagingVO.getSidx().equals("")&&!pagingVO.getSord().equals("")){
-			if(pagingVO.getSord().equals("asc")){
-				cQuery.orderBy(builder.asc(from.get(pagingVO.getSidx())));
-			}else{
-				cQuery.orderBy(builder.desc(from.get(pagingVO.getSidx())));
-			}
-		}
-		
-		//생성한 쿼리를 실행한다.
-		TypedQuery<Unit> typedQuery = em.createQuery(cQuery);
-		List<Unit> result = new ArrayList<Unit>();
-		if(pagingVO.getPage()>0){
-			int page = pagingVO.getPage();
-			int pageSize = pagingVO.getRows();
-			int startIndex =( (page -1) * pageSize);	
-			typedQuery.setFirstResult(startIndex);
-			typedQuery.setMaxResults(pageSize);
-		}
-		
-		result = typedQuery.getResultList();
-		return result;
-	}
-
-	/* (non-Javadoc)
-	 * @see com.dwebs.pchpol.unit.dao.UnitDao#getTotCnt(com.dwebs.pchpol.common.vo.PagingVO)
-	 */
-	@Override
-	public int getTotCnt(PagingVO pagingVO) {
-		EntityManager em = emf.createEntityManager();
-		//select count(*) from ~ 쿼리를 생성한다.
-		CriteriaBuilder builder = em.getCriteriaBuilder();
-		CriteriaQuery<Long> cQuery = builder.createQuery(Long.class);
-		Root<Unit> entityRoot = cQuery.from(Unit.class);
-		cQuery.select(builder.count(entityRoot));
-		
-		//검색조건이 있는경우 정렬순서 조건 쿼리를 생성한다.
-		if(!pagingVO.getSearchType().equals("")){
-			cQuery.where(builder.like(entityRoot.<String>get(pagingVO.getSearchType()), "%"+pagingVO.getSearchWord()+"%"));
-		}
-		
-		//쿼리를 실행한다.
-		Long result = em.createQuery(cQuery).getSingleResult();
-		
-		return result.intValue();
-	}
-
-	/* (non-Javadoc)
-	 * @see com.dwebs.pchpol.unit.dao.UnitDao#getListByType(com.dwebs.pchpol.common.vo.PagingVO, java.lang.String)
-	 */
-	@Override
-	public List<Unit> getListByType(PagingVO pagingVO, String type) {
+	public List<Unit> getListByTroopsTypeAndCode(PagingVO pagingVO, String troopsType, Code code) {
 		EntityManager em = emf.createEntityManager();
 		//기본 select ~ from ~ 쿼리를 생성한다.
 		CriteriaBuilder builder = em.getCriteriaBuilder();
@@ -123,12 +60,27 @@ public class UnitDaoImpl implements UnitDao {
 		Root<Unit> from = cQuery.from(Unit.class);
 
 		List<Predicate> restrictions = new ArrayList<Predicate>();
-		restrictions.add(builder.equal(from.get(Unit_.troopsType), type));
+		restrictions.add(builder.equal(from.get(Unit_.troopsType), troopsType));
 		
 		//검색조건이 있는 경우 검색조건 쿼리를 생성한다.
 		if(!pagingVO.getSearchType().equals("")){
 			restrictions.add(builder.like(from.<String>get(pagingVO.getSearchType()), "%"+pagingVO.getSearchWord()+"%"));
 		}
+		
+		//지방청, 구분, 소속, 세부소속
+		if(code.getCode1depth()!=null&&!code.getCode1depth().equals("")){
+			restrictions.add(builder.equal(from.<String>get("code1.code1depth"), code.getCode1depth()));
+		}
+		if(code.getCode1depth()!=null&&!code.getCode1depth().equals("")){
+			restrictions.add(builder.equal(from.<String>get("code1.code2depth"), code.getCode2depth()));
+		}
+		if(code.getCode1depth()!=null&&!code.getCode1depth().equals("")){
+			restrictions.add(builder.equal(from.<String>get("code1.code3depth"), code.getCode3depth()));
+		}
+		if(code.getCode1depth()!=null&&!code.getCode1depth().equals("")){
+			restrictions.add(builder.equal(from.<String>get("code1.code4depth"), code.getCode4depth()));
+		}
+		
 		cQuery.where(restrictions.toArray(new Predicate[]{}));
 		
 		
@@ -157,24 +109,39 @@ public class UnitDaoImpl implements UnitDao {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.dwebs.pchpol.unit.dao.UnitDao#getTotCntByType(com.dwebs.pchpol.common.vo.PagingVO, java.lang.String)
+	 * @see com.dwebs.pchpol.unit.dao.UnitDao#getTotCntByTroopsTypeAndCode(com.dwebs.pchpol.common.vo.PagingVO, java.lang.String, com.dwebs.pchpol.model.Code)
 	 */
 	@Override
-	public int getTotCntByType(PagingVO pagingVO, String type) {
+	public int getTotCntByTroopsTypeAndCode(PagingVO pagingVO, String troopsType, Code code) {
 		EntityManager em = emf.createEntityManager();
 		//select count(*) from ~ 쿼리를 생성한다.
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaQuery<Long> cQuery = builder.createQuery(Long.class);
-		Root<Unit> entityRoot = cQuery.from(Unit.class);
-		cQuery.select(builder.count(entityRoot));
+		Root<Unit> from = cQuery.from(Unit.class);
+		cQuery.select(builder.count(from));
 
 		List<Predicate> restrictions = new ArrayList<Predicate>();
-		restrictions.add(builder.equal(entityRoot.get(Unit_.troopsType), type));
+		restrictions.add(builder.equal(from.get(Unit_.troopsType), troopsType));
 		
 		//검색조건이 있는 경우 검색조건 쿼리를 생성한다.
 		if(!pagingVO.getSearchType().equals("")){
-			restrictions.add(builder.like(entityRoot.<String>get(pagingVO.getSearchType()), "%"+pagingVO.getSearchWord()+"%"));
+			restrictions.add(builder.like(from.<String>get(pagingVO.getSearchType()), "%"+pagingVO.getSearchWord()+"%"));
 		}
+
+		//지방청, 구분, 소속, 세부소속
+		if(code.getCode1depth()!=null&!code.getCode1depth().equals("")){
+			restrictions.add(builder.equal(from.<String>get("code1.code1depth"), code.getCode1depth()));
+		}
+		if(code.getCode1depth()!=null&!code.getCode1depth().equals("")){
+			restrictions.add(builder.equal(from.<String>get("code1.code2depth"), code.getCode2depth()));
+		}
+		if(code.getCode1depth()!=null&!code.getCode1depth().equals("")){
+			restrictions.add(builder.equal(from.<String>get("code1.code3depth"), code.getCode3depth()));
+		}
+		if(code.getCode1depth()!=null&!code.getCode1depth().equals("")){
+			restrictions.add(builder.equal(from.<String>get("code1.code4depth"), code.getCode4depth()));
+		}
+		
 		cQuery.where(restrictions.toArray(new Predicate[]{}));
 		
 		//쿼리를 실행한다.
