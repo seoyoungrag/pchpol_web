@@ -16,7 +16,6 @@ package com.dwebs.pchpol.unit.dao;
 import java.util.List;
 
 import com.dwebs.pchpol.common.vo.PagingVO;
-import com.dwebs.pchpol.model.Code;
 import com.dwebs.pchpol.model.Unit;
 
 /**
@@ -45,7 +44,7 @@ public interface UnitDao {
 	 *   @param code
 	 *   @return
 	 */
-	List<Unit> getListByTroopsTypeAndCode(PagingVO pagingVO, String troopsType, Code code);
+	List<Unit> getListByUnit(PagingVO pagingVO, Unit unit);
 
 	/**
 	 * <PRE>
@@ -61,6 +60,33 @@ public interface UnitDao {
 	 *   @param code
 	 *   @return
 	 */
-	int getTotCntByTroopsTypeAndCode(PagingVO pagingVO, String troopsType, Code code);
+	int getTotCntByUnit(PagingVO pagingVO, Unit unit);
+
+	/**
+	 * <PRE>
+	 * 1. MethodName : insertOrUpdate
+	 * 2. ClassName  : UnitDao
+	 * 3. Comment   : 
+	 * 4. 작성자    : yrseo
+	 * 5. 작성일    : 2017. 10. 15. 오후 8:03:38
+	 * </PRE>
+	 *   @return void
+	 *   @param unit
+	 */
+	void insertOrUpdate(Unit unit);
+
+	/**
+	 * <PRE>
+	 * 1. MethodName : getById
+	 * 2. ClassName  : UnitDao
+	 * 3. Comment   : 
+	 * 4. 작성자    : yrseo
+	 * 5. 작성일    : 2017. 10. 15. 오후 8:43:02
+	 * </PRE>
+	 *   @return Unit
+	 *   @param id
+	 *   @return
+	 */
+	Unit getById(String id);
 
 }

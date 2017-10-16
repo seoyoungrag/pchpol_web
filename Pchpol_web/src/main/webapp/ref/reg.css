@@ -1,27 +1,70 @@
-.margin-top5{
-	margin-top:5px;
+.margin-top5 {
+	margin-top: 5px;
 	border-right-width: 1px;
-    border-right-style: solid;
-    border-right-color: #ddd;
+	border-right-style: solid;
+	border-right-color: #ddd;
 }
-.bottom-line{
-	padding-bottom:10px; 
-	border-bottom-width:1px; 
-	border-bottom-style:dotted; 
-	border-bottom-color:#ddd; 
-	margin-bottom:10px;
+
+.bottom-line {
+	padding-bottom: 10px;
+	border-bottom-width: 1px;
+	border-bottom-style: dotted;
+	border-bottom-color: #ddd;
+	margin-bottom: 10px;
 }
-.updown-padding{
-	padding-bottom:0px; 
-	padding-top:10px;
+
+.updown-padding {
+	padding-bottom: 0px;
+	padding-top: 10px;
 }
-.leftright-padding{
-	padding-left:0px; 
-	padding-right:0px;
+
+.leftright-padding {
+	padding-left: 0px;
+	padding-right: 0px;
 }
-.popup-title{
-	padding:10px; 
-	padding-top:15px; 
-	margin-bottom:0px;
-	align:center;
+
+.popup-title {
+	padding: 10px;
+	padding-top: 15px;
+	margin-bottom: 0px;
+	align: center;
 }
+
+select[name^="unitMobilStartDt_"],select[name^="unitMobilEndDt_"] {
+	margin-left: 0;
+	padding-right: 25px;
+	z-index: 1;
+	position: relative;
+	border-radius: 2px;
+	padding: 6px 6px 6px 6px;
+	color: #333;
+	background-color: #fff;
+	border-color: #ccc;
+	display: inline-block;
+	margin-bottom: 0;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.42857143;
+	text-align: center;
+}
+
+.modal.modal-center {
+  text-align: center;
+}
+
+@media screen and (min-width: 768px) { 
+  .modal.modal-center:before {
+    display: inline-block;
+    vertical-align: middle;
+    content: " ";
+    height: 100%;
+  }
+}
+
+.modal-dialog.modal-center {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle; 
+}
+
+

@@ -33,7 +33,6 @@ import com.dwebs.pchpol.common.controller.BaseController;
 import com.dwebs.pchpol.common.vo.JQGridVO;
 import com.dwebs.pchpol.common.vo.PagingVO;
 import com.dwebs.pchpol.common.vo.Response;
-import com.dwebs.pchpol.model.Code;
 import com.dwebs.pchpol.model.Unit;
 import com.dwebs.pchpol.unit.service.UnitService;
 
@@ -72,11 +71,10 @@ public class UnitController extends BaseController {
 	 *   @return
 	 *   @throws Exception
 	 */
-	@RequestMapping(value = "/unit/list/{type}", method = RequestMethod.GET)
+	@RequestMapping(value = "/unit/list", method = RequestMethod.GET)
 	public ResponseEntity<?> getUnitList(
-			@PathVariable(value="type") String troopsType, 
 			@RequestParam(value="listType", required=false, defaultValue="jqgrid") String listType,
-			@ModelAttribute Code code,
+			@ModelAttribute Unit unit,
 			HttpServletRequest req){
 		Response res = new Response();
 		List<Unit> list = new ArrayList<Unit>();
@@ -84,8 +82,8 @@ public class UnitController extends BaseController {
 		PagingVO pagingVO = new PagingVO();
 		pagingVO.setPaging(req);
 		try {
-			list = unitService.getListByTroopsTypeAndCode(pagingVO,troopsType,code); //조회 결과
-			totCnt = unitService.getTotCntByTroopsTypeAndCode(pagingVO,troopsType,code); //전체 페이지의 게시물 수
+			list = unitService.getListByUnit(pagingVO,unit); //조회 결과
+			totCnt = unitService.getTotCntByUnit(pagingVO,unit); //전체 페이지의 게시물 수
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseEntity.ok(new Response(false, e.getMessage()));
@@ -115,19 +113,85 @@ public class UnitController extends BaseController {
 	 * 5. 작성일    : 2017. 10. 13. 오전 10:24:21
 	 * </PRE>
 	 *   @return ModelAndView
-	 *   @param type
+	 *   @param viewType
 	 *   @param adminNo
 	 *   @return
 	 */
 	@RequestMapping(value = "/unit/view.do")
 	public ModelAndView unitView(
-			@RequestParam(value="type", required=true, defaultValue="view") String type,
+			@RequestParam(value="viewType", required=true, defaultValue="view") String viewType,
 			@RequestParam(value="unitType", required=true, defaultValue="stand") String unitType,
 			@RequestParam(value="unitNo", required=false) String unitNo) {
 		ModelAndView mav = new ModelAndView("unit/unitView_"+unitType);
-		mav.addObject("type",type);
+		mav.addObject("viewType",viewType);
 		mav.addObject("unitType", unitType);
 		mav.addObject("unitNo",unitNo);
+		return mav;
+	}
+	
+
+	/**
+	 * <PRE>
+	 * 1. MethodName : insertOrUpdateUnit
+	 * 2. ClassName  : UnitController
+	 * 3. Comment   : 
+	 * 4. 작성자    : yrseo
+	 * 5. 작성일    : 2017. 10. 15. 오후 6:29:47
+	 * </PRE>
+	 *   @return ResponseEntity<?>
+	 *   @param unit
+	 *   @return
+	 *   @throws Exception
+	 */
+	@RequestMapping(value = "/unit", method = RequestMethod.POST)
+	public ResponseEntity<?> insertOrUpdateUnit(@ModelAttribute Unit unit) throws Exception {
+		Response res = new Response();
+		unitService.insertOrUpdate(unit);
+		res.setData(unit);
+		return ResponseEntity.ok(res);
+	}
+	
+
+	/**
+	 * <PRE>
+	 * 1. MethodName : getUnitById
+	 * 2. ClassName  : UnitController
+	 * 3. Comment   : 
+	 * 4. 작성자    : yrseo
+	 * 5. 작성일    : 2017. 10. 15. 오후 8:41:46
+	 * </PRE>
+	 *   @return ResponseEntity<?>
+	 *   @param unitNo
+	 *   @return
+	 */
+	@RequestMapping(value = "/unit/{unitNo}", method = RequestMethod.GET)
+	public ResponseEntity<?> getUnitById(@PathVariable("unitNo") String unitNo) {
+		Response res = new Response();
+		Unit unit = unitService.getById(unitNo); 
+		res.setData(unit);
+		return ResponseEntity.ok(res);
+	}
+	
+
+	/**
+	 * <PRE>
+	 * 1. MethodName : unitSub
+	 * 2. ClassName  : UnitController
+	 * 3. Comment   : 
+	 * 4. 작성자    : yrseo
+	 * 5. 작성일    : 2017. 10. 16. 오후 2:33:06
+	 * </PRE>
+	 *   @return ModelAndView
+	 *   @param viewType
+	 *   @return
+	 */
+	@RequestMapping(value = "/unit/sub.do")
+	public ModelAndView unitSub(
+			@RequestParam(value="name", required=true, defaultValue="workplace") String name,
+			@RequestParam(value="depth", required=true, defaultValue="2") String depth
+			){
+		ModelAndView mav = new ModelAndView("unit/unitSub_"+name);
+		mav.addObject("depth",depth);
 		return mav;
 	}
 }

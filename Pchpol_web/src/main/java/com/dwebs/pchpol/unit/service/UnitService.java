@@ -16,7 +16,6 @@ package com.dwebs.pchpol.unit.service;
 import java.util.List;
 
 import com.dwebs.pchpol.common.vo.PagingVO;
-import com.dwebs.pchpol.model.Code;
 import com.dwebs.pchpol.model.Unit;
 
 /**
@@ -33,7 +32,7 @@ public interface UnitService {
 
 	/**
 	 * <PRE>
-	 * 1. MethodName : getListByTroopsTypeAndCode
+	 * 1. MethodName : getListByUnit
 	 * 2. ClassName  : UnitService
 	 * 3. Comment   : 
 	 * 4. 작성자    : yrseo
@@ -45,11 +44,11 @@ public interface UnitService {
 	 *   @param code
 	 *   @return
 	 */
-	List<Unit> getListByTroopsTypeAndCode(PagingVO pagingVO, String troopsType, Code code);
+	List<Unit> getListByUnit(PagingVO pagingVO, Unit unit);
 
 	/**
 	 * <PRE>
-	 * 1. MethodName : getTotCntByTroopsTypeAndCode
+	 * 1. MethodName : getTotCntByUnit
 	 * 2. ClassName  : UnitService
 	 * 3. Comment   : 
 	 * 4. 작성자    : yrseo
@@ -61,6 +60,33 @@ public interface UnitService {
 	 *   @param code
 	 *   @return
 	 */
-	int getTotCntByTroopsTypeAndCode(PagingVO pagingVO, String troopsType, Code code);
+	int getTotCntByUnit(PagingVO pagingVO, Unit unit);
+
+	/**
+	 * <PRE>
+	 * 1. MethodName : insertOrUpdate
+	 * 2. ClassName  : UnitService
+	 * 3. Comment   : 
+	 * 4. 작성자    : yrseo
+	 * 5. 작성일    : 2017. 10. 15. 오후 8:02:59
+	 * </PRE>
+	 *   @return void
+	 *   @param unit
+	 */
+	void insertOrUpdate(Unit unit);
+
+	/**
+	 * <PRE>
+	 * 1. MethodName : getById
+	 * 2. ClassName  : UnitService
+	 * 3. Comment   : 
+	 * 4. 작성자    : yrseo
+	 * 5. 작성일    : 2017. 10. 15. 오후 8:42:08
+	 * </PRE>
+	 *   @return Unit
+	 *   @param unitNo
+	 *   @return
+	 */
+	Unit getById(String unitNo);
 
 }

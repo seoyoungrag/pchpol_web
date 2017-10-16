@@ -22,6 +22,9 @@
 	<!-- data-toggle에서 필요 -->
 	<script src="${pageContext.request.contextPath}/ref/bootstrap/js/bootstrap.min.js"></script>
 	
+	<!-- gmt 설정에서 필요 -->
+	<script src="${pageContext.request.contextPath}/ref/bootstrap/js/moment.js"></script>
+	
 	<script src="${pageContext.request.contextPath}/ref/bootstrap/js/modernizr.min.js"></script>
       
 	<script src="${pageContext.request.contextPath}/ref/bootstrap/js/waves.js"></script>
@@ -39,6 +42,7 @@
 	
     <script type="text/javascript">
     //$.ajaxSetup({ async: false });
+    var contextPath = '${pageContext.request.contextPath}';
     </script>
 
 	<script type="text/javascript" src="${pageContext.request.contextPath}/ref/jqgrid/js/i18n/grid.locale-kr.js"></script>
@@ -47,3 +51,5 @@
 	<!-- selectpicker필요 -->
 	<script src="${pageContext.request.contextPath}/ref/bootstrap/js/bootstrap-select.js"></script>
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/ref/bootstrap/css/bootstrap-select.css" />
+	
+	<script src="${pageContext.request.contextPath}/ref/js/jquery.date-dropdowns.js"></script>

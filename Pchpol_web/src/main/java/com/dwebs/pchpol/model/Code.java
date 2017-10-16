@@ -87,6 +87,17 @@ public class Code implements Serializable {
 	private List<Unit> units3;
 
 	@JsonIgnore
+	//bi-directional many-to-one association to Unit
+	@OneToMany(mappedBy="code4")
+	private List<Unit> units4;
+	
+
+	@JsonIgnore
+	//bi-directional many-to-one association to Unit
+	@OneToMany(mappedBy="code5")
+	private List<Unit> units5;
+	
+	@JsonIgnore
 	//bi-directional many-to-one association to WorkplacePlacement
 	@OneToMany(mappedBy="code1")
 	private List<WorkplacePlacement> workplacePlacements1;
@@ -317,6 +328,28 @@ public class Code implements Serializable {
 		return units3;
 	}
 
+	public List<Unit> getUnits4() {
+		return this.units4;
+	}
+
+	public void setUnits4(List<Unit> units4) {
+		this.units4 = units4;
+	}
+
+	public Unit addUnits4(Unit units4) {
+		getUnits4().add(units4);
+		units4.setCode4(this);
+
+		return units4;
+	}
+
+	public Unit removeUnits4(Unit units4) {
+		getUnits4().remove(units4);
+		units4.setCode4(null);
+
+		return units4;
+	}
+	
 	public List<WorkplacePlacement> getWorkplacePlacements1() {
 		return this.workplacePlacements1;
 	}

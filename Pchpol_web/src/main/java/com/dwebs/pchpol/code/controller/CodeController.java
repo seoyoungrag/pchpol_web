@@ -51,4 +51,12 @@ public class CodeController extends BaseController {
 		res.setData(codes);
 		return ResponseEntity.ok(res);
 	}
+
+	@RequestMapping(value = "/code", method = RequestMethod.GET)
+	public ResponseEntity<?> getCodeNo(Code code) {
+		Response res = new Response();
+		Code resultCode = codeService.getCode(code);
+		res.setData(resultCode);
+		return ResponseEntity.ok(res);
+	}
 }

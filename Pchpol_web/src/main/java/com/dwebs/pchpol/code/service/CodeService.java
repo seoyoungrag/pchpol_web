@@ -43,4 +43,17 @@ public interface CodeService {
 	 */
 	List<Code> getCodeListByCategory(String category);
 
+	/**
+	 * <PRE>
+	 * 1. MethodName : getCode
+	 * 2. ClassName  : CodeService
+	 * 3. Comment   : 
+	 * 4. 작성자    : yrseo
+	 * 5. 작성일    : 2017. 10. 15. 오후 7:40:59
+	 * </PRE>
+	 *   @return void
+	 *   @param code
+	 */
+	Code getCode(Code code);
+
 }

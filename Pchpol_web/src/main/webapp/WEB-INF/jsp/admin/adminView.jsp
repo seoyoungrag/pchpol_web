@@ -5,94 +5,43 @@
 <head>
 <jsp:include page="/common/header.jsp" flush="false" />
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/ref/reg.css" />
+<script src="${pageContext.request.contextPath}/ref/js/common_board.js"></script>
 <script type="text/javascript">
-function setSelectpickerByCode(divName, category, selectVal){
-	$.ajax({
-	 type: "GET",
-	 url:'${pageContext.request.contextPath}/code/list/'+category, 
-		 contentType: "application/json; charset=utf-8",
-		 dataType: "json",
-		 success: function(res) {
-			 if(res.success){
-				$.each(res.data, function (index, text) {
-				    $('select#'+divName).append($('<option>', {
-				        value: res.data[index].codeNo,
-				        text : res.data[index].code1depth
-				    }));
-				});
-				if(typeof selectVal === 'undefined'){
-				}else{
-					$('select#codeAdminType').val(selectVal);
-				}
-				$('.selectpicker').selectpicker('refresh')
-			 }else{
-					alert('데이터 조회를 실패하였습니다.');
-					self.close();
-			 }
-		 },
-			error : function(res){
-					alert('데이터 조회를 실패하였습니다.');
-					self.close();
-			}
-		});
+var selectpickerObj;
+var viewObj;
+function getViewById(id){
+	viewObj = new ViewObj();
+	viewObj.url = "${pageContext.request.contextPath}/admin/";
+	viewObj.id = id;
+	var successFunc = function(res){
+		$("#adminNo").val(res.data.adminNo);
+		$("#adminDept").val(res.data.adminDept);
+		$("#adminEtc").val(res.data.adminEtc);
+		$("#adminName").val(res.data.adminName);
+		$("#adminId").val(res.data.adminId);
+		$("#adminPassword").val(res.data.adminPassword);
+		$("#adminRank").val(res.data.adminRank);
+		
+		selectpickerObj = new SelectpickerObj();
+		selectpickerObj.divName = 'codeAdminType';
+		selectpickerObj.category = 'admin';
+		selectpickerObj.selectVal = res.data.code.codeNo;
+		selectpickerObj.setByCode();
+	}
+	viewObj.ajax(successFunc);
 }
-function getViewById(adminNo){
-	$.ajax({
-		type : 'GET',
-		url : '${pageContext.request.contextPath}/admin/'+adminNo,
-		contentType: "application/json; charset=utf-8",
-		dataType: "json",
-		cache : false,
-		success : function(res){
-			if(res.success){
-				$("#adminNo").val(res.data.adminNo);
-				$("#adminDept").val(res.data.adminDept);
-				$("#adminEtc").val(res.data.adminEtc);
-				$("#adminName").val(res.data.adminName);
-				$("#adminId").val(res.data.adminId);
-				$("#adminPassword").val(res.data.adminPassword);
-				$("#adminRank").val(res.data.adminRank);
-				setSelectpickerByCode("codeAdminType","ADMIN", res.data.code.codeNo);
-			}else{
-				alert('데이터 조회를 실패하였습니다.');
-				self.close();
-			}
-		},
-		error : function(res){
-				alert('데이터 조회를 실패하였습니다.');
-				self.close();
-		}
-	});
-}
-function sendFormByAjax(){
-	var regForm = $("#regForm");
-	var formData = regForm.serialize();
-	$.ajax({
-		type : regForm.attr("method"),
-		url : regForm.attr("action"),
-		cache : false,
-		data : formData,
-		success : function(res){
-			if(res.success){
-				alert('데이터를 입력하였습니다.');
-				window.opener.jQuery("#list-grid").trigger("reloadGrid");
-				self.close();
-			}else{
-				alert('데이터 입력을 실패하였습니다.');
-				alert(res.message);
-			}
-		},
-		error : function(res){
-			alert('데이터 입력을 실패하였습니다.');
-		}
-	});
+function reg(){
+	sendFormByAjax();
 	return false;
 }
 jQuery(document).ready(function($) {
 	if('${type}'=='view'){
 		getViewById('${adminNo}');
 	}else if('${type}'=='reg'){
-		setSelectpickerByCode("codeAdminType","ADMIN");
+		selectpickerObj = new SelectpickerObj();
+		selectpickerObj.divName = 'codeAdminType';
+		selectpickerObj.category = 'admin';
+		selectpickerObj.setByCode();
 	}
 });
 </script>
@@ -108,7 +57,7 @@ jQuery(document).ready(function($) {
 				</h4>
 				<div class="col-lg-12">
 					<div class="card-box updown-padding">
-						<form onsubmit="return sendFormByAjax()" class="form-horizontal" role="form" id="regForm" method="post" action="${pageContext.request.contextPath}/admin" accept-charset="utf-8">
+						<form onsubmit="return reg()" class="form-horizontal" role="form" id="regForm" method="post" action="${pageContext.request.contextPath}/admin" accept-charset="utf-8">
 							<div class="form-group bottom-line">
 								<label class="col-xs-2 col-sm-2 margin-top5 control-label">
 								&nbsp;권한

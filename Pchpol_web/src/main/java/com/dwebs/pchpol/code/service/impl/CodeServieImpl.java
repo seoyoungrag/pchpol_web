@@ -47,4 +47,12 @@ public class CodeServieImpl implements CodeService {
 		return codeDao.getCodeListByCategory(category);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.dwebs.pchpol.code.service.CodeService#getCode(com.dwebs.pchpol.model.Code)
+	 */
+	@Override
+	public Code getCode(Code code) {
+		return codeDao.getCode(code);
+	}
+
 }

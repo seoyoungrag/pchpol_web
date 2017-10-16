@@ -1,7 +1,7 @@
 package com.dwebs.pchpol.model;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -38,10 +38,10 @@ public class Unit implements Serializable {
 	private String unitBirth;
 
 	@Column(name="UNIT_MOBIL_END_DT")
-	private Timestamp unitMobilEndDt;
+	private Date unitMobilEndDt;
 
 	@Column(name="UNIT_MOBIL_START_DT")
-	private Timestamp unitMobilStartDt;
+	private Date unitMobilStartDt;
 
 	@Column(name="UNIT_NAME")
 	private String unitName;
@@ -63,7 +63,17 @@ public class Unit implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="CODE_MOBIL_FUNCTION")
 	private Code code3;
+	
+	//bi-directional many-to-one association to Code
+	@ManyToOne
+	@JoinColumn(name="CODE_POSITION")
+	private Code code4;
 
+	//bi-directional many-to-one association to Code
+	@ManyToOne
+	@JoinColumn(name="CODE_MOBIL_PLACEMENT")
+	private Code code5;
+	
 	//bi-directional many-to-one association to WorkplacePlacementDetail
 	@OneToMany(mappedBy="unit")
 	private List<WorkplacePlacementDetail> workplacePlacementDetails;
@@ -95,19 +105,19 @@ public class Unit implements Serializable {
 		this.unitBirth = unitBirth;
 	}
 
-	public Timestamp getUnitMobilEndDt() {
+	public Date getUnitMobilEndDt() {
 		return this.unitMobilEndDt;
 	}
 
-	public void setUnitMobilEndDt(Timestamp unitMobilEndDt) {
+	public void setUnitMobilEndDt(Date unitMobilEndDt) {
 		this.unitMobilEndDt = unitMobilEndDt;
 	}
 
-	public Timestamp getUnitMobilStartDt() {
+	public Date getUnitMobilStartDt() {
 		return this.unitMobilStartDt;
 	}
 
-	public void setUnitMobilStartDt(Timestamp unitMobilStartDt) {
+	public void setUnitMobilStartDt(Date unitMobilStartDt) {
 		this.unitMobilStartDt = unitMobilStartDt;
 	}
 
@@ -149,6 +159,22 @@ public class Unit implements Serializable {
 
 	public void setCode3(Code code3) {
 		this.code3 = code3;
+	}
+
+	public Code getCode4() {
+		return code4;
+	}
+
+	public void setCode4(Code code4) {
+		this.code4 = code4;
+	}
+
+	public Code getCode5() {
+		return code5;
+	}
+
+	public void setCode5(Code code5) {
+		this.code5 = code5;
 	}
 
 	public List<WorkplacePlacementDetail> getWorkplacePlacementDetails() {
