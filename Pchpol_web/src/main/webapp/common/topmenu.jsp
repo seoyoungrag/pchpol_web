@@ -45,8 +45,8 @@
 					data-toggle="dropdown">숙영/급식 <span class="caret"></span>
 				</a>
 					<ul class="dropdown-menu">
-						<li><a href="${pageContext.request.contextPath}/troops/list.do?type=facility">소속별 숙영/급식시설 리스트</a></li>
-						<li><a href="${pageContext.request.contextPath}/facility/list.do">숙영/급식시설</a></li>
+						<li><a href="${pageContext.request.contextPath}/facility/troopsFacilityPlacementList.do">소속별 숙영/급식시설 리스트</a></li>
+						<li><a href="${pageContext.request.contextPath}/facility/reg.do">숙영/급식시설</a></li>
 					</ul>
 				</li>
 				<li class="dropdown ">

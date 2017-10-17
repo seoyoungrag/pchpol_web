@@ -15,6 +15,7 @@ package com.dwebs.pchpol.code.dao;
 
 import java.util.List;
 
+import com.dwebs.pchpol.common.vo.PagingVO;
 import com.dwebs.pchpol.model.Code;
 
 /**
@@ -55,5 +56,35 @@ public interface CodeDao {
 	 *   @param code
 	 */
 	Code getCode(Code code);
+
+	/**
+	 * <PRE>
+	 * 1. MethodName : getCodeListByCode
+	 * 2. ClassName  : CodeDao
+	 * 3. Comment   : 
+	 * 4. 작성자    : yrseo
+	 * 5. 작성일    : 2017. 10. 17. 오후 1:21:23
+	 * </PRE>
+	 *   @return List<Code>
+	 *   @param pagingVO
+	 *   @param troopsSearch
+	 *   @return
+	 */
+	List<Code> getCodeListByCode(PagingVO pagingVO, Code troopsSearch);
+
+	/**
+	 * <PRE>
+	 * 1. MethodName : getTotCntByCode
+	 * 2. ClassName  : CodeDao
+	 * 3. Comment   : 
+	 * 4. 작성자    : yrseo
+	 * 5. 작성일    : 2017. 10. 17. 오후 1:21:27
+	 * </PRE>
+	 *   @return int
+	 *   @param pagingVO
+	 *   @param troopsSearch
+	 *   @return
+	 */
+	int getTotCntByCode(PagingVO pagingVO, Code troopsSearch);
 
 }

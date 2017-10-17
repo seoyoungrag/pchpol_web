@@ -21,6 +21,7 @@ import org.springframework.stereotype.Component;
 
 import com.dwebs.pchpol.code.dao.CodeDao;
 import com.dwebs.pchpol.code.service.CodeService;
+import com.dwebs.pchpol.common.vo.PagingVO;
 import com.dwebs.pchpol.model.Code;
 
 /**
@@ -54,5 +55,23 @@ public class CodeServieImpl implements CodeService {
 	public Code getCode(Code code) {
 		return codeDao.getCode(code);
 	}
+
+	/* (non-Javadoc)
+	 * @see com.dwebs.pchpol.code.service.CodeService#getCodeListByCode(com.dwebs.pchpol.common.vo.PagingVO, com.dwebs.pchpol.model.Code)
+	 */
+	@Override
+	public List<Code> getCodeListByCode(PagingVO pagingVO, Code troopsSearch) {
+		return codeDao.getCodeListByCode(pagingVO, troopsSearch);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.dwebs.pchpol.code.service.CodeService#getTotCntByCode(com.dwebs.pchpol.common.vo.PagingVO, com.dwebs.pchpol.model.Code)
+	 */
+	@Override
+	public int getTotCntByCode(PagingVO pagingVO, Code troopsSearch) {
+		return codeDao.getTotCntByCode(pagingVO, troopsSearch);
+	}
+
+
 
 }

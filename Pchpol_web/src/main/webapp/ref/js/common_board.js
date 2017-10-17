@@ -422,7 +422,11 @@ var dropdwonOption = {
 function dateFormatterGmt (cellvalue, options, rowObject)
 {
     var format = 'YYYY-MM-DD';
-    return moment(cellvalue).utcOffset(+900).format(format);
+    var retVal = moment(cellvalue).utcOffset(+900).format(format);
+	if(retVal == 'Invalid date'){
+		retVal = '';
+	}
+	return retVal
 }
 function setSelectPickerTroopsFemale(){
 	$.ajax({
@@ -464,6 +468,72 @@ function setSelectPickerTroopsFemale(){
 				});
 				$.each(code3depth, function (index, text) {
 				    $('select#code1_code3depth').append($('<option>', {
+				        value: text,
+				        text : text
+				    }));
+				});
+				$('.selectpicker').selectpicker('refresh')
+			 }else{
+					alert('데이터 조회를 실패하였습니다.');
+			 }
+		 },
+			error : function(res){
+					alert('데이터 조회를 실패하였습니다.');
+			}
+		});
+}
+function setSelectPickerWorkplace(){
+	$.ajax({
+	 type: "GET",
+	 url:contextPath+'/code/list/workplace', 
+		 contentType: "application/json; charset=utf-8",
+		 dataType: "json",
+		 success: function(res) {
+			 if(res.success){
+				var code1depth = [];
+				var code2depth = [];
+				var code3depth = [];
+				var code4depth = [];
+				$.each(res.data, function (index, text) {
+					if($.inArray(text.code1depth, code1depth) == -1 && text.code1depth!=null){
+						code1depth.push(text.code1depth);
+					}
+				});
+				$.each(res.data, function (index, text) {
+					if($.inArray(text.code2depth, code2depth) == -1 && text.code2depth!=null){
+						code2depth.push(text.code2depth)
+					}
+				});
+				$.each(res.data, function (index, text) {
+					if($.inArray(text.code3depth, code3depth) == -1 && text.code3depth!=null){
+						code3depth.push(text.code3depth)
+					}
+				});
+				$.each(res.data, function (index, text) {
+					if($.inArray(text.code4depth, code4depth) == -1 && text.code4depth!=null){
+						code4depth.push(text.code4depth)
+					}
+				});
+				$.each(code1depth, function (index, text) {
+				    $('select#code1_code1depth').append($('<option>', {
+				        value: text,
+				        text : text
+				    }));
+				});
+				$.each(code2depth, function (index, text) {
+				    $('select#code1_code2depth').append($('<option>', {
+				        value: text,
+				        text : text
+				    }));
+				});
+				$.each(code3depth, function (index, text) {
+				    $('select#code1_code3depth').append($('<option>', {
+				        value: text,
+				        text : text
+				    }));
+				});
+				$.each(code4depth, function (index, text) {
+				    $('select#code1_code4depth').append($('<option>', {
 				        value: text,
 				        text : text
 				    }));
