@@ -26,6 +26,7 @@ function getViewById(id){
 		selectpickerObj = new SelectpickerObj();
 		selectpickerObj.divName = 'code1_code1depth';
 		selectpickerObj.category = 'troops';
+		selectpickerObj.troopstype = 'stand';
 		selectpickerObj.depth = '1';
 		selectpickerObj.selectVal = res.data.code1.code1depth;
 		selectpickerObj.setByCode();
@@ -88,6 +89,7 @@ jQuery(document).ready(function($) {
 		selectpickerObj = new SelectpickerObj();
 		selectpickerObj.divName = 'code1_code2depth';
 		selectpickerObj.category = 'troops';
+		selectpickerObj.troopstype = 'stand';
 		selectpickerObj.depth = '2';
 		selectpickerObj.parentVal = [$("#code1_code1depth").val()]; 
 		$('#code1_code2depth').html('<option value="">구분 선택</option>');
@@ -97,6 +99,7 @@ jQuery(document).ready(function($) {
 		selectpickerObj = new SelectpickerObj();
 		selectpickerObj.divName = 'code1_code3depth';
 		selectpickerObj.category = 'troops';
+		selectpickerObj.troopstype = 'stand';
 		selectpickerObj.depth = '3';
 		selectpickerObj.parentVal = [$("#code1_code1depth").val(),$("#code1_code2depth").val()]; 
 		$('#code1_code3depth').html('<option value="">부대명 선택</option>');
@@ -106,6 +109,7 @@ jQuery(document).ready(function($) {
 		selectpickerObj = new SelectpickerObj();
 		selectpickerObj.divName = 'code1_code4depth';
 		selectpickerObj.category = 'troops';
+		selectpickerObj.troopstype = 'stand';
 		selectpickerObj.depth = '4';
 		selectpickerObj.parentVal = [$("#code1_code1depth").val(),$("#code1_code2depth").val(),$("#code1_code3depth").val()]; 
 		$('#code1_code4depth').html('<option value="">세부소속 선택</option>');
@@ -117,6 +121,7 @@ jQuery(document).ready(function($) {
 		selectpickerObj = new SelectpickerObj();
 		selectpickerObj.divName = 'code1_code1depth';
 		selectpickerObj.category = 'troops';
+		selectpickerObj.troopstype = 'stand';
 		selectpickerObj.depth = '1';
 		selectpickerObj.setByCode();
 		selectpickerObj = new SelectpickerObj();

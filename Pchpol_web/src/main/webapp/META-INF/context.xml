@@ -13,7 +13,7 @@
 		jdbcInterceptors="org.apache.tomcat.jdbc.pool.interceptor.ConnectionState;org.apache.tomcat.jdbc.pool.interceptor.StatementFinalizer"
 		jmxEnabled="true" 
 		logAbandoned="true" 
-		maxActive="3" 
+		maxActive="20" 
 		maxIdle="3"
 		maxWait="1000" 
 		minEvictableIdleTimeMillis="3000" 

@@ -90,12 +90,14 @@ function SelectpickerObj(){
 	this.depth;
 	this.selectVal;
 	this.parentVal;
-	this.setByCode = function(allbackFunc){
+	this.troopstype;
+	this.setByCode = function(callbackFunc){
 		var divName = this.divName;
 		var category = this.category;
 		var depth = this.depth;
 		var selectVal = this.selectVal;
 		var parentVal = this.parentVal;
+		var troopstype = this.troopstype;
 		$.ajax({
 		 type: "GET",
 		 url:contextPath+'/code/list/'+category, 
@@ -108,13 +110,39 @@ function SelectpickerObj(){
 						var codes = [];
 						if(depth=='1'){
 							$.each(res.data, function (index, text) {
-								if($.inArray(text.code1depth, codes) == -1 ){
+								if($.inArray(text.code1depth, codes) == -1 && text.code1depth!=null){
+									if(troopstype=='stand'){
+										if(text.code2depth!='경찰관 기동대'&&text.code2depth!='의경 중대'){
+											return true;
+										}
+									}else if(troopstype=='female'){
+										if(text.code2depth!='여경'){
+											return true;
+										}
+									}else if(troopstype=='indiv'){
+										if(text.code2depth!='경찰관 기동대'&&text.code2depth!='의경 중대'){
+											return true;
+										}
+									}
 									codes.push(text.code1depth);
 								}
 							});
 						}else if(depth=='2'){
 							$.each(res.data, function (index, text) {
-								if($.inArray(text.code2depth, codes) == -1 ){
+								if($.inArray(text.code2depth, codes) == -1 && text.code2depth!=null){
+									if(troopstype=='stand'){
+										if(text.code2depth!='경찰관 기동대'&&text.code2depth!='의경 중대'){
+											return true;
+										}
+									}else if(troopstype=='female'){
+										if(text.code2depth!='여경'){
+											return true;
+										}
+									}else if(troopstype=='indiv'){
+										if(text.code2depth!='경찰관 기동대'&&text.code2depth!='의경 중대'){
+											return true;
+										}
+									}
 									if(text.code1depth==parentVal[0]){
 										codes.push(text.code2depth);
 									}
@@ -122,7 +150,20 @@ function SelectpickerObj(){
 							});
 						}else if(depth=='3'){
 							$.each(res.data, function (index, text) {
-								if($.inArray(text.code3depth, codes) == -1 ){
+								if($.inArray(text.code3depth, codes) == -1 && text.code3depth!=null){
+									if(troopstype=='stand'){
+										if(text.code2depth!='경찰관 기동대'&&text.code2depth!='의경 중대'){
+											return true;
+										}
+									}else if(troopstype=='female'){
+										if(text.code2depth!='여경'){
+											return true;
+										}
+									}else if(troopstype=='indiv'){
+										if(text.code2depth!='경찰관 기동대'&&text.code2depth!='의경 중대'){
+											return true;
+										}
+									}
 									if(text.code1depth==parentVal[0]&&text.code2depth==parentVal[1]){
 										codes.push(text.code3depth);
 									}
@@ -130,7 +171,20 @@ function SelectpickerObj(){
 							});
 						}else if(depth=='4'){
 							$.each(res.data, function (index, text) {
-								if($.inArray(text.code4depth, codes) == -1 ){
+								if($.inArray(text.code4depth, codes) == -1 && text.code4depth!=null){
+									if(troopstype=='stand'){
+										if(text.code2depth!='경찰관 기동대'&&text.code2depth!='의경 중대'){
+											return true;
+										}
+									}else if(troopstype=='female'){
+										if(text.code2depth!='여경'){
+											return true;
+										}
+									}else if(troopstype=='indiv'){
+										if(text.code2depth!='경찰관 기동대'&&text.code2depth!='의경 중대'){
+											return true;
+										}
+									}
 									if(text.code1depth==parentVal[0]&&text.code2depth==parentVal[1]&&text.code3depth==parentVal[2]){
 										codes.push(text.code4depth);
 									}
@@ -138,7 +192,20 @@ function SelectpickerObj(){
 							});
 						}else if(depth=='5'){
 							$.each(res.data, function (index, text) {
-								if($.inArray(text.code5depth, codes) == -1 ){
+								if($.inArray(text.code5depth, codes) == -1 && text.code5depth!=null){
+									if(troopstype=='stand'){
+										if(text.code2depth!='경찰관 기동대'&&text.code2depth!='의경 중대'){
+											return true;
+										}
+									}else if(troopstype=='female'){
+										if(text.code2depth!='여경'){
+											return true;
+										}
+									}else if(troopstype=='indiv'){
+										if(text.code2depth!='경찰관 기동대'&&text.code2depth!='의경 중대'){
+											return true;
+										}
+									}
 									if(text.code1depth==parentVal[0]&&text.code2depth==parentVal[1]&&text.code3depth==parentVal[2]&&text.code4depth==parentVal[3]){
 										codes.push(text.code5depth);
 									}
@@ -153,6 +220,19 @@ function SelectpickerObj(){
 						});
 					}else{
 						$.each(res.data, function (index, text) {
+							if(troopstype=='stand'){
+								if(text.code2depth!='경찰관 기동대'&&text.code2depth!='의경 중대'){
+									return true;
+								}
+							}else if(troopstype=='female'){
+								if(text.code2depth!='여경'){
+									return true;
+								}
+							}else if(troopstype=='indiv'){
+								if(text.code2depth!='경찰관 기동대'&&text.code2depth!='의경 중대'){
+									return true;
+								}
+							}
 						    $('select#'+divName).append($('<option>', {
 						        value: res.data[index].codeNo,
 						        text : res.data[index].code1depth
@@ -174,7 +254,7 @@ function SelectpickerObj(){
 			});
 	}
 };
-function setSelectPickerTroops(){
+function setSelectPickerTroops(troopstype){
 	$.ajax({
 	 type: "GET",
 	 url:contextPath+'/code/list/troops', 
@@ -187,22 +267,74 @@ function setSelectPickerTroops(){
 				var code3depth = [];
 				var code4depth = [];
 				$.each(res.data, function (index, text) {
-					if($.inArray(text.code1depth, code1depth) == -1 ){
-						code1depth.push(text.code1depth)
+					if($.inArray(text.code1depth, code1depth) == -1 && text.code1depth!=null){
+						if(troopstype=='stand'){
+							if(text.code2depth!='경찰관 기동대'&&text.code2depth!='의경 중대'){
+								return true;
+							}
+						}else if(troopstype=='female'){
+							if(text.code2depth!='여경'){
+								return true;
+							}
+						}else if(troopstype=='indiv'){
+							if(text.code2depth!='경찰관 기동대'&&text.code2depth!='의경 중대'){
+								return true;
+							}
+						}
+						code1depth.push(text.code1depth);
 					}
 				});
 				$.each(res.data, function (index, text) {
-					if($.inArray(text.code2depth, code2depth) == -1 ){
+					if($.inArray(text.code2depth, code2depth) == -1 && text.code2depth!=null){
+						if(troopstype=='stand'){
+							if(text.code2depth!='경찰관 기동대'&&text.code2depth!='의경 중대'){
+								return true;
+							}
+						}else if(troopstype=='female'){
+							if(text.code2depth!='여경'){
+								return true;
+							}
+						}else if(troopstype=='indiv'){
+							if(text.code2depth!='경찰관 기동대'&&text.code2depth!='의경 중대'){
+								return true;
+							}
+						}
 						code2depth.push(text.code2depth)
 					}
 				});
 				$.each(res.data, function (index, text) {
-					if($.inArray(text.code3depth, code3depth) == -1 ){
+					if($.inArray(text.code3depth, code3depth) == -1 && text.code3depth!=null){
+						if(troopstype=='stand'){
+							if(text.code2depth!='경찰관 기동대'&&text.code2depth!='의경 중대'){
+								return true;
+							}
+						}else if(troopstype=='female'){
+							if(text.code2depth!='여경'){
+								return true;
+							}
+						}else if(troopstype=='indiv'){
+							if(text.code2depth!='경찰관 기동대'&&text.code2depth!='의경 중대'){
+								return true;
+							}
+						}
 						code3depth.push(text.code3depth)
 					}
 				});
 				$.each(res.data, function (index, text) {
-					if($.inArray(text.code4depth, code4depth) == -1 ){
+					if($.inArray(text.code4depth, code4depth) == -1 && text.code4depth!=null){
+						if(troopstype=='stand'){
+							if(text.code2depth!='경찰관 기동대'&&text.code2depth!='의경 중대'){
+								return true;
+							}
+						}else if(troopstype=='female'){
+							if(text.code2depth!='여경'){
+								return true;
+							}
+						}else if(troopstype=='indiv'){
+							if(text.code2depth!='경찰관 기동대'&&text.code2depth!='의경 중대'){
+								return true;
+							}
+						}
 						code4depth.push(text.code4depth)
 					}
 				});
@@ -291,4 +423,58 @@ function dateFormatterGmt (cellvalue, options, rowObject)
 {
     var format = 'YYYY-MM-DD';
     return moment(cellvalue).utcOffset(+900).format(format);
+}
+function setSelectPickerTroopsFemale(){
+	$.ajax({
+	 type: "GET",
+	 url:contextPath+'/code/list/troops_female', 
+		 contentType: "application/json; charset=utf-8",
+		 dataType: "json",
+		 success: function(res) {
+			 if(res.success){
+				var code1depth = [];
+				var code2depth = [];
+				var code3depth = [];
+				$.each(res.data, function (index, text) {
+					if($.inArray(text.code1depth, code1depth) == -1 && text.code1depth!=null ){
+						code1depth.push(text.code1depth)
+					}
+				});
+				$.each(res.data, function (index, text) {
+					if($.inArray(text.code2depth, code2depth) == -1 && text.code2depth!=null){
+						code2depth.push(text.code2depth)
+					}
+				});
+				$.each(res.data, function (index, text) {
+					if($.inArray(text.code3depth, code3depth) == -1 && text.code3depth!=null){
+						code3depth.push(text.code3depth)
+					}
+				});
+				$.each(code1depth, function (index, text) {
+				    $('select#code1_code1depth').append($('<option>', {
+				        value: text,
+				        text : text
+				    }));
+				});
+				$.each(code2depth, function (index, text) {
+				    $('select#code1_code2depth').append($('<option>', {
+				        value: text,
+				        text : text
+				    }));
+				});
+				$.each(code3depth, function (index, text) {
+				    $('select#code1_code3depth').append($('<option>', {
+				        value: text,
+				        text : text
+				    }));
+				});
+				$('.selectpicker').selectpicker('refresh')
+			 }else{
+					alert('데이터 조회를 실패하였습니다.');
+			 }
+		 },
+			error : function(res){
+					alert('데이터 조회를 실패하였습니다.');
+			}
+		});
 }

@@ -38,6 +38,8 @@
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/ref/font-awesome/css/font-awesome.min.css" />
 
 	<script src="${pageContext.request.contextPath}/ref/js/common.js"></script>
+	
+	<!-- 별도 css -->
 	<link href="${pageContext.request.contextPath}/ref/css/local.css" rel="stylesheet"/>
 	
     <script type="text/javascript">

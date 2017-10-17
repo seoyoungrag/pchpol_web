@@ -66,7 +66,7 @@ function popup(type, rowid){
 					<div class="col-sm-7 text-right" style="padding-right:30px;">
 						<button class="btn btn-default waves-effect waves-light" type="button" onclick="javascript:popup('reg');">등록</button>
 					</div>
-					<form onsubmit="gridReload(); return false" class="form-horizontal" role="form" id="noticeSearchForm" method="post" action="#" accept-charset="utf-8">
+					<form onsubmit="gridReload(); return false" class="form-horizontal" role="form" method="post" action="#" accept-charset="utf-8">
 						<div class="col-sm-12" style="">
 							<div class="card-box" style="margin-bottom:10px; padding-bottom:0px;">
 								<div class="row">

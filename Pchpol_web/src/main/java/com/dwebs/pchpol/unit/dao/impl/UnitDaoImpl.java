@@ -93,10 +93,42 @@ public class UnitDaoImpl implements UnitDao {
 		
 		//정렬순서조건이 있는경우 정렬순서 조건 쿼리를 생성한다.
 		if(!pagingVO.getSidx().equals("")&&!pagingVO.getSord().equals("")){
-			if(pagingVO.getSord().equals("asc")){
-				cQuery.orderBy(builder.asc(from.get(pagingVO.getSidx())));
+			if(pagingVO.getSidx().startsWith("code1.")){
+				if(pagingVO.getSord().equals("asc")){
+					cQuery.orderBy(builder.asc(from.get(Unit_.code1).get(pagingVO.getSidx().substring(pagingVO.getSidx().indexOf(".")+1))));
+				}else{
+					cQuery.orderBy(builder.desc(from.get(Unit_.code1).get(pagingVO.getSidx().substring(pagingVO.getSidx().indexOf(".")+1))));
+				}
+			}else if(pagingVO.getSidx().startsWith("code2.")){
+				if(pagingVO.getSord().equals("asc")){
+					cQuery.orderBy(builder.asc(from.get(Unit_.code2).get(pagingVO.getSidx().substring(pagingVO.getSidx().indexOf(".")+1))));
+				}else{
+					cQuery.orderBy(builder.desc(from.get(Unit_.code2).get(pagingVO.getSidx().substring(pagingVO.getSidx().indexOf(".")+1))));
+				}
+			}else if(pagingVO.getSidx().startsWith("code3.")){
+				if(pagingVO.getSord().equals("asc")){
+					cQuery.orderBy(builder.asc(from.get(Unit_.code3).get(pagingVO.getSidx().substring(pagingVO.getSidx().indexOf(".")+1))));
+				}else{
+					cQuery.orderBy(builder.desc(from.get(Unit_.code3).get(pagingVO.getSidx().substring(pagingVO.getSidx().indexOf(".")+1))));
+				}
+			}else if(pagingVO.getSidx().startsWith("code4.")){
+				if(pagingVO.getSord().equals("asc")){
+					cQuery.orderBy(builder.asc(from.get(Unit_.code4).get(pagingVO.getSidx().substring(pagingVO.getSidx().indexOf(".")+1))));
+				}else{
+					cQuery.orderBy(builder.desc(from.get(Unit_.code4).get(pagingVO.getSidx().substring(pagingVO.getSidx().indexOf(".")+1))));
+				}
+			}else if(pagingVO.getSidx().startsWith("code5.")){
+				if(pagingVO.getSord().equals("asc")){
+					cQuery.orderBy(builder.asc(from.get(Unit_.code5).get(pagingVO.getSidx().substring(pagingVO.getSidx().indexOf(".")+1))));
+				}else{
+					cQuery.orderBy(builder.desc(from.get(Unit_.code5).get(pagingVO.getSidx().substring(pagingVO.getSidx().indexOf(".")+1))));
+				}
 			}else{
-				cQuery.orderBy(builder.desc(from.get(pagingVO.getSidx())));
+				if(pagingVO.getSord().equals("asc")){
+					cQuery.orderBy(builder.asc(from.get(pagingVO.getSidx())));
+				}else{
+					cQuery.orderBy(builder.desc(from.get(pagingVO.getSidx())));
+				}
 			}
 		}
 		

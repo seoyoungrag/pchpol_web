@@ -87,20 +87,24 @@ public class CodeDaoImpl implements CodeDao {
 		
 		//검색조건이 있는 경우 검색조건 쿼리를 생성한다.
 		//지방청, 구분, 소속, 세부소속
-		if((code.getCodeCategory()!=null) && (!code.getCodeCategory().equals(""))){
-			restrictions.add(builder.equal(from.get(Code_.codeCategory), code.getCodeCategory()));
-		}
-		if((code.getCode1depth()!=null) && (!code.getCode1depth().equals(""))){
-			restrictions.add(builder.equal(from.get(Code_.code1depth), code.getCode1depth()));
-		}
-		if((code.getCode2depth()!=null) && (!code.getCode2depth().equals(""))){
-			restrictions.add(builder.equal(from.get(Code_.code2depth), code.getCode2depth()));
-		}
-		if((code.getCode3depth()!=null) && (!code.getCode3depth().equals(""))){
-			restrictions.add(builder.equal(from.get(Code_.code3depth), code.getCode3depth()));
-		}
-		if((code.getCode4depth()!=null) && (!code.getCode4depth().equals(""))){
-			restrictions.add(builder.equal(from.get(Code_.code4depth), code.getCode4depth()));
+		if((code.getCodeNo()!=0)){
+			restrictions.add(builder.equal(from.get(Code_.codeNo), code.getCodeNo()));
+		}else{
+			if((code.getCodeCategory()!=null) && (!code.getCodeCategory().equals(""))){
+				restrictions.add(builder.equal(from.get(Code_.codeCategory), code.getCodeCategory()));
+			}
+			if((code.getCode1depth()!=null) && (!code.getCode1depth().equals(""))){
+				restrictions.add(builder.equal(from.get(Code_.code1depth), code.getCode1depth()));
+			}
+			if((code.getCode2depth()!=null) && (!code.getCode2depth().equals(""))){
+				restrictions.add(builder.equal(from.get(Code_.code2depth), code.getCode2depth()));
+			}
+			if((code.getCode3depth()!=null) && (!code.getCode3depth().equals(""))){
+				restrictions.add(builder.equal(from.get(Code_.code3depth), code.getCode3depth()));
+			}
+			if((code.getCode4depth()!=null) && (!code.getCode4depth().equals(""))){
+				restrictions.add(builder.equal(from.get(Code_.code4depth), code.getCode4depth()));
+			}
 		}
 		
 		cQuery.where(restrictions.toArray(new Predicate[]{}));

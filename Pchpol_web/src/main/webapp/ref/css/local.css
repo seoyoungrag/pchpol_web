@@ -32,3 +32,8 @@
 .container-fluid
 :after
 ,
+
+.input-label{
+	font-size:14px;
+	font-weight:100;
+}

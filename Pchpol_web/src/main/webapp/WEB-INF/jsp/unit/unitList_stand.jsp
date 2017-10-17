@@ -7,7 +7,7 @@
 <script src="${pageContext.request.contextPath}/ref/js/common_board.js"></script>
 <script>
 jQuery(function ($) {
-	setSelectPickerTroops();
+	setSelectPickerTroops('stand');
 	getList();
 });    
 var listObj;
@@ -25,7 +25,7 @@ function getList(){
 	               	   		{name:'code1.code4depth', width:"70", align:"center"},
 	               	   		{name:'code2.code1depth', width:"70", align:"center"},
 	               	   		{name:'unitName', width:"70", index:'unitName', align:"center"},
-	               	   		{name:'code4.code1depth', width:"70", align:"center"},
+	               	   		{name:'code4.code1depth', index:'unitNo', width:"70", align:"center"},
 	               	   		{name:'unitPolId', width:"120", index:'unitPolId', align:"center"},
 	               	   		{name:'unitBirth',  width:"70", index:'unitBirth', align:"center"}	
 	               	   	];
@@ -44,6 +44,7 @@ function gridReload(){
 				)
 				,page:1
 				}).trigger("reloadGrid");
+	return false;
 }
 function popup(viewType, rowid){
    	var popWidth = 680;
@@ -79,7 +80,7 @@ function popup(viewType, rowid){
 					<div class="col-sm-7 text-right" style="padding-right:30px;">
 						<button class="btn btn-default waves-effect waves-light" type="button" onclick="javascript:popup('reg');">등록</button>
 					</div>
-					<form onsubmit="gridReload(); return false" class="form-horizontal" role="form" id="noticeSearchForm" method="post" action="#" accept-charset="utf-8">
+					<form onsubmit="gridReload(); return false" class="form-horizontal" role="form" method="post" action="#" accept-charset="utf-8">
 						<div class="col-sm-12" style="">
 							<div class="card-box" style="margin-bottom:10px; padding-bottom:0px;">
 								<div class="row">
@@ -88,22 +89,22 @@ function popup(viewType, rowid){
 											<div class="col-xs-1 col-sm-3 col-md-3 col-lg-6"></div>
 											<div class="col-xs-5 col-sm-5 col-md-5 col-lg-4 text-right">
 												<label>
-												<select class="selectpicker form-control"  data-size="15" required data-width="auto" name="code1.code1depth" id="code1_code1depth">
+												<select class="selectpicker form-control"  data-size="15" data-width="auto" id="code1_code1depth">
 													<option value="">지방청</option>
 												</select>
 												</label>
 												<label>
-												<select class="selectpicker form-control"  data-size="15" required data-width="auto" name="code1.code2depth" id="code1_code2depth">
+												<select class="selectpicker form-control"  data-size="15" data-width="auto" id="code1_code2depth">
 													<option value="">구분</option>
 												</select>
 												</label>
 												<label>
-												<select class="selectpicker form-control"  data-size="15" required data-width="auto" name="code1.code3depth" id="code1_code3depth">
+												<select class="selectpicker form-control"  data-size="15" data-width="auto" id="code1_code3depth">
 													<option value="">부대명</option>
 												</select>
 												</label>
 												<label>
-												<select class="selectpicker form-control"  data-size="15" required data-width="auto" name="code1.code4depth" id="code1_code4depth">
+												<select class="selectpicker form-control"  data-size="15" data-width="auto" name="code1.code4depth" id="code1_code4depth">
 													<option value="">세부소속</option>
 												</select>
 												</label>

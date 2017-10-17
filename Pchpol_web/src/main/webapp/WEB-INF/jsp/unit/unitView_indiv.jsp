@@ -12,6 +12,7 @@ jQuery(document).ready(function($) {
 		selectpickerObj = new SelectpickerObj();
 		selectpickerObj.divName = 'code1_code2depth';
 		selectpickerObj.category = 'troops';
+		selectpickerObj.troopstype = 'indiv';
 		selectpickerObj.depth = '2';
 		selectpickerObj.parentVal = [$("#code1_code1depth").val()]; 
 		$('#code1_code2depth').html('<option value="">구분 선택</option>');
@@ -46,6 +47,7 @@ jQuery(document).ready(function($) {
 		selectpickerObj = new SelectpickerObj();
 		selectpickerObj.divName = 'code1_code1depth'; //지방청
 		selectpickerObj.category = 'troops';
+		selectpickerObj.troopstype = 'indiv';
 		selectpickerObj.depth = '1';
 		selectpickerObj.setByCode();
 		selectpickerObj = new SelectpickerObj();
@@ -78,7 +80,7 @@ function getViewById(id){
 		$("#troopsCodeNo").val(res.data.code1.codeNo); //소속
 		$("#rankCodeNo").val(res.data.code2.codeNo); //계급
 		$("#mobilfunctionNo").val(res.data.code3.codeNo); //기능
-		$("#workplaceNo").val(res.data.code3.codeNo); //배치지역, 배치장소, 임무
+		$("#workplaceNo").val(res.data.code5.codeNo); //배치지역, 배치장소, 임무
 
 		dropdwonOption.submitFieldName =  "unitMobilStartDt";
 		dropdwonOption.defaultDate = dateFormatterGmt(res.data.unitMobilStartDt);
@@ -94,6 +96,7 @@ function getViewById(id){
 		selectpickerObj = new SelectpickerObj();
 		selectpickerObj.divName = 'code1_code1depth'; //지방청
 		selectpickerObj.category = 'troops';
+		selectpickerObj.troopstype = 'indiv';
 		selectpickerObj.depth = '1';
 		selectpickerObj.selectVal = res.data.code1.code1depth;
 		selectpickerObj.setByCode();
