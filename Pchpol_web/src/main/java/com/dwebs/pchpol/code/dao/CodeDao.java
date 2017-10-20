@@ -87,4 +87,18 @@ public interface CodeDao {
 	 */
 	int getTotCntByCode(PagingVO pagingVO, Code troopsSearch);
 
+	/**
+	 * <PRE>
+	 * 1. MethodName : getCodeList
+	 * 2. ClassName  : CodeDao
+	 * 3. Comment   : 
+	 * 4. 작성자    : yrseo
+	 * 5. 작성일    : 2017. 10. 19. 오후 12:03:02
+	 * </PRE>
+	 *   @return List<Code>
+	 *   @param searchTroops
+	 *   @return
+	 */
+	List<Code> getCodeList(Code searchTroops);
+
 }

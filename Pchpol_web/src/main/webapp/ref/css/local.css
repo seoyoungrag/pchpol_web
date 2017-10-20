@@ -37,3 +37,5 @@
 	font-size:14px;
 	font-weight:100;
 }
+
+.ui-jqgrid tr.jqgrow td {vertical-align:middle !important}

@@ -117,6 +117,8 @@ jQuery(document).ready(function($) {
 	});
 	if('${viewType}'=='view'){
 		getViewById('${unitNo}');
+		$(".header-title").html("상설 부대원 수정하기");
+		$("#submitBtn").html("상설 부대원 수정하기");
 	}else if('${viewType}'=='reg'){
 		selectpickerObj = new SelectpickerObj();
 		selectpickerObj.divName = 'code1_code1depth';
@@ -138,7 +140,7 @@ jQuery(document).ready(function($) {
 	<!-- Start content -->
 		<div class="content">
 			<div class="container leftright-padding">
-				<h4 class="m-t-0 header-title popup-title">
+				<h4 class="m-t-0 header-title popup-title text-center">
 					<span>상설 부대원 추가하기</span>
 				</h4>
 				<div class="col-lg-12">
@@ -206,12 +208,12 @@ jQuery(document).ready(function($) {
 									<input class="form-control" required="" type="text" placeholder="폴넷아이디를 입력 하세요" name="unitPolId" id="unitPolId" required>
 								</div>
 							</div>
-							<div class="form-group encdecButton">
-								<div class="col-sm-offset-3 col-sm-9 text-right">
-									<button class="btn btn-primary waves-effect waves-light" id="submitBtn">
-										확인
+							<div class="form-group">
+								<div class="text-center">
+									<button class="btn btn-silver btn-rounded waves-effect" id="submitBtn">
+										상설 부대원 추가하기
 									</button>
-									<button class="btn btn-default waves-effect m-l-5" onclick="javascript:self.close();">
+									<button class="btn btn-default btn-rounded waves-effect" onclick="javascript:self.close();">
 										취소
 									</button>
 								</div>

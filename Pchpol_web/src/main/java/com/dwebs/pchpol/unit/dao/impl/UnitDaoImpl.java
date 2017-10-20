@@ -60,7 +60,9 @@ public class UnitDaoImpl implements UnitDao {
 		Root<Unit> from = cQuery.from(Unit.class);
 
 		List<Predicate> restrictions = new ArrayList<Predicate>();
-		restrictions.add(builder.equal(from.get(Unit_.troopsType), unit.getTroopsType()));
+		if(unit.getTroopsType()!=null){
+			restrictions.add(builder.equal(from.get(Unit_.troopsType), unit.getTroopsType()));
+		}
 		
 		//검색조건이 있는 경우 검색조건 쿼리를 생성한다.
 		if(!pagingVO.getSearchType().equals("")){

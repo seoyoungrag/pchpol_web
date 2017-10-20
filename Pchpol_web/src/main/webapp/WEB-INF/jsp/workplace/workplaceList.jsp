@@ -12,9 +12,7 @@ jQuery(function ($) {
 });    
 var listObj;
 function getList(){
-	function nonAction(rowid){
-		
-	}
+	function nonAction(rowid){}
 	listObj = new ListObj();
 	listObj.grid = "#list-grid";
 	listObj.pager = "#list-pager";
@@ -34,10 +32,10 @@ function gridReload(){
 	jQuery(listObj.grid).jqGrid('setGridParam',{
 		url:encodeURI(
 				listObj.url
-				+"&code1depth="+jQuery("#code1_code1depth").val()
-				+"&code2depth="+jQuery("#code1_code2depth").val()
-				+"&code3depth="+jQuery("#code1_code3depth").val()
-				+"&code4depth="+jQuery("#code1_code4depth").val()
+				+"&code1depth="+jQuery("#workplace_code1depth").val()
+				+"&code2depth="+jQuery("#workplace_code2depth").val()
+				+"&code3depth="+jQuery("#workplace_code3depth").val()
+				+"&code4depth="+jQuery("#workplace_code4depth").val()
 				+"&searchType=codeCategory&searchValue=troops"
 				)
 				,page:1
@@ -72,36 +70,28 @@ function gridReload(){
 									<div class="col-md-12">
 										<div class="row">
 											<div class="col-xs-1 col-sm-3 col-md-3 col-lg-7"></div>
-											<div class="col-xs-5 col-sm-5 col-md-5 col-lg-4 text-right">
+											<div class="col-xs-8 col-sm-7 col-md-7 col-lg-5 text-right" style="margin-bottom:10px;">
 												<label>
-												<select class="selectpicker form-control"  data-size="15" data-width="auto" id="code1_code1depth">
+												<select class="selectpicker form-control"  data-size="15" data-width="auto" id="workplace_code1depth">
 													<option value="">지역</option>
 												</select>
 												</label>
 												<label>
-												<select class="selectpicker form-control"  data-size="15" data-width="auto" id="code1_code2depth">
+												<select class="selectpicker form-control"  data-size="15" data-width="auto" id="workplace_code2depth">
 													<option value="">대회시설</option>
 												</select>
 												</label>
 												<label>
-												<select class="selectpicker form-control"  data-size="15" data-width="auto" id="code1_code3depth">
+												<select class="selectpicker form-control"  data-size="15" data-width="auto" id="workplace_code3depth">
 													<option value="">근무지</option>
 												</select>
 												</label>
 												<label>
-												<select class="selectpicker form-control"  data-size="15" data-width="auto" name="code1.code4depth" id="code1_code4depth">
+												<select class="selectpicker form-control"  data-size="15" data-width="auto" name="code1.code4depth" id="workplace_code4depth">
 													<option value="">세부구분</option>
 												</select>
 												</label>
-											</div>
-											<div class="col-xs-3 col-sm-2 col-md-2 col-lg-1">
-											<label>
-												<div class="form-group" style="margin-bottom:10px;">
-													<div class="col-md-12 text-left">
-														<button class="btn btn-primary waves-effect waves-light" type="button" onclick="gridReload();">검색</button>
-													</div>
-												</div>
-											</label>
+												<button class="btn btn-silver btn-rounded waves-effect waves-light" type="button" onclick="gridReload();">검색</button>
 											</div>
 										</div>
 									</div>

@@ -39,7 +39,7 @@ public class TroopsPlacementWithFacilities implements Serializable{
 	private static final long serialVersionUID = -3825871477237923447L;
 	
 	Code troops;
-	Code workspace;
+	Code workplace;
 	List<Facility> foodFacility = new ArrayList<Facility>();
 	List<Facility> bedFacility = new ArrayList<Facility>();
 	private Date facilityMobilEndDt;
@@ -50,11 +50,11 @@ public class TroopsPlacementWithFacilities implements Serializable{
 	public void setTroops(Code troops) {
 		this.troops = troops;
 	}
-	public Code getWorkspace() {
-		return workspace;
+	public Code getWorkplace() {
+		return workplace;
 	}
-	public void setWorkspace(Code workspace) {
-		this.workspace = workspace;
+	public void setWorkplace(Code workplace) {
+		this.workplace = workplace;
 	}
 	public List<Facility> getFoodFacility() {
 		return foodFacility;

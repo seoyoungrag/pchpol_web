@@ -15,6 +15,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 /**
  * The persistent class for the UNIT database table.
@@ -75,6 +77,7 @@ public class Unit implements Serializable {
 	private Code code5;
 	
 	//bi-directional many-to-one association to WorkplacePlacementDetail
+	@JsonIgnore
 	@OneToMany(mappedBy="unit")
 	private List<WorkplacePlacementDetail> workplacePlacementDetails;
 

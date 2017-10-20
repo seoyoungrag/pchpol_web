@@ -30,7 +30,7 @@
 	align: center;
 }
 
-select[name^="unitMobilStartDt_"],select[name^="unitMobilEndDt_"] {
+select[name^="unitMobilStartDt_"],select[name^="unitMobilEndDt_"],select[name^="mobilDate_"] {
 	margin-left: 0;
 	padding-right: 25px;
 	z-index: 1;

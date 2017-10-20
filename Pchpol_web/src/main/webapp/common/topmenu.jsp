@@ -56,7 +56,7 @@
 						<li><a
 							href="${pageContext.request.contextPath}/workplace/list.do">근무지 리스트</a></li>
 						<li><a
-							href="${pageContext.request.contextPath}/workplace/list.do?type=troops">입력 및 수정(상설부대 배치 리스트)</a></li>
+							href="${pageContext.request.contextPath}/workplace/troopsWorkplacePlacementList.do">상설 부대 배치</a></li>
 					</ul>
 				</li>
 				<li class="dropdown">
@@ -65,18 +65,18 @@
 					role="button" aria-expanded="false" aria-haspopup="true" href="#"
 					data-toggle="dropdown">근무 정보 <span class="caret"></span></a>
 					<ul class="dropdown-menu">
-						<li><a href="${pageContext.request.contextPath}/workplace/list.do?type=placement">근무 정보</a></li>
-						<li><a href="${pageContext.request.contextPath}/board/list.do?type=work">근무 일지 작성(상세페이지없음)</a></li>
+						<li><a href="${pageContext.request.contextPath}/workplace/troopsWorkplacePlacementDetailList.do">근무 정보</a></li>
+						<li><a href="${pageContext.request.contextPath}/board/list.do?type=work">근무 일지</a></li>
 					</ul>
 				</li>
 				<li class="dropdown">
 				<a
 					class="dropdown-toggle waves-effect waves-primary forscreensize"
 					role="button" aria-expanded="false" aria-haspopup="true" href="#"
-					data-toggle="dropdown">상황/건의사항 <span class="caret"></span></a>
+					data-toggle="dropdown">게시판 <span class="caret"></span></a>
 					<ul class="dropdown-menu">
-						<li><a href="${pageContext.request.contextPath}/board/list.do">상황/건의사항(상세페이지 없음)</a></li>
-						<li><a href="${pageContext.request.contextPath}/board/list.do?type=work">근무 일지 작성(중복)</a></li>
+						<li><a href="${pageContext.request.contextPath}/board/list.do">상황/건의사항</a></li>
+						<li><a href="${pageContext.request.contextPath}/board/list.do">공지사항</a></li>
 					</ul>
 				</li>
 			</ul>

@@ -72,6 +72,14 @@ public class CodeServieImpl implements CodeService {
 		return codeDao.getTotCntByCode(pagingVO, troopsSearch);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.dwebs.pchpol.code.service.CodeService#getCodeList(com.dwebs.pchpol.model.Code)
+	 */
+	@Override
+	public List<Code> getCodeList(Code searchTroops) {
+		return codeDao.getCodeList(searchTroops);
+	}
+
 
 
 }

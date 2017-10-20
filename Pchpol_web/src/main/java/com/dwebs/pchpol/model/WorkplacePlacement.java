@@ -1,17 +1,19 @@
 package com.dwebs.pchpol.model;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
@@ -26,12 +28,12 @@ public class WorkplacePlacement implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="WORKPLACE_PLACEMENT_NO")
 	private int workplacePlacementNo;
 
 	@Column(name="WORKPLACE_PLACEMENT_WORK_DT")
-	private Timestamp workplacePlacementWorkDt;
+	private Date workplacePlacementWorkDt;
 
 	//bi-directional many-to-one association to Code
 	@ManyToOne
@@ -44,8 +46,8 @@ public class WorkplacePlacement implements Serializable {
 	private Code code2;
 
 	//bi-directional one-to-one association to WorkplacePlacementDetail
-	@OneToOne(mappedBy="workplacePlacement")
-	private WorkplacePlacementDetail workplacePlacementDetail;
+	@OneToMany(mappedBy="workplacePlacement", fetch=FetchType.EAGER)
+	private List<WorkplacePlacementDetail> workplacePlacementDetail;
 
 	public WorkplacePlacement() {
 	}
@@ -58,11 +60,11 @@ public class WorkplacePlacement implements Serializable {
 		this.workplacePlacementNo = workplacePlacementNo;
 	}
 
-	public Timestamp getWorkplacePlacementWorkDt() {
-		return this.workplacePlacementWorkDt;
+	public Date getWorkplacePlacementWorkDt() {
+		return workplacePlacementWorkDt;
 	}
 
-	public void setWorkplacePlacementWorkDt(Timestamp workplacePlacementWorkDt) {
+	public void setWorkplacePlacementWorkDt(Date workplacePlacementWorkDt) {
 		this.workplacePlacementWorkDt = workplacePlacementWorkDt;
 	}
 
@@ -82,12 +84,13 @@ public class WorkplacePlacement implements Serializable {
 		this.code2 = code2;
 	}
 
-	public WorkplacePlacementDetail getWorkplacePlacementDetail() {
-		return this.workplacePlacementDetail;
+	public List<WorkplacePlacementDetail> getWorkplacePlacementDetail() {
+		return workplacePlacementDetail;
 	}
 
-	public void setWorkplacePlacementDetail(WorkplacePlacementDetail workplacePlacementDetail) {
+	public void setWorkplacePlacementDetail(List<WorkplacePlacementDetail> workplacePlacementDetail) {
 		this.workplacePlacementDetail = workplacePlacementDetail;
 	}
+
 
 }

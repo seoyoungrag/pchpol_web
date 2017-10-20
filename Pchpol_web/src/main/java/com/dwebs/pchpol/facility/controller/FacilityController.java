@@ -106,23 +106,22 @@ public class FacilityController extends BaseController {
 		pagingVO.setSearchWord("troops");
 		try {
 			List<Code> troopsList = codeService.getCodeListByCode(pagingVO, troopsSearch); //페이징 및 검색 기준은 부대기준이다.
+			//부대vo하면 관계되어있는 근무지배치정보를 가져올 수 있다.
 			//바로 부대별근무지 테이블을 읽어오지 않고 부대별 테이블을 읽은 후에 부대별 근무지를 조회하는 이유는, 아직 배치되지 않은 부대 정보들도 가지고 오기 위함이다.
-			for(Code troops : troopsList){ //부대별로 근무지를 셋팅한다. 
+			for(Code troops : troopsList){ 
 				TroopsPlacementWithFacilities tpwf = new TroopsPlacementWithFacilities();
 				list.add(tpwf);
+				//부대별로 근무지를 셋팅한다.
 				tpwf.setTroops(troops);
-				
-				TroopsPlacement troopsWorkplaceSearch = new TroopsPlacement();
-				troopsWorkplaceSearch.setCode1(troops);
-				//부대별 배치정보를 가져온다.
-				TroopsPlacement troopsWorkplace = troopsService.getTroopsWorkplace(troopsWorkplaceSearch); 
-				tpwf.setWorkspace(troopsWorkplace.getCode2());
-
-				TroopsFacilityPlacement troopsFacilitySearch = new TroopsFacilityPlacement();
-				troopsFacilitySearch.setCode(troops);
-				//부대별 시설정보를 가져온다.
-				List<TroopsFacilityPlacement> troopsFacilityList = troopsService.getTroopsFacilityListByTroops(troopsFacilitySearch);
+				List<TroopsPlacement> tp = troops.getTroopsPlacements2();
+				if(tp.size()>0){
+					tpwf.setWorkplace(tp.get(0).getCode2());
+				}
+				//부대별로 시설정보를 셋팅한다.
+				List<TroopsFacilityPlacement> troopsFacilityList = troops.getTroopsFacilityPlacements();
 				for(TroopsFacilityPlacement f : troopsFacilityList){
+					tpwf.setFacilityMobilStartDt(f.getTroopsFacilityMobilStartDt());
+					tpwf.setFacilityMobilEndDt(f.getTroopsFacilityMobilEndDt());
 					//시설별로 숙영, 급식 시설을 분류한다.
 					if(f.getFacility()!=null && f.getFacility().getFacilityType().equals("food")){
 						tpwf.getFoodFacility().add(f.getFacility());

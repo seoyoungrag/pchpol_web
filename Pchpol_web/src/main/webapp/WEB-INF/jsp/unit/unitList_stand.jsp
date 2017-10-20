@@ -74,11 +74,8 @@ function popup(viewType, rowid){
 		<div id="content-page" class="content-page">
 			<div class="content" style="margin-top:60px;">
 				<div class="container" style="">
-					<div class="col-sm-5">
+					<div class="col-sm-12">
 						<h4 class="m-t-0 header-title" style="padding:10px;"><b>상설부대원 리스트</b></h4>
-					</div>
-					<div class="col-sm-7 text-right" style="padding-right:30px;">
-						<button class="btn btn-default waves-effect waves-light" type="button" onclick="javascript:popup('reg');">등록</button>
 					</div>
 					<form onsubmit="gridReload(); return false" class="form-horizontal" role="form" method="post" action="#" accept-charset="utf-8">
 						<div class="col-sm-12" style="">
@@ -116,7 +113,7 @@ function popup(viewType, rowid){
 														<input type="text" id="searchWord" class="form-control form-control-middle" placeholder="" value="">
 													</div>
 													<div class="col-md-4 text-left">
-														<button class="btn btn-primary waves-effect waves-light" type="button" onclick="gridReload();">검색</button>
+														<button class="btn btn-silver btn-rounded waves-effect waves-light" type="button" onclick="gridReload();">검색</button>
 													</div>
 												</div>
 											</label>
@@ -129,9 +126,18 @@ function popup(viewType, rowid){
 					</form>
 					<div class="col-lg-12" >
 						<div class="card-box">
-					        <div>
+					        <div class="row">
 								<table id="list-grid" style="width:98%;"></table>
 								<div id="list-pager"></div>
+							</div>
+							<div class="row">
+								<div class="col-sm-6 text-left" style="padding-top: 20px;">
+									<button class="btn btn-inverse waves-effect waves-light" type="button" onclick="#">전체 엑셀 다운로드</button>
+									<button class="btn btn-inverse waves-effect waves-light" type="button" onclick="#">선택 검색 다운로드</button>
+								</div>
+								<div class="col-sm-6 text-right" style="padding-top: 20px;">
+									<button class="btn btn-silver btn-rounded waves-effect waves-light" type="button" onclick="javascript:popup('reg');">상설 부대원 추가하기</button>
+								</div>
 							</div>
 						</div>
 					</div>

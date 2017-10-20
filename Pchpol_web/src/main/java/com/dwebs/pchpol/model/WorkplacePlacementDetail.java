@@ -4,13 +4,13 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 
@@ -25,10 +25,7 @@ public class WorkplacePlacementDetail implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="WORKPLACE_PLACEMENT_NO")
-	private int workplacePlacementNo;
-
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="WORKPLACE_PLACEMENT_DETAIL_NO")
 	private int workplacePlacementDetailNo;
 
@@ -36,7 +33,7 @@ public class WorkplacePlacementDetail implements Serializable {
 	private String workplacePlacementDetailWorkTime;
 
 	//bi-directional one-to-one association to WorkplacePlacement
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name="WORKPLACE_PLACEMENT_NO")
 	private WorkplacePlacement workplacePlacement;
 
@@ -46,14 +43,6 @@ public class WorkplacePlacementDetail implements Serializable {
 	private Unit unit;
 
 	public WorkplacePlacementDetail() {
-	}
-
-	public int getWorkplacePlacementNo() {
-		return this.workplacePlacementNo;
-	}
-
-	public void setWorkplacePlacementNo(int workplacePlacementNo) {
-		this.workplacePlacementNo = workplacePlacementNo;
 	}
 
 	public int getWorkplacePlacementDetailNo() {

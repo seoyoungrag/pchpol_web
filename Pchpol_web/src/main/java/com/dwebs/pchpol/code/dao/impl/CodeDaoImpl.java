@@ -21,6 +21,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -119,7 +120,7 @@ public class CodeDaoImpl implements CodeDao {
 	 * @see com.dwebs.pchpol.code.dao.CodeDao#getCodeListByCode(com.dwebs.pchpol.common.vo.PagingVO, com.dwebs.pchpol.model.Code)
 	 */
 	@Override
-	public List<Code> getCodeListByCode(PagingVO pagingVO, Code troopsSearch) {
+	public List<Code> getCodeListByCode(PagingVO pagingVO, Code code) {
 		EntityManager em = emf.createEntityManager();
 		//기본 select ~ from ~ 쿼리를 생성한다.
 		CriteriaBuilder builder = em.getCriteriaBuilder();
@@ -127,36 +128,36 @@ public class CodeDaoImpl implements CodeDao {
 		Root<Code> from = cQuery.from(Code.class);
 
 		List<Predicate> restrictions = new ArrayList<Predicate>();
-		
+
 		//검색조건이 있는 경우 검색조건 쿼리를 생성한다.
 		if(!pagingVO.getSearchType().equals("")){
 			restrictions.add(builder.equal(from.<String>get(pagingVO.getSearchType()), pagingVO.getSearchWord()));
 		}
 
 		//지방청, 구분, 소속, 세부소속
-		if(troopsSearch!=null){
-			if((troopsSearch.getCode1depth()!=null) && (!troopsSearch.getCode1depth().equals(""))){
-				restrictions.add(builder.equal(from.get(Code_.code1depth), troopsSearch.getCode1depth()));
+		if(code!=null){
+			if((code.getCode1depth()!=null) && (!code.getCode1depth().equals(""))){
+				restrictions.add(builder.equal(from.get(Code_.code1depth), code.getCode1depth()));
 			}
-			if((troopsSearch.getCode2depth()!=null) && (!troopsSearch.getCode2depth().equals(""))){
-				restrictions.add(builder.equal(from.get(Code_.code2depth), troopsSearch.getCode2depth()));
+			if((code.getCode2depth()!=null) && (!code.getCode2depth().equals(""))){
+				restrictions.add(builder.equal(from.get(Code_.code2depth), code.getCode2depth()));
 			}
-			if((troopsSearch.getCode3depth()!=null) && (!troopsSearch.getCode3depth().equals(""))){
-				restrictions.add(builder.equal(from.get(Code_.code3depth), troopsSearch.getCode3depth()));
+			if((code.getCode3depth()!=null) && (!code.getCode3depth().equals(""))){
+				restrictions.add(builder.equal(from.get(Code_.code3depth), code.getCode3depth()));
 			}
-			if((troopsSearch.getCode4depth()!=null) && (!troopsSearch.getCode4depth().equals(""))){
-				restrictions.add(builder.equal(from.get(Code_.code4depth), troopsSearch.getCode4depth()));
+			if((code.getCode4depth()!=null) && (!code.getCode4depth().equals(""))){
+				restrictions.add(builder.equal(from.get(Code_.code4depth), code.getCode4depth()));
 			}
 		}
-		
 		cQuery.where(restrictions.toArray(new Predicate[]{}));
 		
 		//정렬순서조건이 있는경우 정렬순서 조건 쿼리를 생성한다.
 		if(!pagingVO.getSidx().equals("")&&!pagingVO.getSord().equals("")){
+			Expression<?> e = from.get(pagingVO.getSidx());
 			if(pagingVO.getSord().equals("asc")){
-				cQuery.orderBy(builder.asc(from.get(pagingVO.getSidx())));
+				cQuery.orderBy(builder.asc(e));
 			}else{
-				cQuery.orderBy(builder.desc(from.get(pagingVO.getSidx())));
+				cQuery.orderBy(builder.desc(e));
 			}
 		}
 		
@@ -216,6 +217,48 @@ public class CodeDaoImpl implements CodeDao {
 		Long result = em.createQuery(cQuery).getSingleResult();
 		
 		return result.intValue();
+	}
+
+	/* (non-Javadoc)
+	 * @see com.dwebs.pchpol.code.dao.CodeDao#getCodeList(com.dwebs.pchpol.model.Code)
+	 */
+	@Override
+	public List<Code> getCodeList(Code code) {
+		EntityManager em = emf.createEntityManager();
+		//기본 select ~ from ~ 쿼리를 생성한다.
+		CriteriaBuilder builder = em.getCriteriaBuilder();
+		CriteriaQuery<Code> cQuery = builder.createQuery(Code.class);
+		Root<Code> from = cQuery.from(Code.class);
+
+		List<Predicate> restrictions = new ArrayList<Predicate>();
+		
+		//검색조건이 있는 경우 검색조건 쿼리를 생성한다.
+		//지방청, 구분, 소속, 세부소속
+		if((code.getCodeNo()!=0)){
+			restrictions.add(builder.equal(from.get(Code_.codeNo), code.getCodeNo()));
+		}else{
+			if((code.getCodeCategory()!=null) && (!code.getCodeCategory().equals(""))){
+				restrictions.add(builder.equal(from.get(Code_.codeCategory), code.getCodeCategory()));
+			}
+			if((code.getCode1depth()!=null) && (!code.getCode1depth().equals(""))){
+				restrictions.add(builder.equal(from.get(Code_.code1depth), code.getCode1depth()));
+			}
+			if((code.getCode2depth()!=null) && (!code.getCode2depth().equals(""))){
+				restrictions.add(builder.equal(from.get(Code_.code2depth), code.getCode2depth()));
+			}
+			if((code.getCode3depth()!=null) && (!code.getCode3depth().equals(""))){
+				restrictions.add(builder.equal(from.get(Code_.code3depth), code.getCode3depth()));
+			}
+			if((code.getCode4depth()!=null) && (!code.getCode4depth().equals(""))){
+				restrictions.add(builder.equal(from.get(Code_.code4depth), code.getCode4depth()));
+			}
+		}
+		
+		cQuery.where(restrictions.toArray(new Predicate[]{}));
+		
+		//생성한 쿼리를 실행한다.
+		TypedQuery<Code> typedQuery = em.createQuery(cQuery);
+		return typedQuery.getResultList();
 	}
 
 

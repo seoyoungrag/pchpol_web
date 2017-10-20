@@ -23,8 +23,8 @@ function getList(){
 	               	   		{name:'troops.code2depth', index:'code2depth', width:"70", align: "center"},
 	               	   		{name:'troops.code3depth', index:'code3depth', width:"70", align: "center"},
 	               	   		{name:'troops.code4depth', index:'code4depth', width:"70", align:"center"},
-	               	   		{name:'workspace.code1depth', sortable:false, width:"70", align:"center"},
-	               	 		{name:'workspace.code2depth', sortable:false, width:"70", align:"center"},
+	               	   		{name:'workplace.code1depth', index: 'troopsPlacements2.code2.code1depth', width:"70", align:"center"},
+	               	 		{name:'workplace.code2depth', index: 'troopsPlacements2.code2.code2depth', width:"70", align:"center"},
 	               	 		{name:'facilityMobilStartDt', sortable:false,  width:"70", align:"center", formatter:dateFormatterGmt},
 	               	 		{name:'facilityMobilEndDt', sortable:false,  width:"70", align:"center", formatter:dateFormatterGmt},
 	               	 		{name:'bedFacility', sortable:false, width:"70", align:"center"},
@@ -84,7 +84,7 @@ function popup(viewType, rowid){
 									<div class="col-md-12">
 										<div class="row">
 											<div class="col-xs-1 col-sm-3 col-md-3 col-lg-7"></div>
-											<div class="col-xs-5 col-sm-5 col-md-5 col-lg-4 text-right">
+											<div class="col-xs-8 col-sm-7 col-md-7 col-lg-5 text-right" style="margin-bottom:10px;">
 												<label>
 												<select class="selectpicker form-control"  data-size="15" data-width="auto" id="code1_code1depth">
 													<option value="">지방청</option>
@@ -105,15 +105,7 @@ function popup(viewType, rowid){
 													<option value="">세부소속</option>
 												</select>
 												</label>
-											</div>
-											<div class="col-xs-3 col-sm-2 col-md-2 col-lg-1">
-											<label>
-												<div class="form-group" style="margin-bottom:10px;">
-													<div class="col-md-12 text-left">
-														<button class="btn btn-primary waves-effect waves-light" type="button" onclick="gridReload();">검색</button>
-													</div>
-												</div>
-											</label>
+												<button class="btn btn-silver btn-rounded waves-effect waves-light" type="button" onclick="gridReload();">검색</button>
 											</div>
 										</div>
 									</div>

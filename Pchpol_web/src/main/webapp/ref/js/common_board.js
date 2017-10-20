@@ -8,6 +8,7 @@ function ListObj(){
 	this.jqgrid = function(onSelectRow, loadError, loadComplete){
 		var idColName = this.idColName;
 	   	jQuery(this.grid).jqGrid({
+	   		recordtext: "{0} - {1} / {2}",
 	   		url : this.url,
 	   		datatype: "json",
 	   		jsonReader : {
@@ -91,6 +92,7 @@ function SelectpickerObj(){
 	this.selectVal;
 	this.parentVal;
 	this.troopstype;
+	this.restrictValue;
 	this.setByCode = function(callbackFunc){
 		var divName = this.divName;
 		var category = this.category;
@@ -98,6 +100,7 @@ function SelectpickerObj(){
 		var selectVal = this.selectVal;
 		var parentVal = this.parentVal;
 		var troopstype = this.troopstype;
+		var restrictValue = this.restrictValue;
 		$.ajax({
 		 type: "GET",
 		 url:contextPath+'/code/list/'+category, 
@@ -124,7 +127,16 @@ function SelectpickerObj(){
 											return true;
 										}
 									}
-									codes.push(text.code1depth);
+									if(typeof restrictValue !== 'undefined'){
+										$.each(restrictValue, function(index, restrictText){
+											if(restrictText.code1depth==text.code1depth){
+												codes.push(text.code1depth);
+												return false;
+											}
+										});
+									}else{
+										codes.push(text.code1depth);
+									}
 								}
 							});
 						}else if(depth=='2'){
@@ -143,8 +155,19 @@ function SelectpickerObj(){
 											return true;
 										}
 									}
-									if(text.code1depth==parentVal[0]){
-										codes.push(text.code2depth);
+									if(typeof restrictValue !== 'undefined'){
+										$.each(restrictValue, function(index, restrictText){
+											if(restrictText.code1depth==text.code1depth
+												&&restrictText.code2depth==text.code2depth
+												){
+												codes.push(text.code2depth);
+												return false;
+											}
+										});
+									}else{
+										if(text.code1depth==parentVal[0]){
+											codes.push(text.code2depth);
+										}
 									}
 								}
 							});
@@ -164,8 +187,20 @@ function SelectpickerObj(){
 											return true;
 										}
 									}
-									if(text.code1depth==parentVal[0]&&text.code2depth==parentVal[1]){
-										codes.push(text.code3depth);
+									if(typeof restrictValue !== 'undefined'){
+										$.each(restrictValue, function(index, restrictText){
+											if(restrictText.code1depth==text.code1depth
+												&&restrictText.code2depth==text.code2depth
+												&&restrictText.code3depth==text.code3depth
+												){
+												codes.push(text.code3depth);
+												return false;
+											}
+										});
+									}else{
+										if(text.code1depth==parentVal[0]&&text.code2depth==parentVal[1]){
+											codes.push(text.code3depth);
+										}
 									}
 								}
 							});
@@ -185,8 +220,21 @@ function SelectpickerObj(){
 											return true;
 										}
 									}
-									if(text.code1depth==parentVal[0]&&text.code2depth==parentVal[1]&&text.code3depth==parentVal[2]){
-										codes.push(text.code4depth);
+									if(typeof restrictValue !== 'undefined'){
+										$.each(restrictValue, function(index, restrictText){
+											if(restrictText.code1depth==text.code1depth
+												&&restrictText.code2depth==text.code2depth
+												&&restrictText.code3depth==text.code3depth
+												&&restrictText.code4depth==text.code4depth
+												){
+												codes.push(text.code4depth);
+												return false;
+											}
+										});
+									}else{
+										if(text.code1depth==parentVal[0]&&text.code2depth==parentVal[1]&&text.code3depth==parentVal[2]){
+											codes.push(text.code4depth);
+										}
 									}
 								}
 							});
@@ -515,25 +563,25 @@ function setSelectPickerWorkplace(){
 					}
 				});
 				$.each(code1depth, function (index, text) {
-				    $('select#code1_code1depth').append($('<option>', {
+				    $('select#workplace_code1depth').append($('<option>', {
 				        value: text,
 				        text : text
 				    }));
 				});
 				$.each(code2depth, function (index, text) {
-				    $('select#code1_code2depth').append($('<option>', {
+				    $('select#workplace_code2depth').append($('<option>', {
 				        value: text,
 				        text : text
 				    }));
 				});
 				$.each(code3depth, function (index, text) {
-				    $('select#code1_code3depth').append($('<option>', {
+				    $('select#workplace_code3depth').append($('<option>', {
 				        value: text,
 				        text : text
 				    }));
 				});
 				$.each(code4depth, function (index, text) {
-				    $('select#code1_code4depth').append($('<option>', {
+				    $('select#workplace_code4depth').append($('<option>', {
 				        value: text,
 				        text : text
 				    }));
@@ -547,4 +595,8 @@ function setSelectPickerWorkplace(){
 					alert('데이터 조회를 실패하였습니다.');
 			}
 		});
+}
+function dtConvertDashToTxt(text){
+	var ar = text.split('-');
+	return ar[0]+'년 '+ar[1]+'월 '+ar[2]+'일'
 }

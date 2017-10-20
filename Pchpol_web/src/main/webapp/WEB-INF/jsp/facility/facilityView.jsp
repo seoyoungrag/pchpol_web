@@ -25,138 +25,73 @@ jQuery(function ($) {
 	<div class="wrapper">       
 		<div id="content-page" class="content-page">
 			<div class="content" style="margin-top:60px;">
-				<div class="container" style="">
-					<div class="container leftright-padding">
-						<h4 class="m-t-0 header-title popup-title">
-							<span>숙영/급식 추가하기</span>
-						</h4>
-						<div class="col-lg-12">
-							<div class="card-box updown-padding">
-								<form onsubmit="return reg()" class="form-horizontal" role="form" id="regForm" method="post" action="${pageContext.request.contextPath}/unit" accept-charset="utf-8">
-									<div class="form-group bottom-line">
-										<label class="col-xs-2 col-sm-2 margin-top5 control-label">
-										&nbsp;지방청</label>
-										<label class="col-xs-4 col-sm-4 control-label">
-										<select class="selectpicker form-control"  data-size="15" required data-width="auto" name="code1.codeNo" id="troopsCodeNo">
-											<option value="">지방청 선택</option>
-										</select>
-										</label>
-										<label class="col-xs-2 col-sm-2 margin-top5 control-label">
-										&nbsp;구분
-										</label>
-										<label class="col-xs-4 col-sm-4 margin-top5 control-label input-label" id="code1_code3depth">
-										</label>
-									</div>
-									<div class="form-group bottom-line">
-										<label class="col-xs-2 col-sm-2 margin-top5 control-label">
-										&nbsp;세부소속</label>
-										<label class="col-xs-4 col-sm-4 margin-top5 control-label input-label" id="code1_code4depth">
-										</label>
-										<label class="col-xs-2 col-sm-2 margin-top5 control-label">
-										&nbsp;성명
-										</label>
-										<div class="col-xs-4 col-sm-4">
-											<input class="form-control" required="" type="text" placeholder="성명을 입력 하세요" name="unitName" id="unitName" required>
-										</div>
-									</div>
-									<div class="form-group bottom-line">
-										<label class="col-xs-2 col-sm-2 margin-top5 control-label">
-										&nbsp;계급</label>
-										<label class="col-xs-4 col-sm-4 control-label">
-										<select class="selectpicker form-control"  data-size="15" required data-width="auto" name="code2.codeNo" id="rankCodeNo">
-											<option value="">계급 선택</option>
-										</select>
-										</label>
-										<label class="col-xs-2 col-sm-2 margin-top5 control-label">
-										&nbsp;폴넷아이디
-										</label>
-										<div class="col-xs-4 col-sm-4">
-											<input class="form-control" required="" type="text" placeholder="폴넷아이디를 입력 하세요" name="unitPolId" id="unitPolId" required>
-										</div>
-									</div>
-									<div class="form-group bottom-line">
-										<label class="col-xs-2 col-sm-2 margin-top5 control-label">
-										&nbsp;생년월일</label>
-										<div class="col-xs-4 col-sm-4">
-											<input class="form-control" type="text" placeholder="생년월일을 입력 하세요" name="unitBirth" id="unitBirth" >
-										</div>
-										<label class="col-xs-2 col-sm-2 margin-top5 control-label">
-										&nbsp;배치지역</label>
-										<label class="col-xs-4 col-sm-4 control-label">
-										<select class="selectpicker form-control"  data-size="15" required data-width="auto" id="code5_code1depth">
-											<option value="">배치지역 선택</option>
-										</select>
-										</label>
-									</div>
-									<div class="form-group bottom-line">
-										<label class="col-xs-2 col-sm-2 margin-top5 control-label">
-										&nbsp;배치장소</label>
-										<label class="col-xs-4 col-sm-4 control-label">
-										<select class="selectpicker form-control"  data-size="15" required data-width="auto" id="code5_code2depth">
-											<option value="">배치장소 선택</option>
-										</select>
-										</label>
-										<!-- 
-										<div class="col-xs-2 col-sm-2">
-											<input class="form-control" type="text" placeholder="배치장소" id="code5_code2depth">
-										</div>
-										<div class="col-xs-2 col-sm-2">
-											<button class="btn btn-default waves-effect m-l-5" onclick="return popup('2');">
-												검색
-											</button>
-										</div>
-										 -->
-										<label class="col-xs-2 col-sm-2 margin-top5 control-label">
-										&nbsp;임무</label>
-										<label class="col-xs-4 col-sm-4 control-label">
-										<select class="selectpicker form-control"  data-size="15" required data-width="auto" id="code5_code3depth">
-											<option value="">임무 선택</option>
-										</select>
-										</label>
-										<!-- 
-										<div class="col-xs-2 col-sm-2">
-											<input class="form-control" type="text" placeholder="임무" id="code5_code3depth">
-										</div>
-										<div class="col-xs-2 col-sm-2">
-											<button class="btn btn-default waves-effect m-l-5" onclick="return popup('3');">
-												검색
-											</button>
-										</div>
-										 -->
-									</div>
-									<div class="form-group bottom-line">
-										<label class="col-xs-2 col-sm-2 margin-top5 control-label">
-										&nbsp;동원기간</label>
-										<div class="col-xs-4 col-sm-4 text-right">
-											<input type="hidden" id="unitMobilStartDt">
-										</div>
-										<div class="col-xs-1 col-sm-1 text-center">
-										~
-										</div>
-										<div class="col-xs-5 col-sm-5 text-left">
-											<input type="hidden" id="unitMobilEndDt">
-										</div>
-									</div>
-									<div class="form-group encdecButton">
-										<div class="col-sm-offset-3 col-sm-9 text-right">
-											<button class="btn btn-primary waves-effect waves-light" id="submitBtn">
-												확인
-											</button>
-											<button class="btn btn-default waves-effect m-l-5" onclick="javascript:self.close();">
-												취소
-											</button>
-										</div>
-									</div>
-									<input type="hidden" name="unitNo" id="unitNo" value="0">
-									<input type="hidden" name="troopsType" id="troopsType" value="female">
-									<input type="hidden" name="code5.codeNo" id="workplaceNo">
-									<!-- <input type="hidden" name="code4.codeNo" id="positionCodeNo"> -->
-								</form>	
+				<div class="container">
+					<div class="col-sm-5">
+						<h4 class="m-t-0 header-title" style="padding:10px;"><b>숙영/급식 추가하기</b></h4>
+					</div>
+								
+                    <form class="form-horizontal" role="form" id="linkageRegForm" name="linkageRegForm" method="post" action="${pageContext.request.contextPath}/linkage/insert.do" accept-charset="utf-8">
+						<div class="col-sm-12">
+							<div class="card-box" style="margin-bottom:10px; padding-bottom:0px;">
+                       			<div class="row">
+                        				<div class="col-md-6" style="padding-left:20px;">
+                        					
+	                                            <div class="form-group" style="margin-bottom:10px;">
+	                                                <label class="col-md-3 control-label" style="text-align:left;">제목 :</label>
+	                                                <div class="col-md-9">
+	                                                    <input class="form-control" type="text" id="title" name="title" placeholder="제목을 입력 하세요.">
+	                                                </div>
+	                                            </div>
+	                                            <!-- <div class="form-group" style="margin-bottom:10px;">
+	                                                <label class="col-md-3 control-label" style="text-align:left;">업무구분 :</label>
+	                                                <div class="col-md-9">
+	                                                    <input class="form-control" type="text" value="업무구분을 입력 하세요.">
+	                                                </div>
+	                                            </div> -->
+	                                            <!-- <div class="form-group" style="margin-bottom:10px;">
+	                                                <label class="col-md-3 control-label">컬럼 한글명 :</label>
+	                                                <div class="col-md-9">
+	                                                <label class="col-md-3 control-label" style="text-align:left;">업무구분 :</label>
+	                                                <div class="col-md-9">
+	                                                    <input class="form-control" type="text" value="검색어를 입력 하세요.">
+	                                                </div>
+	                                            </div> -->
+                        				</div>
+
+                        				<div class="col-md-6" style="padding-right:20px;">
+                                            <div class="form-group" style="margin-bottom:10px;">
+                                                <label class="col-md-3 control-label" style="text-align:left;">자료유형 :  </label>
+                                                <div class="col-md-6">
+                                                    <select class="selectpicker"  name="referenceType">
+													  <option value="1">접수대기</option>
+													  <option value="2">접수보류</option>
+													  <option value="3">접수반려</option>
+													  <option value="4">작업진행</option>
+													  <option value="5">작업완료</option>
+													  <option value="6">작업취소</option>
+													</select>
+                                                </div>
+                                                <div class="col-md-3 text-right">
+                                    				<button class="btn btn-silver waves-effect waves-light" type="button"  onclick="javascript:linkageInsert();">등록</button>
+                                                    <button class="btn btn-warning waves-effect waves-light" onclick="javascript:goList();" type="button" >취소</button>
+                                                </div>
+                                            </div>
+                        				</div>
+                        			</div>
+                       			<div id='daum_editor_panel'></div>
+                       		<input type='hidden' id='content' name='content' value=''/>
+                       		<input type='hidden' id='fileList' name='fileList' value=''/>
+                       		</div>
+                        </div>
+                        </form>
+                         <div class="col-md-12 portlets">
+                            <div class="m-b-30">
+                                <form class="dropzone dz-clickable" id="dropzone" action="../fileUpload" name="dropzone" method="post" enctype="multipart/form-data">
+                                	<div class="dz-default dz-message"><span>file upload</span>
+                                	</div>
+                                </form>
 							</div>
 		               	</div>
-		            </div>
-				</div>
-			</div>
 		</div>
 	</div>
 	<!-- end body -->

@@ -91,7 +91,6 @@ public class Code implements Serializable {
 	@OneToMany(mappedBy="code4")
 	private List<Unit> units4;
 	
-
 	@JsonIgnore
 	//bi-directional many-to-one association to Unit
 	@OneToMany(mappedBy="code5")

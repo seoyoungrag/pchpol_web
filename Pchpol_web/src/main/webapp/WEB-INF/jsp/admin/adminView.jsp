@@ -37,6 +37,8 @@ function reg(){
 jQuery(document).ready(function($) {
 	if('${type}'=='view'){
 		getViewById('${adminNo}');
+		$(".header-title").html("관리자 계정 수정하기");
+		$("#submitBtn").html("계정 수정하기");
 	}else if('${type}'=='reg'){
 		selectpickerObj = new SelectpickerObj();
 		selectpickerObj.divName = 'codeAdminType';
@@ -52,7 +54,7 @@ jQuery(document).ready(function($) {
 	<!-- Start content -->
 		<div class="content">
 			<div class="container leftright-padding">
-				<h4 class="m-t-0 header-title popup-title">
+				<h4 class="m-t-0 header-title popup-title text-center">
 					<span>관리자 계정 추가하기</span>
 				</h4>
 				<div class="col-lg-12">
@@ -111,14 +113,21 @@ jQuery(document).ready(function($) {
 									<input class="form-control" type="text" placeholder="비고를 입력 하세요" name="adminEtc" id="adminEtc">
 								</div>
 							</div>
-							<div class="form-group encdecButton">
-								<div class="col-sm-offset-3 col-sm-9 text-right">
-									<button class="btn btn-primary waves-effect waves-light" id="submitBtn">
-										확인
-									</button>
-									<button class="btn btn-default waves-effect m-l-5" onclick="javascript:self.close();">
-										취소
-									</button>
+							<div class="form-group">
+								<div class="col-xs-12">
+									<div class="col-xs-9 text-right">
+										<button class="btn btn-silver btn-rounded waves-effect" id="submitBtn">
+											계정 추가하기
+										</button>
+										<button class="btn btn-default btn-rounded waves-effect" onclick="javascript:self.close();">
+											취소
+										</button>
+									</div>
+									<div class="col-xs-3 text-right">
+										<button class="btn btn-inverse btn-rounded waves-effect" onclick="return false">
+											권한보기
+										</button>
+									</div>
 								</div>
 							</div>
 							<input type="hidden" name="adminNo" id="adminNo" value="0">
