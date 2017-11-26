@@ -16,9 +16,11 @@ package com.dwebs.pchpol.troops.service;
 import java.util.List;
 
 import com.dwebs.pchpol.common.vo.PagingVO;
+import com.dwebs.pchpol.facility.vo.TroopsPlacementWithFacilities;
 import com.dwebs.pchpol.model.TroopsFacilityPlacement;
 import com.dwebs.pchpol.model.TroopsPlacement;
 import com.dwebs.pchpol.model.WorkplacePlacement;
+import com.dwebs.pchpol.workplace.controller.TroopsPlacementModel;
 import com.dwebs.pchpol.workplace.vo.WorkplaceWithTroops;
 
 /**
@@ -172,4 +174,87 @@ public interface TroopsService {
 	 *   @return
 	 */
 	WorkplacePlacement getWorkplaceTroops(WorkplacePlacement wps);
+
+	/**
+	 * <PRE>
+	 * 1. MethodName : getWorkplaceTroops
+	 * 2. ClassName  : TroopsService
+	 * 3. Comment   : 
+	 * 4. 작성자    : yrseo
+	 * 5. 작성일    : 2017. 10. 22. 오후 12:31:08
+	 * </PRE>
+	 *   @return List<WorkplacePlacement>
+	 *   @param pagingVO
+	 *   @param wp
+	 *   @return
+	 */
+	List<WorkplacePlacement> getWorkplaceTroops(PagingVO pagingVO, WorkplacePlacement wp);
+
+	/**
+	 * <PRE>
+	 * 1. MethodName : getTotCntWorkplaceTroops
+	 * 2. ClassName  : TroopsService
+	 * 3. Comment   : 
+	 * 4. 작성자    : yrseo
+	 * 5. 작성일    : 2017. 10. 22. 오후 12:31:13
+	 * </PRE>
+	 *   @return int
+	 *   @param pagingVO
+	 *   @param wp
+	 *   @return
+	 */
+	int getTotCntWorkplaceTroops(PagingVO pagingVO, WorkplacePlacement wp);
+
+	/**
+	 * <PRE>
+	 * 1. MethodName : getWorkplacePlacement
+	 * 2. ClassName  : TroopsService
+	 * 3. Comment   : 
+	 * 4. 작성자    : yrseo
+	 * 5. 작성일    : 2017. 10. 22. 오후 2:05:41
+	 * </PRE>
+	 *   @return WorkplacePlacement
+	 *   @param wp
+	 *   @return
+	 */
+	WorkplacePlacement getWorkplacePlacement(WorkplacePlacement wp);
+
+	/**
+	 * <PRE>
+	 * 1. MethodName : insertTroopsFacilityPlacement
+	 * 2. ClassName  : TroopsService
+	 * 3. Comment   : 
+	 * 4. 작성자    : yrseo
+	 * 5. 작성일    : 2017. 10. 28. 오후 1:23:31
+	 * </PRE>
+	 *   @return void
+	 *   @param troopsFacilities
+	 */
+	void insertTroopsFacilityPlacement(TroopsPlacementWithFacilities troopsFacilities);
+
+	/**
+	 * <PRE>
+	 * 1. MethodName : deleteWorkplaceTroopsByIds
+	 * 2. ClassName  : TroopsService
+	 * 3. Comment   : 
+	 * 4. 작성자    : yrseo
+	 * 5. 작성일    : 2017. 11. 15. 오전 12:22:47
+	 * </PRE>
+	 *   @return void
+	 *   @param ids
+	 */
+	void deleteWorkplaceTroopsByIds(List<Integer> ids);
+
+	/**
+	 * <PRE>
+	 * 1. MethodName : insertTroopsWorkplacePlacement
+	 * 2. ClassName  : TroopsService
+	 * 3. Comment   : 
+	 * 4. 작성자    : yrseo
+	 * 5. 작성일    : 2017. 11. 16. 오후 2:18:06
+	 * </PRE>
+	 *   @return void
+	 *   @param troopsPlacement
+	 */
+	void insertTroopsWorkplacePlacement(TroopsPlacementModel troopsPlacement);
 }

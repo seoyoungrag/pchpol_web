@@ -1,5 +1,55 @@
 /* @import url(https://fonts.googleapis.com/css?family=Noto+Sans:400,700); */
 /* @import url(http://fonts.googleapis.com/css?family=Roboto:400,500,700); */
+
+@font-face {
+  font-family: 'Noto Sans KR';
+  font-style: normal;
+  font-weight: 100;
+  src: url(../fonts/NotoSansKR/NotoSansKR-Thin.woff2) format('woff2'),
+       url(../fonts/NotoSansKR/NotoSansKR-Thin.woff) format('woff'),
+       url(../fonts/NotoSansKR/NotoSansKR-Thin.otf) format('opentype');
+}
+@font-face {
+  font-family: 'Noto Sans KR';
+  font-style: normal;
+  font-weight: 300;
+  src: url(../fonts/NotoSansKR/NotoSansKR-Light.woff2) format('woff2'),
+       url(../fonts/NotoSansKR/NotoSansKR-Light.woff) format('woff'),
+       url(../fonts/NotoSansKR/NotoSansKR-Light.otf) format('opentype');
+}
+@font-face {
+   font-family: 'Noto Sans KR';
+   font-style: normal;
+   font-weight: 400;
+   src: url(../fonts/NotoSansKR/NotoSansKR-Regular.woff2) format('woff2'),
+        url(../fonts/NotoSansKR/NotoSansKR-Regular.woff) format('woff'),
+        url(../fonts/NotoSansKR/NotoSansKR-Regular.otf) format('opentype');
+ }
+@font-face {
+   font-family: 'Noto Sans KR';
+   font-style: normal;
+   font-weight: 500;
+   src: url(../fonts/NotoSansKR/NotoSansKR-Medium.woff2) format('woff2'),
+        url(../fonts/NotoSansKR/NotoSansKR-Medium.woff) format('woff'),
+        url(../fonts/NotoSansKR/NotoSansKR-Medium.otf) format('opentype');
+ }
+@font-face {
+   font-family: 'Noto Sans KR';
+   font-style: normal;
+   font-weight: 700;
+   src: url(../fonts/NotoSansKR/NotoSansKR-Bold.woff2) format('woff2'),
+        url(../fonts/NotoSansKR/NotoSansKR-Bold.woff) format('woff'),
+        url(../fonts/NotoSansKR/NotoSansKR-Bold.otf) format('opentype');
+ }
+@font-face {
+   font-family: 'Noto Sans KR';
+   font-style: normal;
+   font-weight: 900;
+   src: url(../fonts/NotoSansKR/NotoSansKR-Black.woff2) format('woff2'),
+        url(../fonts/NotoSansKR/NotoSansKR-Black.woff) format('woff'),
+        url(../fonts/NotoSansKR/NotoSansKR-Black.otf) format('opentype');
+}
+
 /* ===========
    Components List
 
@@ -18,8 +68,8 @@
    Buttons
  =============*/
 .btn {
-  border-radius: 2px;
-  padding: 6px 14px;
+  border-radius: 4px;
+  padding: 9px 14px;
 }
 .btn-group-lg > .btn,
 .btn-lg {
@@ -56,15 +106,20 @@
   color: #ffffff !important;
 }
 .btn-default {
- /*  background-color: #dae6ec;
-  border-color: #dae6ec; */
+ /*  background-color: #dae6ec;  */
+  border-color: transparent;
+}
+.btn-default.btn-rounded {
+ /*  background-color: #dae6ec;  */
+  border-color: #717576;
+  color:#717576;
 }
 .btn-default:focus {
   background-color: #dae6ec;
   border-color: #C2CED4;
 }
 .btn-default:hover {
-  background-color: #dae6ec;
+  background-color: transparent;
   border-color: #C2CED4;
 }
 .btn-default:active {
@@ -78,8 +133,9 @@
   border-color: #C2CED4 !important;
 }
 .btn-primary {
-  background-color: #3bafda !important;
-  border: 1px solid #3bafda !important;
+  background-color: #367cff !important;
+  border: 1px solid transparent !important;
+  font-size:15px;
 }
 .btn-primary:hover,
 .btn-primary:focus,
@@ -545,6 +601,11 @@
   position: absolute;
   width: 30px;
 }
+.search-section {float:right}
+.search-section label .form-group {margin:0}
+.mr10 {margin-right:10px}
+.mr30 {margin-right:30px}
+
 /* ===========
    Checkbox and Radio
  =============*/
@@ -996,6 +1057,39 @@ table.focus-on tbody tr.focused td {
   font-size: 14px;
   font-weight: normal;
 }
+#content-page .ui-jqgrid .ui-jqgrid-htable {
+  border-top:2px solid #367cff;
+}
+
+#content-page .ui-jqgrid .ui-jqgrid-htable th {
+	height:57px;
+}
+
+#content-page .ui-jqgrid .ui-jqgrid-htable .ui-th-div {
+	display:inline-block;
+}
+#content-page .table > tbody > tr.active > td, 
+#content-page .table > tbody > tr > td.active {
+	background-color:transparent;
+}
+#content-page .ui-jqgrid .ui-jqgrid-btable tbody tr.jqgrow td {
+	border-right:1px solid #eee;
+	border-left:1px solid #eee;
+	border-bottom:1px solid #ddd;
+}
+#content-page .ui-jqgrid .ui-jqgrid-btable tbody tr:first-child td {
+	border-top:1px solid #ddd;
+}
+
+#content-page .ui-jqgrid .ui-jqgrid-btable tbody tr.jqgrow td {
+	padding:17px 0;
+}
+
+#content-page .table tbody tr.jqgfirstrow td {
+	border:none;
+}
+
+
 .modal-block {
   background: transparent;
   margin: 40px auto;
@@ -1364,7 +1458,7 @@ table.dataTable td.focus {
   border-radius: 6px;
 }
 .dropzone .dz-message {
-  font-size: 30px;
+  font-size: 1em;
 }
 /* ===========
    Calendar
@@ -1598,6 +1692,7 @@ table.dataTable td.focus {
 .todo-send {
   padding-left: 0px;
 }
+
 /* Widget-chart */
 .widget-chart ul li {
   width: 31.5%;

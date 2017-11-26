@@ -184,11 +184,6 @@ function reg(){
 	}
 	return false;
 }
-function popup(depth){
-	$('div.modal').modal({remote : '${pageContext.request.contextPath}/unit/sub.do?name=workplace&depth='+depth});
-	return false;
-
-}
 </script>
 </head>
 <body>
@@ -207,7 +202,7 @@ function popup(depth){
 								<label class="col-xs-2 col-sm-2 margin-top5 control-label">
 								&nbsp;지방청</label>
 								<label class="col-xs-4 col-sm-4 control-label">
-								<select class="selectpicker form-control"  data-size="15" required data-width="auto" name="code1.codeNo" id="troopsCodeNo">
+								<select class="selectpicker form-control" data-container="body" data-size="15" required data-width="auto" name="code1.codeNo" id="troopsCodeNo">
 									<option value="">지방청 선택</option>
 								</select>
 								</label>
@@ -233,7 +228,7 @@ function popup(depth){
 								<label class="col-xs-2 col-sm-2 margin-top5 control-label">
 								&nbsp;계급</label>
 								<label class="col-xs-4 col-sm-4 control-label">
-								<select class="selectpicker form-control"  data-size="15" required data-width="auto" name="code2.codeNo" id="rankCodeNo">
+								<select class="selectpicker form-control" data-container="body" data-size="15" required data-width="auto" name="code2.codeNo" id="rankCodeNo">
 									<option value="">계급 선택</option>
 								</select>
 								</label>
@@ -253,7 +248,7 @@ function popup(depth){
 								<label class="col-xs-2 col-sm-2 margin-top5 control-label">
 								&nbsp;배치지역</label>
 								<label class="col-xs-4 col-sm-4 control-label">
-								<select class="selectpicker form-control"  data-size="15" required data-width="auto" id="code5_code1depth">
+								<select class="selectpicker form-control" data-container="body" data-live-search="true" data-size="15" required data-width="auto" id="code5_code1depth">
 									<option value="">배치지역 선택</option>
 								</select>
 								</label>
@@ -262,7 +257,7 @@ function popup(depth){
 								<label class="col-xs-2 col-sm-2 margin-top5 control-label">
 								&nbsp;배치장소</label>
 								<label class="col-xs-4 col-sm-4 control-label">
-								<select class="selectpicker form-control"  data-size="15" required data-width="auto" id="code5_code2depth">
+								<select class="selectpicker form-control" data-container="body" data-live-search="true" data-size="15" required data-width="auto" id="code5_code2depth">
 									<option value="">배치장소 선택</option>
 								</select>
 								</label>
@@ -279,7 +274,7 @@ function popup(depth){
 								<label class="col-xs-2 col-sm-2 margin-top5 control-label">
 								&nbsp;임무</label>
 								<label class="col-xs-4 col-sm-4 control-label">
-								<select class="selectpicker form-control"  data-size="15" required data-width="auto" id="code5_code3depth">
+								<select class="selectpicker form-control" data-container="body" data-live-search="true" data-size="15" required data-width="auto" id="code5_code3depth">
 									<option value="">임무 선택</option>
 								</select>
 								</label>
@@ -327,12 +322,6 @@ function popup(depth){
             </div>
         </div>
     </div>
-</div>
-<div class="modal modal-center  fade" tabindex="-1" >
-  <div class="modal-dialog modal-sm modal-center ">
-    <div class="modal-content">
-    </div>
-  </div>
 </div>
 </body>
 </html>

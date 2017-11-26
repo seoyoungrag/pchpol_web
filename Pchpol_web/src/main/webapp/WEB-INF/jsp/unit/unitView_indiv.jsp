@@ -21,19 +21,10 @@ jQuery(document).ready(function($) {
 	$("#code5_code1depth").change(function() { 
 		selectpickerObj = new SelectpickerObj();
 		selectpickerObj.divName = 'code5_code2depth';
-		selectpickerObj.category = 'workplace';
+		selectpickerObj.category = 'indiv_place';
 		selectpickerObj.depth = '2';
 		selectpickerObj.parentVal = [$("#code5_code1depth").val()]; 
-		$('#code5_code2depth').html('<option value="">배치장소 선택</option>');
-		selectpickerObj.setByCode();
-	});
-	$("#code5_code2depth").change(function() { 
-		selectpickerObj = new SelectpickerObj();
-		selectpickerObj.divName = 'code5_code3depth';
-		selectpickerObj.category = 'workplace';
-		selectpickerObj.depth = '3';
-		selectpickerObj.parentVal = [$("#code5_code1depth").val(), $("#code5_code2depth").val()]; 
-		$('#code5_code3depth').html('<option value="">임무 선택</option>');
+		$('#code5_code2depth').html('<option value="">임무 선택</option>');
 		selectpickerObj.setByCode();
 	});
 	
@@ -52,17 +43,24 @@ jQuery(document).ready(function($) {
 		selectpickerObj.troopstype = 'indiv';
 		selectpickerObj.depth = '1';
 		selectpickerObj.setByCode();
+		/* 
 		selectpickerObj = new SelectpickerObj();
 		selectpickerObj.divName = 'rankCodeNo'; //계급
 		selectpickerObj.category = 'rank';
 		selectpickerObj.setByCode();
+		 */
 		selectpickerObj = new SelectpickerObj();
 		selectpickerObj.divName = 'mobilfunctionNo'; //기능
 		selectpickerObj.category = 'mobilfunction';
 		selectpickerObj.setByCode();
 		selectpickerObj = new SelectpickerObj();
-		selectpickerObj.divName = 'code5_code1depth';  //배치지역
+		selectpickerObj.divName = 'workplace';  //배치지역
 		selectpickerObj.category = 'workplace';
+		selectpickerObj.depth = '1';
+		selectpickerObj.setByCode();
+		selectpickerObj = new SelectpickerObj();
+		selectpickerObj.divName = 'code5_code1depth';  //배치장소
+		selectpickerObj.category = 'indiv_place';
 		selectpickerObj.depth = '1';
 		selectpickerObj.setByCode();
 	}
@@ -80,9 +78,9 @@ function getViewById(id){
 		$("#unitName").val(res.data.unitName);
 		$("#unitPolId").val(res.data.unitPolId);
 		$("#troopsCodeNo").val(res.data.code1.codeNo); //소속
-		$("#rankCodeNo").val(res.data.code2.codeNo); //계급
+		/* $("#rankCodeNo").val(res.data.code2.codeNo); //계급 */
 		$("#mobilfunctionNo").val(res.data.code3.codeNo); //기능
-		$("#workplaceNo").val(res.data.code5.codeNo); //배치지역, 배치장소, 임무
+		$("#workplaceNo").val(res.data.code5.codeNo); //배치장소, 임무
 
 		dropdwonOption.submitFieldName =  "unitMobilStartDt";
 		dropdwonOption.defaultDate = dateFormatterGmt(res.data.unitMobilStartDt);
@@ -108,14 +106,14 @@ function getViewById(id){
 		selectpickerObj.selectVal = res.data.code1.code2depth;
 		selectpickerObj.parentVal = [$("#code1_code1depth").val()];
 		selectpickerObj.setByCode();
-
+/* 
 		selectpickerObj = new SelectpickerObj();
 		selectpickerObj.divName = 'rankCodeNo';  //계급
 		selectpickerObj.category = 'rank';
 		selectpickerObj.selectVal = res.data.code2.codeNo;
 		selectpickerObj.setByCode();
 
-		selectpickerObj = new SelectpickerObj();
+ */		selectpickerObj = new SelectpickerObj();
 		selectpickerObj.divName = 'mobilfunctionNo';  //기능
 		selectpickerObj.category = 'mobilfunction';
 		selectpickerObj.selectVal = res.data.code3.codeNo;
@@ -123,29 +121,26 @@ function getViewById(id){
 		
 
 		selectpickerObj = new SelectpickerObj();
-		selectpickerObj.divName = 'code5_code1depth';  //배치지역
-		selectpickerObj.category = 'workplace';
+		selectpickerObj.divName = 'code5_code1depth';  //배치장소
+		selectpickerObj.category = 'indiv_place';
 		selectpickerObj.depth = '1';
 		selectpickerObj.selectVal = res.data.code5.code1depth;
 		selectpickerObj.setByCode();
 
 		selectpickerObj = new SelectpickerObj();
-		selectpickerObj.divName = 'code5_code2depth';  //배치장소
-		selectpickerObj.category = 'workplace';
+		selectpickerObj.divName = 'code5_code2depth';  //임무
+		selectpickerObj.category = 'indiv_place';
 		selectpickerObj.depth = '2';
 		selectpickerObj.selectVal = res.data.code5.code2depth;
 		selectpickerObj.parentVal = [$("#code5_code1depth").val()]; 
 		selectpickerObj.setByCode();
 
 		selectpickerObj = new SelectpickerObj();
-		selectpickerObj.divName = 'code5_code3depth';  //임무
+		selectpickerObj.divName = 'workplace';  //임무
 		selectpickerObj.category = 'workplace';
-		selectpickerObj.depth = '3';
-		selectpickerObj.selectVal = res.data.code5.code3depth;
-		selectpickerObj.parentVal = [$("#code5_code1depth").val(), $("#code5_code2depth").val()]; 
+		selectpickerObj.depth = '1';
+		selectpickerObj.selectVal = res.data.mobilPlacementArea;
 		selectpickerObj.setByCode();
-		//$('#code5_code2depth').val(res.data.code5.code2depth); //배치장소
-		//$('#code5_code3depth').val(res.data.code5.code3depth); //배치장소
 		
 	}
 	viewObj.ajax(successFunc);
@@ -177,9 +172,8 @@ function reg(){
 		}
 	});
 	code = {
-			codeCategory: 'workplace', 
+			codeCategory: 'indiv_place', 
 			code1depth: $("#code5_code1depth").val(), 
-			code2depth: $("#code5_code2depth").val(),
 			code2depth: $("#code5_code2depth").val()
 			};
 	$.ajax({
@@ -207,7 +201,7 @@ function reg(){
 	return false;
 }
 function popup(depth){
-	$('div.modal').modal({remote : '${pageContext.request.contextPath}/unit/sub.do?name=workplace&depth='+depth});
+	$('div.modal').modal({remote : '${pageContext.request.contextPath}/unit/sub.do?name=indiv_place&depth='+depth});
 	return false;
 
 }
@@ -229,7 +223,7 @@ function popup(depth){
 								<label class="col-xs-2 col-sm-2 margin-top5 control-label">
 								&nbsp;지방청</label>
 								<label class="col-xs-4 col-sm-4 control-label">
-								<select class="selectpicker form-control"  data-size="15" required data-width="auto" id="code1_code1depth">
+								<select class="selectpicker form-control" data-container="body" data-size="15" required data-width="auto" id="code1_code1depth">
 									<option value="">지방청 선택</option>
 								</select>
 								</label>
@@ -237,7 +231,7 @@ function popup(depth){
 								&nbsp;구분
 								</label>
 								<label class="col-xs-4 col-sm-4 control-label">
-								<select class="selectpicker form-control"  data-size="15" required data-width="auto" id="code1_code2depth">
+								<select class="selectpicker form-control" data-container="body" data-size="15" required data-width="auto" id="code1_code2depth">
 									<option value="">구분 선택</option>
 								</select>
 								</label>
@@ -246,7 +240,7 @@ function popup(depth){
 								<label class="col-xs-2 col-sm-2 margin-top5 control-label">
 								&nbsp;기능</label>
 								<label class="col-xs-4 col-sm-4 control-label">
-								<select class="selectpicker form-control"  data-size="15" required data-width="auto" name="code3.codeNo" id="mobilfunctionNo">
+								<select class="selectpicker form-control" data-container="body" data-size="15" required data-width="auto" name="code3.codeNo" id="mobilfunctionNo">
 									<option value="">기능 선택</option>
 								</select>
 								</label>
@@ -258,13 +252,15 @@ function popup(depth){
 								</div>
 							</div>
 							<div class="form-group bottom-line">
+							<!-- 
 								<label class="col-xs-2 col-sm-2 margin-top5 control-label">
 								&nbsp;계급</label>
 								<label class="col-xs-4 col-sm-4 control-label">
-								<select class="selectpicker form-control"  data-size="15" required data-width="auto" name="code2.codeNo" id="rankCodeNo">
+								<select class="selectpicker form-control" data-container="body" data-size="15" required data-width="auto" name="code2.codeNo" id="rankCodeNo">
 									<option value="">계급 선택</option>
 								</select>
 								</label>
+							 -->	
 								<label class="col-xs-2 col-sm-2 margin-top5 control-label">
 								&nbsp;폴넷아이디
 								</label>
@@ -281,7 +277,7 @@ function popup(depth){
 								<label class="col-xs-2 col-sm-2 margin-top5 control-label">
 								&nbsp;배치지역</label>
 								<label class="col-xs-4 col-sm-4 control-label">
-								<select class="selectpicker form-control"  data-size="15" required data-width="auto" id="code5_code1depth">
+								<select class="selectpicker form-control" data-container="body" data-live-search="true" data-size="15" required data-width="auto" name="mobilPlacementArea" id="workplace">
 									<option value="">배치지역 선택</option>
 								</select>
 								</label>
@@ -290,7 +286,7 @@ function popup(depth){
 								<label class="col-xs-2 col-sm-2 margin-top5 control-label">
 								&nbsp;배치장소</label>
 								<label class="col-xs-4 col-sm-4 control-label">
-								<select class="selectpicker form-control"  data-size="15" required data-width="auto" id="code5_code2depth">
+								<select class="selectpicker form-control" data-container="body" data-live-search="true" data-size="15" required data-width="auto" id="code5_code1depth">
 									<option value="">배치장소 선택</option>
 								</select>
 								</label>
@@ -307,7 +303,7 @@ function popup(depth){
 								<label class="col-xs-2 col-sm-2 margin-top5 control-label">
 								&nbsp;임무</label>
 								<label class="col-xs-4 col-sm-4 control-label">
-								<select class="selectpicker form-control"  data-size="15" required data-width="auto" id="code5_code3depth">
+								<select class="selectpicker form-control" data-container="body" data-live-search="true" data-size="15" required data-width="auto" id="code5_code2depth">
 									<option value="">임무 선택</option>
 								</select>
 								</label>

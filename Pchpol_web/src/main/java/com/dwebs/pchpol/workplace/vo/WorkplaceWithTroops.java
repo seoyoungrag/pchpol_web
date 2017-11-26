@@ -15,6 +15,7 @@ package com.dwebs.pchpol.workplace.vo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.dwebs.pchpol.model.Code;
@@ -42,6 +43,8 @@ public class WorkplaceWithTroops implements Serializable{
 	Code workplace; //근무지
 	Code troops;
 	List<Code> troopsDetail; //세부소속ID와, 세부소속값
+	Date mobilDate;
+	List<String> workTimes;
 	
 	public WorkplaceWithTroops() {
 		super();
@@ -52,6 +55,16 @@ public class WorkplaceWithTroops implements Serializable{
 		this.workplace = workplace;
 		this.troops = troops;
 		this.troopsDetail = troopsDetail;
+	}
+
+	public WorkplaceWithTroops(Code workplace, Code troops, List<Code> troopsDetail, Date mobilDate,
+			List<String> workTimes) {
+		super();
+		this.workplace = workplace;
+		this.troops = troops;
+		this.troopsDetail = troopsDetail;
+		this.mobilDate = mobilDate;
+		this.workTimes = workTimes;
 	}
 
 	public WorkplaceWithTroops(String col_0_0_, String col_1_0_, String col_2_0_, String col_3_0_, String col_4_0_) {
@@ -66,6 +79,19 @@ public class WorkplaceWithTroops implements Serializable{
 		this.workplace = workplace;
 		this.troops = troops;
 		this.troopsDetail = new ArrayList<Code>();
+		this.workTimes = new ArrayList<String>();
+	}
+
+	public WorkplaceWithTroops(String col_0_0_, String col_1_0_) {
+		super();
+		Code workplace = new Code();
+		workplace.setCode1depth(col_0_0_);
+		workplace.setCode2depth(col_1_0_);
+		Code troops = new Code();
+		this.workplace = workplace;
+		this.troops = troops;
+		this.troopsDetail = new ArrayList<Code>();
+		this.workTimes = new ArrayList<String>();
 	}
 	
 	public Code getWorkplace() {
@@ -86,5 +112,21 @@ public class WorkplaceWithTroops implements Serializable{
 	public void setTroopsDetail(List<Code> troopsDetail) {
 		this.troopsDetail = troopsDetail;
 	}
-	
+
+	public Date getMobilDate() {
+		return mobilDate;
+	}
+
+	public void setMobilDate(Date mobilDate) {
+		this.mobilDate = mobilDate;
+	}
+
+	public List<String> getWorkTimes() {
+		return workTimes;
+	}
+
+	public void setWorkTimes(List<String> workTimes) {
+		this.workTimes = workTimes;
+	}
+
 }

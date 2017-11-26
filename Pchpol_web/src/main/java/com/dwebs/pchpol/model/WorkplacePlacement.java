@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 /**
@@ -46,7 +47,8 @@ public class WorkplacePlacement implements Serializable {
 	private Code code2;
 
 	//bi-directional one-to-one association to WorkplacePlacementDetail
-	@OneToMany(mappedBy="workplacePlacement", fetch=FetchType.EAGER)
+	@JsonIgnore
+	@OneToMany(mappedBy="workplacePlacement")
 	private List<WorkplacePlacementDetail> workplacePlacementDetail;
 
 	public WorkplacePlacement() {

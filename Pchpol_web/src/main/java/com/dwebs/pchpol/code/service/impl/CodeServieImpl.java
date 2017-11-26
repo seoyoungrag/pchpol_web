@@ -80,6 +80,15 @@ public class CodeServieImpl implements CodeService {
 		return codeDao.getCodeList(searchTroops);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.dwebs.pchpol.code.service.CodeService#insertCode(com.dwebs.pchpol.model.Code)
+	 */
+	@Override
+	public void insertCode(Code code) {
+		codeDao.insertorUpdateCode(code);
+		
+	}
+
 
 
 }

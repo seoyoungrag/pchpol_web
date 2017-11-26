@@ -73,4 +73,20 @@ public class UnitServiceImpl implements UnitService {
 		return unitDao.getById(id);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.dwebs.pchpol.unit.service.UnitService#getByPchId(java.lang.String)
+	 */
+	@Override
+	public Unit getByPchId(String loginId) {
+		return unitDao.getByPchId(loginId);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.dwebs.pchpol.unit.service.UnitService#deleteByIds(java.util.List)
+	 */
+	@Override
+	public void deleteByIds(List<Integer> ids) {
+		unitDao.deleteByIds(ids);
+	}
+
 }

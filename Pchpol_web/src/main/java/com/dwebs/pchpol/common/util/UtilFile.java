@@ -26,6 +26,8 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -112,13 +114,13 @@ public class UtilFile {
         }
         return path + fileName;
     }
-    
+
 //  업로드 파일 저장 경로 얻는 메소드
 //  업로드한 파일의 경로가 도메인 별로 달라야 했기 때문에 도메인의 형을 비교하여 파일 저장 정로를 다르게 지정함
-    private String getSaveLocation(MultipartHttpServletRequest request, Object obj) {
+    String getSaveLocation(MultipartHttpServletRequest request, Object obj) {
         
-        String uploadPath = request.getSession().getServletContext().getRealPath("/");
-        String attachPath = "resources/files/";
+        //String uploadPath = request.getSession().getServletContext().getRealPath("/");
+    	String uploadPath = FileHandler.FILE_STORE_PATH + File.separator;
         /*
 //      Reward인 경우
         if (obj instanceof Reward) {
@@ -131,13 +133,13 @@ public class UtilFile {
             attachPath += "document/";
         }
         */
-        File file = new File(uploadPath+ attachPath);
+        File file = new File(uploadPath);
         if(!file.exists()){
         	file.mkdirs();
         }
-        logger.info("UtilFile getSaveLocation path : " + uploadPath + attachPath);
+        logger.info("UtilFile getSaveLocation path : " + uploadPath);
         
-        return uploadPath + attachPath;
+        return uploadPath;
     }
 
     //파일 쪼개는 사이즈
@@ -311,6 +313,30 @@ public class UtilFile {
 
         logger.info("File Decompressed");
     }
+
+	/**
+	 * <PRE>
+	 * 1. MethodName : getSaveLocation
+	 * 2. ClassName  : UtilFile
+	 * 3. Comment   : 
+	 * 4. 작성자    : yrseo
+	 * 5. 작성일    : 2017. 10. 28. 오후 10:16:42
+	 * </PRE>
+	 *   @return String
+	 *   @param request
+	 *   @return
+	 */
+	public String getSaveLocation(HttpServletRequest request) {
+        //String uploadPath = request.getSession().getServletContext().getRealPath("/");
+		String uploadPath = FileHandler.FILE_STORE_PATH;
+        File file = new File(uploadPath);
+        if(!file.exists()){
+        	file.mkdirs();
+        }
+        logger.info("UtilFile getSaveLocation path : " + uploadPath);
+        
+        return uploadPath;
+	}
 }
 
 

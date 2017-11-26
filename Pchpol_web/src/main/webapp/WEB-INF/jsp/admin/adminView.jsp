@@ -65,7 +65,7 @@ jQuery(document).ready(function($) {
 								&nbsp;권한
 								</label>
 								<div class="col-xs-10 col-sm-10">
-								<select class="selectpicker form-control"  data-size="15" required data-width="auto" name="code.codeNo" id="codeAdminType">
+								<select class="selectpicker form-control" data-container="body" data-size="15" required data-width="auto" name="code.codeNo" id="codeAdminType">
 									<option value="">권한 선택</option>
 								</select>
 								</div>

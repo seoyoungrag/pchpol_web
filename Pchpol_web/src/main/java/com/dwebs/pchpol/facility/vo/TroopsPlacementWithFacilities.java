@@ -42,8 +42,9 @@ public class TroopsPlacementWithFacilities implements Serializable{
 	Code workplace;
 	List<Facility> foodFacility = new ArrayList<Facility>();
 	List<Facility> bedFacility = new ArrayList<Facility>();
-	private Date facilityMobilEndDt;
-	private Date facilityMobilStartDt;
+	Date facilityMobilEndDt;
+	Date facilityMobilStartDt;
+	int[] facilityNo;
 	public Code getTroops() {
 		return troops;
 	}
@@ -79,6 +80,12 @@ public class TroopsPlacementWithFacilities implements Serializable{
 	}
 	public void setFacilityMobilStartDt(Date facilityMobilStartDt) {
 		this.facilityMobilStartDt = facilityMobilStartDt;
+	}
+	public int[] getFacilityNo() {
+		return facilityNo;
+	}
+	public void setFacilityNo(int[] facilityNo) {
+		this.facilityNo = facilityNo;
 	}
 	
 }

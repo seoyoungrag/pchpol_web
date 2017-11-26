@@ -8,15 +8,33 @@
 <script>
 jQuery(function ($) {
 	setSelectPickerTroops('stand');
-	setSelectPickerWorkplace();
+	//setSelectPickerWorkplace();
+	selectpickerObj = new SelectpickerObj();
+	selectpickerObj.divName = 'workplace_code1depth'; //지역(근무지)
+	selectpickerObj.category = 'workplace';
+	selectpickerObj.depth = '1';
+	selectpickerObj.setByCode();
+	$("#workplace_code1depth").change(function() { 
+		selectpickerObj = new SelectpickerObj();
+		selectpickerObj.divName = 'workplace_code2depth';
+		selectpickerObj.category = 'workplace';
+		selectpickerObj.depth = '2';
+		selectpickerObj.parentVal = [$("#workplace_code1depth").val()]; 
+		$('#workplace_code2depth').html('<option value="">대회시설 선택</option>');
+		selectpickerObj.setByCode();
+	});
 	getList();
 });    
 function onSelectRow(rowid){
 		//jqgrid의 한 행은 group by되서 보여지는 값이며, 현재 ui는 개별적인 수정을 할 수 있는 구조가 아님.
 		//var id = jQuery(listObj.grid).jqGrid ('getCell', rowid, listObj.idColName);
-		var code1depth = jQuery(listObj.grid).jqGrid ('getCell', rowid, 'workplace.code1depth');
-		var code2depth = jQuery(listObj.grid).jqGrid ('getCell', rowid, 'workplace.code2depth');
-		popup('view','',code1depth,code2depth);
+		var w_code1depth = jQuery(listObj.grid).jqGrid ('getCell', rowid, 'workplace.code1depth');
+		var w_code2depth = jQuery(listObj.grid).jqGrid ('getCell', rowid, 'workplace.code2depth');
+		var t_code1depth = jQuery(listObj.grid).jqGrid ('getCell', rowid, 'troops.code1depth');
+		var t_code2depth = jQuery(listObj.grid).jqGrid ('getCell', rowid, 'troops.code2depth');
+		var t_code3depth = jQuery(listObj.grid).jqGrid ('getCell', rowid, 'troops.code3depth');
+		t_code3depth = t_code3depth.replace(t_code2depth,'').trim();
+		popup('view','',w_code1depth,w_code2depth,t_code1depth,t_code2depth,t_code3depth);
 }
 var listObj;
 function getList(){
@@ -38,8 +56,11 @@ function getList(){
 	listObj.jqgrid(onSelectRow);
 }
 function formatterCode3depth(cellvalue, options, rowObject)
-{
-	var retVal = rowObject.troops.code2depth+' '+rowObject.troops.code3depth;
+{	
+	retVal = '';
+	if(rowObject.troops.code2depth!=null){
+		var retVal = rowObject.troops.code2depth+' '+rowObject.troops.code3depth;
+	}
 	return retVal
 }
 function formatterTroopsDetail(cellvalue, options, rowObject)
@@ -49,9 +70,12 @@ function formatterTroopsDetail(cellvalue, options, rowObject)
 		if(!text.code4depth){
 			retVal +='';
 		}else{
-			retVal +=text.code4depth+'</br>';
+			retVal +=text.code4depth+',';
 		}
 	});
+	if(retVal != ''){
+		retVal = retVal.slice(0,-1);
+	}
 	return retVal
 }
 function gridReload(){
@@ -66,15 +90,32 @@ function gridReload(){
 				}).trigger("reloadGrid");
 	return false;
 }
-function popup(viewType, rowid, code1depth, code2depth){
+function popup(viewType, rowid, w_code1depth, w_code2depth,t_code1depth,t_code2depth,t_code3depth){
    	var popWidth = 680;
-	var popHeight = 320;
+	var popHeight = 380;
 	var width = screen.width;
 	var height = screen.height;
 	var left = (screen.width/2)-(popWidth/2);
 	var top = (screen.height/2)-(popHeight/2);
 	var param = "width="+popWidth+",height="+popHeight+",left="+left+",top="+top;
-	window.open("${pageContext.request.contextPath}/workplace/troopsWorkplacePlacementView.do?viewType="+viewType+"&code1depth="+code1depth+"&code2depth="+code2depth,'',param);
+	var url ="${pageContext.request.contextPath}/workplace/troopsWorkplacePlacementView.do?viewType="+viewType;
+	url+="&w_code1depth="+w_code1depth+"&w_code2depth="+w_code2depth;
+	url+="&t_code1depth="+t_code1depth+"&t_code2depth="+t_code2depth+"&t_code3depth="+t_code3depth;
+	
+	window.open(encodeURI(url),'',param);
+}
+function gridReloadAll(){
+	jQuery(listObj.grid).jqGrid('setGridParam',{
+		url:encodeURI(
+				listObj.url
+				+"&workplace.code1depth="+jQuery("#workplace_code1depth").val()
+				+"&workplace.code2depth="+jQuery("#workplace_code2depth").val()
+				+"&troops.code2depth="+jQuery("#code1_code2depth").val()
+				)
+				,page:1
+				});
+	jQuery(listObj.grid).jqGrid('setGridParam',{rowNum:100000}).trigger("reloadGrid");
+	jQuery(listObj.pager).hide();
 }
 </script>
 </head>
@@ -94,33 +135,33 @@ function popup(viewType, rowid, code1depth, code2depth){
 		<div id="content-page" class="content-page">
 			<div class="content" style="margin-top:60px;">
 				<div class="container">
-					<div class="col-sm-5">
-						<h4 class="m-t-0 header-title" style="padding:10px;"><b>상설부대 배치 리스트</b></h4>
+					<div class="">
+						<h4 class="m-t-0 header-title"><b>상설부대 배치 리스트</b></h4>
 					</div>
 					<form onsubmit="gridReload(); return false" class="form-horizontal" role="form" method="post" action="#" accept-charset="utf-8">
 						<div class="col-sm-12">
-							<div class="card-box" style="margin-bottom:10px; padding-bottom:0px;">
+							<div class="card-box" style="margin-bottom:0; padding-bottom:0px;">
 								<div class="row">
 									<div class="col-md-12">
 										<div class="row">
-											<div class="col-xs-1 col-sm-3 col-md-3 col-lg-7"></div>
-											<div class="col-xs-8 col-sm-7 col-md-7 col-lg-5 text-right" style="margin-bottom:10px;">
+											<div class="col-lg-1"></div>
+											<div class="search-section">
 												<label>
-												<select class="selectpicker form-control"  data-size="15" data-width="auto" id="workplace_code1depth">
-													<option value="">지역</option>
-												</select>
+													<select class="selectpicker form-control" data-container="body" data-size="15" data-width="auto" id="workplace_code1depth">
+														<option value="">지역</option>
+													</select>
 												</label>
 												<label>
-												<select class="selectpicker form-control"  data-size="15" data-width="auto" id="workplace_code2depth">
-													<option value="">대회시설</option>
-												</select>
+													<select class="selectpicker form-control" data-container="body" data-size="15" data-width="auto" id="workplace_code2depth">
+														<option value="">대회시설</option>
+													</select>
 												</label>
 												<label>
-												<select class="selectpicker form-control"  data-size="15" data-width="auto" id="code1_code2depth">
-													<option value="">구분</option>
-												</select>
+													<select class="selectpicker form-control" data-container="body" data-size="15" data-width="auto" id="code1_code2depth">
+														<option value="">구분</option>
+													</select>
 												</label>
-												<button class="btn btn-silver btn-rounded waves-effect waves-light" type="button" onclick="gridReload();">검색</button>
+												<button class="btn btn-primary waves-effect waves-light" type="button" onclick="gridReload();">Search</button>
 											</div>
 										</div>
 									</div>
@@ -134,10 +175,10 @@ function popup(viewType, rowid, code1depth, code2depth){
 								<table id="list-grid" style="width:98%;"></table>
 								<div id="list-pager"></div>
 							</div>
-							<div class="row">
-								<div class="col-sm-12 text-right" style="padding-top: 20px;">
-									<button class="btn btn-silver btn-rounded waves-effect waves-light" type="button" onclick="javascript:popup('reg');">상설 부대 배치 등록하기</button>
-									<button class="btn btn-silver btn-rounded waves-effect waves-light" type="button" onclick="javascript:popup('reg');">전체 배치 현황 보기</button>
+							<div class="row board-bottom">
+								<div class="col-sm-12 text-right">
+									<button class="btn waves-effect waves-light" type="button" onclick="javascript:popup('reg');">상설 부대 배치 등록하기</button>
+									<button class="btn waves-effect waves-light" type="button" onclick="javascript:gridReloadAll();">전체 배치 현황 보기</button>
 								</div>
 							</div>
 						</div>

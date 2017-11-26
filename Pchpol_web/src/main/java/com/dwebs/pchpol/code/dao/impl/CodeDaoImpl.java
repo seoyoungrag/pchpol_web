@@ -261,5 +261,22 @@ public class CodeDaoImpl implements CodeDao {
 		return typedQuery.getResultList();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.dwebs.pchpol.code.dao.CodeDao#insertCode(com.dwebs.pchpol.model.Code)
+	 */
+	@Override
+	public void insertorUpdateCode(Code code) {
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		//id가 0보다 크면 update
+		if(code.getCodeNo()>0){
+			em.merge(code);
+		}else{
+			em.persist(code);
+		}
+		em.getTransaction().commit();
+		em.close();
+	}
+
 
 }

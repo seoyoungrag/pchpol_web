@@ -101,4 +101,17 @@ public interface CodeDao {
 	 */
 	List<Code> getCodeList(Code searchTroops);
 
+	/**
+	 * <PRE>
+	 * 1. MethodName : insertCode
+	 * 2. ClassName  : CodeDao
+	 * 3. Comment   : 
+	 * 4. 작성자    : yrseo
+	 * 5. 작성일    : 2017. 11. 16. 오후 7:57:39
+	 * </PRE>
+	 *   @return void
+	 *   @param code
+	 */
+	void insertorUpdateCode(Code code);
+
 }

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -143,26 +144,6 @@ public class AdminController extends BaseController {
 
 	/**
 	 * <PRE>
-	 * 1. MethodName : adminRegPage
-	 * 2. ClassName  : AdminController
-	 * 3. Comment   : '상단메뉴-관리자 정보-관리자 리스트-등록' 등록화면 페이지로 이동한다. 등록,수정,삭제가 동일한 페이지를 사용한다. type으로 구분한다. 등록:reg, 수정/뷰:view
-	 * 4. 작성자    : yrseo
-	 * 5. 작성일    : 2017. 10. 11. 오후 1:12:35
-	 * </PRE>
-	 *   @return ModelAndView
-	 *   @return
-	 */
-	@RequestMapping(value = "/admin/reg.do")
-	public ModelAndView adminRegPage() {
-		//return new ModelAndView("admin/adminReg");
-		ModelAndView mav = new ModelAndView("admin/adminView");
-		mav.addObject("type","reg");
-		return mav;
-	}
-	
-
-	/**
-	 * <PRE>
 	 * 1. MethodName : insertAdmin
 	 * 2. ClassName  : AdminController
 	 * 3. Comment   : '상단메뉴-관리자 정보-관리자 리스트-등록/뷰에서 확인 클릭' 등록 및 수정을 수행한다. model의 id가 0이면 등록, 0보다 크면 수정한다. id = adminNo
@@ -223,6 +204,14 @@ public class AdminController extends BaseController {
 		Response res = new Response();
 		Admin admin = adminService.getById(adminNo); 
 		res.setData(admin);
+		return ResponseEntity.ok(res);
+	}
+	
+	@RequestMapping(value = "/admin/delete", method = RequestMethod.POST)
+	public ResponseEntity<?> getUnitById(@RequestBody List<Integer> ids) {
+		Response res = new Response();
+		adminService.deleteByIds(ids); 
+		res.setData(ids);
 		return ResponseEntity.ok(res);
 	}
 }

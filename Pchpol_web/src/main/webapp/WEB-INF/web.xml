@@ -84,6 +84,20 @@
 		<servlet-name>Resource Servlet</servlet-name>
 		<url-pattern>/resources/*</url-pattern>
 	</servlet-mapping>
+	<servlet>
+	  <description></description>
+	  <display-name>FileHandler</display-name>
+	  <servlet-name>FileHandler</servlet-name>
+	  <servlet-class>com.dwebs.pchpol.common.util.FileHandler</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	  <servlet-name>FileHandler</servlet-name>
+	  <url-pattern>/fileUpload</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+	  <servlet-name>FileHandler</servlet-name>
+	  <url-pattern>/fileDownload</url-pattern>
+	</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>

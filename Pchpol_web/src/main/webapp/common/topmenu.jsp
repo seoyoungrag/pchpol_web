@@ -35,18 +35,19 @@
 					<ul class="dropdown-menu">
 						<li><a href="${pageContext.request.contextPath}/unit/list.do?type=stand">상설 부대원 리스트</a></li>
 						<li><a href="${pageContext.request.contextPath}/unit/list.do?type=indiv">개인별 동원자 리스트</a></li>
-						<li><a href="${pageContext.request.contextPath}/unit/list.do?type=female">여경 리스트</a></li>
+						<%-- 1104 여경을 상설 부대원에 포함
+						<li><a href="${pageContext.request.contextPath}/unit/list.do?type=female">여경 리스트</a></li> --%>
 					</ul>
 				</li>
 				<li class="dropdown">
 				<a
 					class="dropdown-toggle waves-effect waves-primary forscreensize"
 					role="button" aria-expanded="false" aria-haspopup="true" href="#"
-					data-toggle="dropdown">숙영/급식 <span class="caret"></span>
+					data-toggle="dropdown">숙영 <span class="caret"></span>
 				</a>
 					<ul class="dropdown-menu">
-						<li><a href="${pageContext.request.contextPath}/facility/troopsFacilityPlacementList.do">소속별 숙영/급식시설 리스트</a></li>
-						<li><a href="${pageContext.request.contextPath}/facility/reg.do">숙영/급식시설</a></li>
+						<li><a href="${pageContext.request.contextPath}/facility/troopsFacilityPlacementList.do">소속별 숙영시설 리스트</a></li>
+						<li><a href="${pageContext.request.contextPath}/facility/reg.do?facType=bed">숙영시설</a></li>
 					</ul>
 				</li>
 				<li class="dropdown ">
@@ -66,7 +67,7 @@
 					data-toggle="dropdown">근무 정보 <span class="caret"></span></a>
 					<ul class="dropdown-menu">
 						<li><a href="${pageContext.request.contextPath}/workplace/troopsWorkplacePlacementDetailList.do">근무 정보</a></li>
-						<li><a href="${pageContext.request.contextPath}/board/list.do?type=work">근무 일지</a></li>
+						<li><a href="${pageContext.request.contextPath}/workplace/troopsWorkplacePlacementDetailListSep.do">근무 일지</a></li>
 					</ul>
 				</li>
 				<li class="dropdown">
@@ -75,8 +76,8 @@
 					role="button" aria-expanded="false" aria-haspopup="true" href="#"
 					data-toggle="dropdown">게시판 <span class="caret"></span></a>
 					<ul class="dropdown-menu">
-						<li><a href="${pageContext.request.contextPath}/board/list.do">상황/건의사항</a></li>
-						<li><a href="${pageContext.request.contextPath}/board/list.do">공지사항</a></li>
+						<li><a href="${pageContext.request.contextPath}/board/list.do?boardType=normal">상황/건의사항</a></li>
+						<li><a href="${pageContext.request.contextPath}/board/list.do?boardType=notice">공지사항</a></li>
 					</ul>
 				</li>
 			</ul>
@@ -86,7 +87,7 @@
 				<li class="dropdown hidden-xs"><a
 					class="dropdown-toggle waves-effect waves-light forscreensize"
 					aria-expanded="true" href="#" data-toggle="dropdown"
-					data-target="#"> {관리자명} </a></li>
+					data-target="#"> ${admin.adminName} </a></li>
 				<li class="hidden-xs"><a class="waves-effect waves-light"
 					href="javascript:logout();"
 					style="margin-top: 25px; line-height: 20px;"><i
@@ -100,3 +101,11 @@
 </div>
 
 
+<script>
+var admin = '${admin.adminName}';
+function logout(){
+	if(confirm('로그아웃 하시겠습니까?')){
+		location.href = '${pageContext.request.contextPath}/logout.do';
+	}
+}
+</script>

@@ -89,4 +89,31 @@ public interface UnitDao {
 	 */
 	Unit getById(String id);
 
+	/**
+	 * <PRE>
+	 * 1. MethodName : getByPchId
+	 * 2. ClassName  : UnitDao
+	 * 3. Comment   : 
+	 * 4. 작성자    : yrseo
+	 * 5. 작성일    : 2017. 11. 7. 오후 8:11:39
+	 * </PRE>
+	 *   @return Object
+	 *   @param loginId
+	 *   @return
+	 */
+	Unit getByPchId(String loginId);
+
+	/**
+	 * <PRE>
+	 * 1. MethodName : deleteByIds
+	 * 2. ClassName  : UnitDao
+	 * 3. Comment   : 
+	 * 4. 작성자    : yrseo
+	 * 5. 작성일    : 2017. 11. 14. 오후 9:25:20
+	 * </PRE>
+	 *   @return void
+	 *   @param ids
+	 */
+	void deleteByIds(List<Integer> ids);
+
 }

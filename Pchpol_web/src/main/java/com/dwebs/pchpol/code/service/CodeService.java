@@ -101,4 +101,17 @@ public interface CodeService {
 	 */
 	List<Code> getCodeList(Code searchTroops);
 
+	/**
+	 * <PRE>
+	 * 1. MethodName : insertCode
+	 * 2. ClassName  : CodeService
+	 * 3. Comment   : 
+	 * 4. 작성자    : yrseo
+	 * 5. 작성일    : 2017. 11. 16. 오후 7:57:13
+	 * </PRE>
+	 *   @return void
+	 *   @param troops
+	 */
+	void insertCode(Code troops);
+
 }

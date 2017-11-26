@@ -42,7 +42,7 @@ jQuery(document).ready(function($) {
 		selectpickerObj.troopstype = 'stand';
 		selectpickerObj.depth = '4';
 		selectpickerObj.parentVal = [$("#code1_code1depth").val(),$("#code1_code2depth").val(),$("#code1_code3depth").val()]; 
-		$('#code1_code4depth').html('<option value="">세부소속 선택</option>');
+		$('#code1_code4depth').html('<option value="">세부소속 선택</option><option value="all">전체 선택</option>');
 		selectpickerObj.setByCode();
 	});
 	$("#code2_code1depth").change(function() { 
@@ -107,15 +107,37 @@ function getView(){
 	selectpickerObj = new SelectpickerObj();
 	selectpickerObj.divName = 'code2_code1depth'; //지역(근무지)
 	selectpickerObj.category = 'workplace';
-	selectpickerObj.selectVal = '${code1depth}';
+	selectpickerObj.selectVal = '${w_code1depth}';
 	selectpickerObj.depth = '1';
 	selectpickerObj.setByCode();
 	
 	selectpickerObj.divName = 'code2_code2depth'; //배치장소(근무지)
-	selectpickerObj.selectVal = '${code2depth}';
+	selectpickerObj.selectVal = '${w_code2depth}';
 	selectpickerObj.parentVal = [$("#code2_code1depth").val()];
 	selectpickerObj.depth = '2';
 	selectpickerObj.setByCode();
+
+	selectpickerObj = new SelectpickerObj();
+	selectpickerObj.divName = 'code1_code1depth';
+	selectpickerObj.category = 'troops';
+	selectpickerObj.troopstype = 'stand';
+	selectpickerObj.depth = '1';
+	selectpickerObj.selectVal = '${t_code1depth}';
+	selectpickerObj.setByCode();
+	
+	selectpickerObj.divName = 'code1_code2depth';
+	selectpickerObj.depth = '2';
+	selectpickerObj.selectVal = '${t_code2depth}';
+	selectpickerObj.parentVal = [$("#code1_code1depth").val()];
+	selectpickerObj.setByCode();
+
+	selectpickerObj.divName = 'code1_code3depth';
+	selectpickerObj.depth = '3';
+	selectpickerObj.selectVal = '${t_code3depth}';
+	selectpickerObj.parentVal.push($("#code1_code2depth").val()); 
+	selectpickerObj.setByCode();
+	
+	$("#code1_code3depth").trigger('change');
 }
 function reg(){
 	var isProceed = true;
@@ -143,32 +165,75 @@ function reg(){
 			isProceed = false;
 		}
 	});
-	code = {
-			codeCategory: 'troops', 
-			code1depth: $("#code1_code1depth").val(), 
-			code2depth: $("#code1_code2depth").val(),
-			code3depth: $("#code1_code3depth").val(), 
-			code4depth: $("#code1_code4depth").val()
-			};
-	$.ajax({
-		type: "GET",
-		url : "${pageContext.request.contextPath}/code",
-		cache : false,
-		data: code,
-		async: false,
-		success : function(res){
-			if(res.success){
-				$("#troopsNo").val(res.data.codeNo);
-			}else{
+	//세부소속을 여러개 등록
+	var code4 = $("#code1_code4depth").val();
+	var code4html = '';
+	var code4s = [];
+	if(code4 != 'all'){
+		code = {
+				codeCategory: 'troops', 
+				code1depth: $("#code1_code1depth").val(), 
+				code2depth: $("#code1_code2depth").val(),
+				code3depth: $("#code1_code3depth").val(), 
+				code4depth: $("#code1_code4depth").val() 
+				};
+		$.ajax({
+			type: "GET",
+			url : "${pageContext.request.contextPath}/code",
+			cache : false,
+			data: code,
+			async: false,
+			success : function(res){
+				if(res.success){
+					code4html += '<input type="hidden" name="code1" id="troopsNo" value="'+res.data.codeNo+'">';
+					$("#troops").html(code4html);
+				}else{
+					alert('데이터 입력을 실패하였습니다.');
+					isProceed = false;
+				}
+			},
+			error : function(res){
 				alert('데이터 입력을 실패하였습니다.');
 				isProceed = false;
 			}
-		},
-		error : function(res){
-			alert('데이터 입력을 실패하였습니다.');
-			isProceed = false;
-		}
-	});
+		});
+	}else{
+		$("#code1_code4depth option").each(function(idx, option)
+				{
+				    if($(option).val()!='' && $(option).val()!='all'){
+				    	code4s.push($(option).val());
+				    }
+				});
+		$.each(code4s, function(idx, txt){
+			code = {
+					codeCategory: 'troops', 
+					code1depth: $("#code1_code1depth").val(), 
+					code2depth: $("#code1_code2depth").val(),
+					code3depth: $("#code1_code3depth").val(), 
+					code4depth: txt
+					};
+			$.ajax({
+				type: "GET",
+				url : "${pageContext.request.contextPath}/code",
+				cache : false,
+				data: code,
+				async: false,
+				success : function(res){
+					if(res.success){
+						code4html += '<input type="hidden" name="code1" id="troopsNo" value="'+res.data.codeNo+'">';
+					}else{
+						alert('데이터 입력을 실패하였습니다.');
+						isProceed = false;
+					}
+				},
+				error : function(res){
+					alert('데이터 입력을 실패하였습니다.');
+					isProceed = false;
+				}
+			});
+		});
+		$("#troops").html(code4html);
+	}
 	if(isProceed==true){
 		sendFormByAjax();
 	}
@@ -192,7 +257,7 @@ function reg(){
 								<label class="col-xs-2 col-sm-2 margin-top5 control-label">
 								&nbsp;지역</label>
 								<label class="col-xs-4 col-sm-4 control-label">
-								<select class="selectpicker form-control"  data-size="15" required data-width="auto" id="code2_code1depth">
+								<select class="selectpicker form-control" data-container="body" data-size="15" required data-width="auto" id="code2_code1depth">
 									<option value="">지역 선택</option>
 								</select>
 								</label>
@@ -200,7 +265,7 @@ function reg(){
 								&nbsp;대회시설
 								</label>
 								<label class="col-xs-4 col-sm-4 control-label">
-								<select class="selectpicker form-control"  data-size="15" required data-width="auto" id="code2_code2depth">
+								<select class="selectpicker form-control" data-container="body" data-size="15" required data-width="auto" id="code2_code2depth">
 									<option value="">대회시설 선택</option>
 								</select>
 								</label>
@@ -209,7 +274,7 @@ function reg(){
 								<label class="col-xs-2 col-sm-2 margin-top5 control-label">
 								&nbsp;지방청</label>
 								<label class="col-xs-4 col-sm-4 control-label">
-								<select class="selectpicker form-control"  data-size="15" required data-width="auto" id="code1_code1depth">
+								<select class="selectpicker form-control" data-container="body" data-size="15" required data-width="auto" id="code1_code1depth">
 									<option value="">지방청 선택</option>
 								</select>
 								</label>
@@ -217,7 +282,7 @@ function reg(){
 								&nbsp;구분
 								</label>
 								<label class="col-xs-4 col-sm-4 control-label">
-								<select class="selectpicker form-control"  data-size="15" required data-width="auto" id="code1_code2depth">
+								<select class="selectpicker form-control" data-container="body" data-size="15" required data-width="auto" id="code1_code2depth">
 									<option value="">구분 선택</option>
 								</select>
 								</label>
@@ -227,7 +292,7 @@ function reg(){
 								&nbsp;부대명
 								</label>
 								<label class="col-xs-4 col-sm-4 control-label">
-								<select class="selectpicker form-control"  data-size="15" required data-width="auto" id="code1_code3depth">
+								<select class="selectpicker form-control" data-container="body" data-size="15" required data-width="auto" id="code1_code3depth">
 									<option value="">부대명 선택</option>
 								</select>
 								</label>
@@ -235,23 +300,24 @@ function reg(){
 								&nbsp;세부소속
 								</label>
 								<label class="col-xs-4 col-sm-4 control-label">
-								<select class="selectpicker form-control"  data-size="15" required data-width="auto" id="code1_code4depth">
+								<select class="selectpicker form-control" data-container="body" data-size="15" required data-width="auto" id="code1_code4depth">
 									<option value="">세부소속 선택</option>
 								</select>
 								</label>
 							</div>
 							<div class="form-group encdecButton">
 								<div class="text-center">
-									<button class="btn btn-silver btn-rounded waves-effect" id="submitBtn">
+									<button type="button" class="btn btn-silver btn-rounded waves-effect" onclick="javascript:reg();" id="submitBtn">
 										상설부대 배치 추가하기
 									</button>
-									<button class="btn btn-default btn-rounded waves-effect" onclick="javascript:self.close();">
+									<button type="button" class="btn btn-default btn-rounded waves-effect" onclick="javascript:self.close();">
 										취소
 									</button>
 								</div>
 							</div>
-							<input type="hidden" name="code1.codeNo" id="troopsNo">
-							<input type="hidden" name="code2.codeNo" id="workplaceNo">
+							<div id="troops">
+							</div>
+							<input type="hidden" name="code2" id="workplaceNo">
 						</form>	
 					</div>
                	</div>

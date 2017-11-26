@@ -13,16 +13,23 @@
  */
 package com.dwebs.pchpol.unit.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,9 +37,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.dwebs.pchpol.common.controller.BaseController;
+import com.dwebs.pchpol.common.util.ExcelService;
+import com.dwebs.pchpol.common.util.FileHandler;
 import com.dwebs.pchpol.common.vo.JQGridVO;
 import com.dwebs.pchpol.common.vo.PagingVO;
 import com.dwebs.pchpol.common.vo.Response;
+import com.dwebs.pchpol.model.Attach;
 import com.dwebs.pchpol.model.Unit;
 import com.dwebs.pchpol.unit.service.UnitService;
 
@@ -52,6 +62,9 @@ public class UnitController extends BaseController {
 	@Autowired
 	@Qualifier("unitService")
 	private UnitService unitService;
+	@Autowired
+	@Qualifier("excelService")
+	private ExcelService excelService;
 	
 	@RequestMapping(value = "/unit/list.do")
 	public ModelAndView unitListPage(@RequestParam(value="type", required=false, defaultValue="stand") String type) {
@@ -193,5 +206,87 @@ public class UnitController extends BaseController {
 		ModelAndView mav = new ModelAndView("unit/unitSub_"+name);
 		mav.addObject("depth",depth);
 		return mav;
+	}
+
+	@RequestMapping(value = "/unit/delete", method = RequestMethod.POST)
+	public ResponseEntity<?> getUnitById(@RequestBody List<Integer> ids) {
+		Response res = new Response();
+		unitService.deleteByIds(ids); 
+		res.setData(ids);
+		return ResponseEntity.ok(res);
+	}
+	
+
+	@RequestMapping(value = "/unit/excelupload.do", method = RequestMethod.GET)
+	public ModelAndView exceluploadView() {
+		ModelAndView mav = new ModelAndView("unit/excelupload");
+		return mav;
+	}
+
+	@RequestMapping(value = "/unit/excelupload", method = RequestMethod.POST)
+	public ResponseEntity<?> excelupload(
+			@RequestParam(value="fileList", required=false) String fileListArr,
+			@RequestParam(value="troosType", required=false) String troosType
+			) {
+		Response res = new Response();
+		List<Attach> attaches = null;
+		try {
+			attaches = setFileList(fileListArr);
+			JSONObject result =  excelService.readExcelFile(FileHandler.FILE_STORE_PATH+ File.separator +attaches.get(0).getAttachServerName(), troosType);
+			String a = result.toString();
+			res.setData(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if(attaches!=null){
+			
+		}
+		return ResponseEntity.ok(res);
+	}
+
+	private List<Attach> setFileList(String fileListArr) throws Exception {
+
+		String saveLocation = FileHandler.FILE_STORE_PATH;
+
+		List<Attach> attaches = new ArrayList<Attach>();
+		
+		if(!fileListArr.equals("")){
+			String[] fileList = fileListArr.split("\\*");
+			if(fileList.length != 0 && fileListArr.contains("*")){
+				File directory = new File(saveLocation);
+				
+	 	        if(directory.exists() == false){
+	 	        	directory.mkdirs();
+	 	        }
+				
+				for(int i = 0; i <fileList.length; i++){
+					Attach attach = new Attach();
+					String fileStrNm = UUID.randomUUID().toString().replaceAll("\\-", "");
+					 
+					FileInputStream inputStream = new FileInputStream(saveLocation + File.separator + fileList[i].replaceAll("&amp;", "&"));  
+					Long filesize = inputStream.getChannel().size();
+					FileOutputStream outputStream = new FileOutputStream(saveLocation + File.separator + fileStrNm);
+					  
+					FileChannel fcin =  inputStream.getChannel();
+					FileChannel fcout = outputStream.getChannel();
+					  
+					long size = fcin.size();
+					fcin.transferTo(0, size, fcout);
+					  
+					fcout.close();
+					fcin.close();
+					  
+					outputStream.close();
+					inputStream.close();
+					
+					attach.setAttachOriName(fileList[i]);
+					attach.setAttachServerName(fileStrNm);
+					//fileList[i].substring(fileList[i].lastIndexOf("."))
+					attach.setAttachFileSize(String.valueOf(filesize.intValue()));
+					attaches.add(attach);
+				}
+			}
+		}
+		return attaches;
 	}
 }

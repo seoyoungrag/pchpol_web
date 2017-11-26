@@ -1,19 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns:p="http://www.springframework.org/schema/p"
-        xmlns:context="http://www.springframework.org/schema/context"
-        xmlns:mvc="http://www.springframework.org/schema/mvc"
-        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
-                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
-                http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
 	<mvc:resources mapping="/ref/**" location="/ref/" />
+	<mvc:resources mapping="/files/**" location="/resources/files/" />
+	<mvc:resources mapping="/mobile/**" location="/mobile/" />
     <context:component-scan base-package="com.dwebs.pchpol">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
 		<context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.RestController" />
     </context:component-scan>
+    
+	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
+		<property name="order" value="1" />
+	</bean>
+ 	<bean id="ExcelDownView" class="com.dwebs.pchpol.common.util.ExcelDownView"></bean>
 	<bean id="jacksonMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
         <property name="webBindingInitializer">
@@ -25,12 +34,49 @@
 			</list>
 		</property>
     </bean>
+    <bean id="sessionCheck" class="com.dwebs.pchpol.common.util.SessionInterceptor">
+    	<property name="urls">
+    	<list value-type="java.lang.String">
+	    	<value>/login.do</value>
+	    	<value>/logout.do</value>
+	    	<value>/login</value>
+	    	<value>/mobile/</value>
+	    	<value>/pxy</value>
+    	</list>
+    	</property>
+    </bean>
+    
+    <bean id="mobileSessionCheck" class="com.dwebs.pchpol.mobile.util.MobileSessionInterceptor">
+    	<property name="chkUrls">
+	    	<list value-type="java.lang.String">
+		    	<value>/mobile/</value>
+	    	</list>
+    	</property>
+    	<property name="unchkUrls">
+	    	<list value-type="java.lang.String">
+	    		<value>/mobile/login.do</value>
+		    	<value>/mobile/logout.do</value>
+		    	<value>/mobile/login</value>
+		    	<value>/mobile/mobileFileUpload</value>
+		    	<value>/pxy</value>
+	    	</list>
+    	</property>
+    </bean>
+    
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
         <property name="interceptors">
             <list>
                 <ref bean="localeChangeInterceptor" />
             </list>
         </property>
+    </bean>
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" p:order="0">
+    	<property name="interceptors">
+    		<list>
+    			<ref bean="sessionCheck" />
+    			<ref bean="mobileSessionCheck" />
+    		</list>
+    	</property>
     </bean>
 	<!-- MultipartResolver -->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

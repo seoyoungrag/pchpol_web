@@ -1,16 +1,7 @@
 package com.dwebs.pchpol.model;
 
 import java.io.Serializable;
-import java.util.List;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 
 /**
@@ -24,12 +15,18 @@ public class Facility implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="FACILITY_NO")
 	private int facilityNo;
 
-	@Column(name="FACILITY_ADDRESS")
-	private String facilityAddress;
+	@Column(name="FACILITY_ADDR_JUSO")
+	private String facilityAddrJuso;
+
+	@Column(name="FACILITY_ADDR_SEBU")
+	private String facilityAddrSebu;
+
+	@Column(name="FACILITY_ADDR_ZIP")
+	private String facilityAddrZip;
 
 	@Column(name="FACILITY_AREA")
 	private String facilityArea;
@@ -64,10 +61,6 @@ public class Facility implements Serializable {
 	@Column(name="FACILITY_TYPE")
 	private String facilityType;
 
-	//bi-directional many-to-one association to TroopsFacilityPlacement
-	@OneToMany(mappedBy="facility")
-	private List<TroopsFacilityPlacement> troopsFacilityPlacements;
-
 	public Facility() {
 	}
 
@@ -79,12 +72,28 @@ public class Facility implements Serializable {
 		this.facilityNo = facilityNo;
 	}
 
-	public String getFacilityAddress() {
-		return this.facilityAddress;
+	public String getFacilityAddrJuso() {
+		return this.facilityAddrJuso;
 	}
 
-	public void setFacilityAddress(String facilityAddress) {
-		this.facilityAddress = facilityAddress;
+	public void setFacilityAddrJuso(String facilityAddrJuso) {
+		this.facilityAddrJuso = facilityAddrJuso;
+	}
+
+	public String getFacilityAddrSebu() {
+		return this.facilityAddrSebu;
+	}
+
+	public void setFacilityAddrSebu(String facilityAddrSebu) {
+		this.facilityAddrSebu = facilityAddrSebu;
+	}
+
+	public String getFacilityAddrZip() {
+		return this.facilityAddrZip;
+	}
+
+	public void setFacilityAddrZip(String facilityAddrZip) {
+		this.facilityAddrZip = facilityAddrZip;
 	}
 
 	public String getFacilityArea() {
@@ -173,28 +182,6 @@ public class Facility implements Serializable {
 
 	public void setFacilityType(String facilityType) {
 		this.facilityType = facilityType;
-	}
-
-	public List<TroopsFacilityPlacement> getTroopsFacilityPlacements() {
-		return this.troopsFacilityPlacements;
-	}
-
-	public void setTroopsFacilityPlacements(List<TroopsFacilityPlacement> troopsFacilityPlacements) {
-		this.troopsFacilityPlacements = troopsFacilityPlacements;
-	}
-
-	public TroopsFacilityPlacement addTroopsFacilityPlacement(TroopsFacilityPlacement troopsFacilityPlacement) {
-		getTroopsFacilityPlacements().add(troopsFacilityPlacement);
-		troopsFacilityPlacement.setFacility(this);
-
-		return troopsFacilityPlacement;
-	}
-
-	public TroopsFacilityPlacement removeTroopsFacilityPlacement(TroopsFacilityPlacement troopsFacilityPlacement) {
-		getTroopsFacilityPlacements().remove(troopsFacilityPlacement);
-		troopsFacilityPlacement.setFacility(null);
-
-		return troopsFacilityPlacement;
 	}
 
 }

@@ -62,4 +62,20 @@ public class AdminServiceImpl implements AdminService {
 		return adminDao.getById(id);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.dwebs.pchpol.admin.service.AdminService#login(com.dwebs.pchpol.model.Admin)
+	 */
+	@Override
+	public Admin login(Admin admin) {
+		return adminDao.login(admin);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.dwebs.pchpol.admin.service.AdminService#deleteByIds(java.util.List)
+	 */
+	@Override
+	public void deleteByIds(List<Integer> ids) {
+		adminDao.deleteByIds(ids);
+	}
+
 }

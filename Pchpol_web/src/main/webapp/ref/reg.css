@@ -30,7 +30,7 @@
 	align: center;
 }
 
-select[name^="unitMobilStartDt_"],select[name^="unitMobilEndDt_"],select[name^="mobilDate_"] {
+select[name^="unitMobilStartDt_"],select[name^="unitMobilEndDt_"],select[name^="mobilDate_"],select[name^="facilityMobilStartDt_"],select[name^="facilityMobilEndDt_"] {
 	margin-left: 0;
 	padding-right: 25px;
 	z-index: 1;
@@ -67,4 +67,10 @@ select[name^="unitMobilStartDt_"],select[name^="unitMobilEndDt_"],select[name^="
   vertical-align: middle; 
 }
 
-
+.dz-image, .dz-details{
+	display: none !important
+}
+.dropdown-menu .inner{
+	max-height: 160px !important;
+    overflow-y: auto !important;
+}

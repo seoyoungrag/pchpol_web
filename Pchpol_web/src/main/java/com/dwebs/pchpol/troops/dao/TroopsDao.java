@@ -16,6 +16,7 @@ package com.dwebs.pchpol.troops.dao;
 import java.util.List;
 
 import com.dwebs.pchpol.common.vo.PagingVO;
+import com.dwebs.pchpol.facility.vo.TroopsPlacementWithFacilities;
 import com.dwebs.pchpol.model.TroopsFacilityPlacement;
 import com.dwebs.pchpol.model.TroopsPlacement;
 import com.dwebs.pchpol.model.WorkplacePlacement;
@@ -138,13 +139,13 @@ public interface TroopsDao {
 	 * 2. ClassName  : TroopsDao
 	 * 3. Comment   : 
 	 * 4. 작성자    : yrseo
-	 * 5. 작성일    : 2017. 10. 19. 오후 6:18:22
+	 * 5. 작성일    : 2017. 10. 20. 오후 2:55:14
 	 * </PRE>
-	 *   @return List<WorkplacePlacement>
-	 *   @param tpSearch
+	 *   @return WorkplacePlacement
+	 *   @param wps
 	 *   @return
 	 */
-	List<WorkplacePlacement> getWorkplaceTroops(TroopsPlacement tpSearch);
+	List<WorkplacePlacement> getWorkplaceTroops(WorkplacePlacement wps);
 
 	/**
 	 * <PRE>
@@ -152,12 +153,80 @@ public interface TroopsDao {
 	 * 2. ClassName  : TroopsDao
 	 * 3. Comment   : 
 	 * 4. 작성자    : yrseo
-	 * 5. 작성일    : 2017. 10. 20. 오후 2:55:14
+	 * 5. 작성일    : 2017. 10. 22. 오후 12:31:39
 	 * </PRE>
-	 *   @return WorkplacePlacement
-	 *   @param wps
+	 *   @return List<WorkplacePlacement>
+	 *   @param pagingVO
+	 *   @param wp
 	 *   @return
 	 */
-	WorkplacePlacement getWorkplaceTroops(WorkplacePlacement wps);
+	List<WorkplacePlacement> getWorkplaceTroops(PagingVO pagingVO, WorkplacePlacement wp);
 
+	/**
+	 * <PRE>
+	 * 1. MethodName : getTotCntWorkplaceTroops
+	 * 2. ClassName  : TroopsDao
+	 * 3. Comment   : 
+	 * 4. 작성자    : yrseo
+	 * 5. 작성일    : 2017. 10. 22. 오후 12:31:42
+	 * </PRE>
+	 *   @return int
+	 *   @param pagingVO
+	 *   @param wp
+	 *   @return
+	 */
+	int getTotCntWorkplaceTroops(PagingVO pagingVO, WorkplacePlacement wp);
+
+	/**
+	 * <PRE>
+	 * 1. MethodName : getWorkplacePlacement
+	 * 2. ClassName  : TroopsDao
+	 * 3. Comment   : 
+	 * 4. 작성자    : yrseo
+	 * 5. 작성일    : 2017. 10. 22. 오후 2:08:07
+	 * </PRE>
+	 *   @return WorkplacePlacement
+	 *   @param wp
+	 *   @return
+	 */
+	WorkplacePlacement getWorkplacePlacement(WorkplacePlacement wp);
+
+	/**
+	 * <PRE>
+	 * 1. MethodName : deleteDuplicate
+	 * 2. ClassName  : TroopsDao
+	 * 3. Comment   : 
+	 * 4. 작성자    : yrseo
+	 * 5. 작성일    : 2017. 10. 28. 오후 1:23:53
+	 * </PRE>
+	 *   @return void
+	 *   @param troopsFacilities
+	 */
+	void deleteDuplicate(TroopsPlacementWithFacilities troopsFacilities);
+
+	/**
+	 * <PRE>
+	 * 1. MethodName : insertOrUpdate
+	 * 2. ClassName  : TroopsDao
+	 * 3. Comment   : 
+	 * 4. 작성자    : yrseo
+	 * 5. 작성일    : 2017. 10. 28. 오후 1:24:24
+	 * </PRE>
+	 *   @return void
+	 *   @param troopsFacilities
+	 */
+	void insertOrUpdate(TroopsPlacementWithFacilities troopsFacilities);
+
+	/**
+	 * <PRE>
+	 * 1. MethodName : deleteWorkplaceTroopsByIds
+	 * 2. ClassName  : TroopsDao
+	 * 3. Comment   : 
+	 * 4. 작성자    : yrseo
+	 * 5. 작성일    : 2017. 11. 15. 오전 12:23:24
+	 * </PRE>
+	 *   @return void
+	 *   @param ids
+	 */
+	void deleteWorkplaceTroopsByIds(List<Integer> ids);
 }

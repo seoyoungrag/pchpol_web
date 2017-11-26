@@ -30,6 +30,9 @@
 	    <logger name="jdbc.resultset" level="ERROR" additivity="false">
             <AppenderRef ref="console" />
 	    </logger>
+	    <logger name="com.dwebs.pchpol" level="DEBUG" additivity="false">
+            <AppenderRef ref="console" />
+	    </logger>
         <Root level="DEBUG">
             <AppenderRef ref="console" />
         </Root>

@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=3.0, minimum-scale=1.0, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="mobile-web-app-capable" content="yes">
+<title>::평창올림픽 동원경찰관::</title>
+<link href="resources/css/common.css" rel="stylesheet" type="text/css">
+<link href="resources/css/style.css" rel="stylesheet" type="text/css">
+<script src="resources/js/jquery-1.12.1.min.js"></script>
+<script src="resources/js/common.js"></script>
+</head>
+
+<body>
+
+<script>
+var getContextPath = function()
+{
+	var offset = null;
+	var ctxPath = null;
+	if( location.host.length > 0 )
+	{
+		offset = location.href.indexOf(location.host)+location.host.length;
+		ctxPath = location.href.substring(offset+1,location.href.lastIndexOf( "/" ) );
+		ctxPath = "/"+ctxPath.split("/")[0];
+	}
+	else{
+		ctxPath = ".";
+	}
+	return ctxPath;
+};
+var contextPath = getContextPath();
+var agt = navigator.userAgent.toLowerCase();
+console.log(agt);
+    $.ajax({
+    type: 'GET',
+    crossOrigin: true,
+    url: contextPath+'/mobile/pxy.jsp?url=http://truezure.cafe24.com/pet/gangwon/animalPharmacy',
+    success: function(res) {
+        console.log('success: ' + res);
+        console.log(res);
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+        console.log('error: \njqXhR: ' + jqXHR + '\ntextStatus: ' + textStatus + '\nerrorThrown: ' + errorThrown);
+        console.log(jqXHR);
+    },
+    timeout: function(e) {
+        console.log('timeout: ' + e);
+    },
+    complete: function(e) {
+        console.log('complete: ' + e);
+        console.log(e);
+    },
+    always: function(){
+        console.log('always');
+    },
+    fail: function(){
+    console.log('fail');
+    },
+    done: function(){
+    console.log('done');
+    }
+});
+
+</script>
+<div class="wrap_hide">
+    
+    <div class="wrap">
+    	
+        <!-- // id : header -->
+        <header id ="header">
+            <div class="cover"></div>
+            <a class="h_btn" href="index.html"><img src="resources/images/ico-btn-home.png" alt="홈으로" /></a>
+            <h1><a href="index.html">평창올림픽 동원경찰관</a></h1>
+            <a href="#" class="m_btn"><img src="resources/images/ico-header-menu.png" alt="메뉴"></a>                      
+            <div class="menu_wrap">
+            <div class="m_top">
+                    <span>상경</span> <span>한기석</span> <span>님</span>
+                    <a class="" href="#this">Log-out</a>
+                    <a class="home" href="index.html"><img src="resources/images/ico-btn-home.png" alt="홈으로" /></a>
+                  </div>
+                  <div class="m_gnb">
+                    <li><a href="notice/notice_list.html">공지사항</a></li>
+                      <li><a href="work/workinfo.html">근무정보</a></li>
+                      <li>
+                        <a class="de1" href="#this">숙영/급식</a>
+                        <ul class="de2">
+                          <li><a href="camp/lodge.html">- 숙영시설</a></li>
+                          <li><a href="camp/meal.html">- 급식시설</a></li>
+                        </ul>
+                      </li>
+                      <li>
+                        <a class="de1"  href="#this">평창올림픽</a>
+                        <ul class="de2" >
+                          <li><a href="olympic/schedule.html">- 경기일정</a></li>
+                          <li><a href="">- 대회시설 정보</a></li>
+                          <li><a href="">- 주변 편의시설</a></li>
+                        </ul>
+                      </li>
+                      <li><a href="report/report_list.html">상황보고</a></li>
+                      <li><a href="proposal/proposal.html">건의사항</a></li>
+                  </div>
+                  <div class="btn_call">
+                    <a href="tel:123-1234"><img src="resources/images/ico-login-call.png" alt="콜센터연결"/>콜센터 연결</a>
+                  </div>
+            </div>
+            <!-- // 공지-->
+            <aside>
+              <a class="notice over-hidden" href="notice/notice_view.html">
+                <img src="resources/images/ico-header-notice.png" alt="공지사항" />
+                <span class="font-bold">[긴급]</span> 아이스하키 결승전 15:00 (A경기장)
+              </a>
+              <a class="alert"  href="notice/notice_list.html"><img src="resources/images/ico-header-alert.png" alt="공지 알람" /><span class="num">11</span></a>
+            </aside>
+            <!-- // 공지-->
+        </header>
+        <!-- // id : header -->
+
+        
+        
+        <section class="contents main">
+          <h2>QUICK MENU</h2>
+          <div class="quick_m">
+            <ul class="group"> 
+              <li>
+                <figure><a href="notice/notice_list.html"><img src="resources/images/ico-btn-notice.png" alt="공지사항" /></a></figure>
+                <figcaption>공지사항 </figcaption>
+              </li>
+              <li>
+                <figure><a href="work/workinfo.html"><img src="resources/images/ico-btn-workinfo.png" alt="근무정보" /></a></figure>
+                <figcaption>근무정보</figcaption>
+              </li>
+              <li>
+                <figure><a href="camp/lodge.html"><img src="resources/images/ico-btn-meal.png" alt="숙영/급식" /></a></figure>
+                <figcaption>숙영/급식</figcaption>
+              </li>
+              <li>
+                <figure><a href="olympic/schedule.html"><img src="resources/images/ico-btn-olympic.png" alt="평창올림픽" /></a></figure>
+                <figcaption>평창올림픽</figcaption>
+              <li>
+                <figure><a href="report/report_list.html"><img src="resources/images/ico-btn-report.png" alt="상황보고" /></a></figure>
+                <figcaption>상황보고</figcaption>
+              </li>
+              <li>
+                <figure><a href="proposal/proposal_list.html"><img src="resources/images/ico-btn-recommendation.png" alt="건의사항" /></a></figure>
+                <figcaption>건의사항</figcaption>
+              </li>
+            </ul>
+          </div>
+        </section>
+
+    </div>
+</div>
+
+</body>
+</html>

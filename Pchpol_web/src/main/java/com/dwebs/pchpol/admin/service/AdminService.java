@@ -86,4 +86,31 @@ public interface AdminService {
 	 */
 	public Admin getById(String adminNo);
 
+	/**
+	 * <PRE>
+	 * 1. MethodName : login
+	 * 2. ClassName  : AdminService
+	 * 3. Comment   : 
+	 * 4. 작성자    : yrseo
+	 * 5. 작성일    : 2017. 10. 29. 오전 3:44:29
+	 * </PRE>
+	 *   @return Admin
+	 *   @param admin
+	 *   @return
+	 */
+	public Admin login(Admin admin);
+
+	/**
+	 * <PRE>
+	 * 1. MethodName : deleteByIds
+	 * 2. ClassName  : AdminService
+	 * 3. Comment   : 
+	 * 4. 작성자    : yrseo
+	 * 5. 작성일    : 2017. 11. 16. 오후 2:01:19
+	 * </PRE>
+	 *   @return void
+	 *   @param ids
+	 */
+	public void deleteByIds(List<Integer> ids);
+
 }

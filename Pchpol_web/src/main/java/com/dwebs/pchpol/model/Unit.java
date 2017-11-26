@@ -51,6 +51,11 @@ public class Unit implements Serializable {
 	@Column(name="UNIT_POL_ID")
 	private String unitPolId;
 
+	//bi-directional many-to-one association to Board
+	@JsonIgnore
+	@OneToMany(mappedBy="unit")
+	private List<Board> boards;
+	
 	//bi-directional many-to-one association to Code
 	@ManyToOne
 	@JoinColumn(name="CODE_TROOPS")
@@ -75,6 +80,9 @@ public class Unit implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="CODE_MOBIL_PLACEMENT")
 	private Code code5;
+
+	@Column(name="MOBIL_PLACEMENT_AREA")
+	private String mobilPlacementArea;
 	
 	//bi-directional many-to-one association to WorkplacePlacementDetail
 	@JsonIgnore
@@ -140,6 +148,28 @@ public class Unit implements Serializable {
 		this.unitPolId = unitPolId;
 	}
 
+	public List<Board> getBoards() {
+		return this.boards;
+	}
+
+	public void setBoards(List<Board> boards) {
+		this.boards = boards;
+	}
+
+	public Board addBoard(Board board) {
+		getBoards().add(board);
+		board.setUnit(this);
+
+		return board;
+	}
+
+	public Board removeBoard(Board board) {
+		getBoards().remove(board);
+		board.setUnit(null);
+
+		return board;
+	}
+	
 	public Code getCode1() {
 		return this.code1;
 	}
@@ -186,6 +216,14 @@ public class Unit implements Serializable {
 
 	public void setWorkplacePlacementDetails(List<WorkplacePlacementDetail> workplacePlacementDetails) {
 		this.workplacePlacementDetails = workplacePlacementDetails;
+	}
+
+	public String getMobilPlacementArea() {
+		return mobilPlacementArea;
+	}
+
+	public void setMobilPlacementArea(String mobilPlacementArea) {
+		this.mobilPlacementArea = mobilPlacementArea;
 	}
 
 	public WorkplacePlacementDetail addWorkplacePlacementDetail(WorkplacePlacementDetail workplacePlacementDetail) {

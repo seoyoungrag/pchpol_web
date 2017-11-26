@@ -89,4 +89,31 @@ public interface UnitService {
 	 */
 	Unit getById(String unitNo);
 
+	/**
+	 * <PRE>
+	 * 1. MethodName : getByPchId
+	 * 2. ClassName  : UnitService
+	 * 3. Comment   : 
+	 * 4. 작성자    : yrseo
+	 * 5. 작성일    : 2017. 11. 7. 오후 8:11:11
+	 * </PRE>
+	 *   @return void
+	 *   @param loginId
+	 */
+	Unit getByPchId(String loginId);
+
+	/**
+	 * <PRE>
+	 * 1. MethodName : deleteByIds
+	 * 2. ClassName  : UnitService
+	 * 3. Comment   : 
+	 * 4. 작성자    : yrseo
+	 * 5. 작성일    : 2017. 11. 14. 오후 9:24:34
+	 * </PRE>
+	 *   @return Unit
+	 *   @param ids
+	 *   @return
+	 */
+	void deleteByIds(List<Integer> ids);
+
 }

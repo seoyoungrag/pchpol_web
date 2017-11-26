@@ -1,6 +1,7 @@
 package com.dwebs.pchpol.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,7 +12,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 /**
@@ -52,6 +56,11 @@ public class Admin implements Serializable {
 	@JoinColumn(name="CODE_ADMIN_TYPE")
 	private Code code;
 
+	//bi-directional many-to-one association to Board
+	@JsonIgnore
+	@OneToMany(mappedBy="admin")
+	private List<Board> boards;
+	
 	public Admin() {
 	}
 
@@ -119,4 +128,25 @@ public class Admin implements Serializable {
 		this.code = code;
 	}
 
+	public List<Board> getBoards() {
+		return this.boards;
+	}
+
+	public void setBoards(List<Board> boards) {
+		this.boards = boards;
+	}
+
+	public Board addBoard(Board board) {
+		getBoards().add(board);
+		board.setAdmin(this);
+
+		return board;
+	}
+
+	public Board removeBoard(Board board) {
+		getBoards().remove(board);
+		board.setAdmin(null);
+
+		return board;
+	}
 }

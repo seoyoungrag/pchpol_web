@@ -11,12 +11,24 @@ jQuery(function ($) {
 	getList();
 });    
 var listObj;
+function excel(type){
+	var params = "sheetName=여경리스트&troopsType=female&colNamesArr=" + listObj.colNames.length + "&columns=" + listObj.colNames;
+	if(type=='search'){
+		params += "&code1.code1depth="+jQuery("#code1_code1depth").val()
+		+"&code1.code2depth=여경"
+		+"&code1.code3depth="+jQuery("#code1_code3depth").val()
+		+"&code1.code4depth="+jQuery("#code1_code4depth").val()
+		+"&searchType=unitName&searchWord="+jQuery("#searchWord").val()
+	}
+	var uri = '${pageContext.request.contextPath}/excel/unit/list.do';
+	jQuery(listObj.grid).jqGrid('excelExport', {url:uri+'?'+encodeURI(params)});
+}
 function getList(){
 	listObj = new ListObj();
 	listObj.grid = "#list-grid";
 	listObj.pager = "#list-pager";
 	listObj.url = "${pageContext.request.contextPath}/unit/list?troopsType=female&listType=jqgrid";
-	listObj.colNames = ['No.','지방청','부대명','세부소속','성명','직위','폴넷아이디','생년월일','배치지역','배치장소','임무','동원시작','동원종료'];
+	listObj.colNames = ['No.','지방청','부대명','세부소속','성명','폴넷아이디','생년월일','배치지역','배치장소','임무','동원시작','동원종료'];
 	listObj.colModel = [
 	              	   		{name:'unitNo',hidden:true, index:'unitNo', width:"30", align: "center"},
 	               	   		{name:'code1.code1depth', width:"70", align:"center"},
@@ -89,17 +101,17 @@ function popup(viewType, rowid){
 											<div class="col-xs-2 col-sm-4 col-md-4 col-lg-7"></div>
 											<div class="col-xs-5 col-sm-5 col-md-4 col-lg-3 text-right">
 												<label>
-												<select class="selectpicker form-control"  data-size="15" data-width="auto" id="code1_code1depth">
+												<select class="selectpicker form-control" data-container="body" data-size="15" data-width="auto" id="code1_code1depth">
 													<option value="">지방청</option>
 												</select>
 												</label>
 												<label>
-												<select class="selectpicker form-control"  data-size="15" data-width="auto" id="code1_code3depth">
+												<select class="selectpicker form-control" data-container="body" data-size="15" data-width="auto" id="code1_code3depth">
 													<option value="">부대명</option>
 												</select>
 												</label>
 												<label>
-												<select class="selectpicker form-control"  data-size="15" data-width="auto" id="code1_code4depth">
+												<select class="selectpicker form-control" data-container="body" data-size="15" data-width="auto" id="code1_code4depth">
 													<option value="">세부소속</option>
 												</select>
 												</label>
@@ -130,8 +142,8 @@ function popup(viewType, rowid){
 							</div>
 							<div class="row">
 								<div class="col-sm-6 text-left" style="padding-top: 20px;">
-									<button class="btn btn-inverse waves-effect waves-light" type="button" onclick="#">전체 엑셀 다운로드</button>
-									<button class="btn btn-inverse waves-effect waves-light" type="button" onclick="#">선택 검색 다운로드</button>
+									<button class="btn btn-inverse waves-effect waves-light" type="button" onclick="javascript:excel('all');">전체 엑셀 다운로드</button>
+									<button class="btn btn-inverse waves-effect waves-light" type="button" onclick="javascript:excel('search');">선택 검색 다운로드</button>
 								</div>
 								<div class="col-sm-6 text-right" style="padding-top: 20px;">
 									<button class="btn btn-silver btn-rounded waves-effect waves-light" type="button" onclick="javascript:popup('reg');">여경 기동대 추가하기</button>

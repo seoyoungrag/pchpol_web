@@ -8,25 +8,67 @@
 <script>
 jQuery(function ($) {
 	getList();
-});    
+});   
+function deleteRow(){
+	if(confirm('선택한 관리자 정보를 삭제하시겠습니까?')){
+	var rows = jQuery(listObj.grid).find('input:checked');
+	var ids = [];
+	$.each(rows, function(idx, txt){
+		ids.push($(txt).attr('uid'));		
+	});
+	$.ajax({
+	 type: "POST",
+	 url:contextPath+'/admin/delete', 
+		 contentType: "application/json; charset=utf-8",
+		 dataType: "json",
+		 data: JSON.stringify(ids),
+		 success: function(res) {
+			 if(res.success){
+				 alert('데이터를 삭제하였습니다.');
+				 gridReload();
+			 }else{
+				 alert('데이터를 삭제를 실패하였습니다.');
+			 }
+		 },
+			error : function(res){
+					alert('통신 중 실패하였습니다.');
+			}
+		});
+	}
+} 
 var listObj;
 function getList(){
 	listObj = new ListObj();
 	listObj.grid = "#list-grid";
 	listObj.pager = "#list-pager";
 	listObj.url = "${pageContext.request.contextPath}/admin/list?listType=jqgrid";
-	listObj.colNames = ['No.','권한','소속','계급','성명','비고','아이디','패스워드'];
+	listObj.colNames = ['adminNo','','No.','권한','소속','계급','성명','비고','아이디','패스워드'];
 	listObj.colModel = [
 	           	   		{name:'adminNo',hidden:true, index:'adminNo', width:"30", align: "center"},
+						{name: "select", width: "40", sortable:false, resizable:false, hidedlg:true, search:false, align:"center", fixed:true,
+                            classes: "defaultCursor",
+                            formatter: function (c,o,r) {
+        			   			var id = r.adminNo;
+                                return "<input type='checkbox' uid='"+id+"'>";
+                            } },
+                        { name: "No", width:"40", sortable:false, resizable:false, hidedlg:true, search:false, align:"center", fixed:true,
+                            classes: "jqgrid-rownum active defaultCursor",
+                            formatter: function () {
+                                var p = $(this).jqGrid("getGridParam"),
+                                    rn = p.curRowNum + (parseInt(p.page, 10) - 1)*parseInt(p.rowNum, 10);
+                                p.curRowNum++;
+                                return rn.toString();
+                            } },
 	           	   		{name:'code.code1depth', index:'code', width:"70",align:"center"},
-	           	   		{name:'adminDept',index:'adminDept', width:"120", align: "center"},
+	           	   		{name:'adminDept',index:'adminDept', width:"120", align: "left"},
 	           	   		{name:'adminRank', index:'adminRank', width:"70",align:"center"},
 	           	   		{name:'adminName',index:'adminName', width:"70", align:"center"},
-	           	   		{name:'adminEtc',index:'adminEtc', width:"200", align:"center"},
+	           	   		{name:'adminEtc',index:'adminEtc', width:"200", align:"left"},
 	           	   		{name:'adminId', hidden:true, index:'adminId'},		
 	           	   		{name:'adminPassword',hidden:true,index:'adminPassword'}
 	           	   		];
 	listObj.idColName = 'adminNo';
+	listObj.preventSelectCell = ['select','No'];
 	listObj.jqgrid();
 }
 function gridReload(){
@@ -61,34 +103,36 @@ function popup(type, rowid){
 			<div class="content" style="margin-top:60px;">
 				<div class="container" style="">
 					<div class="col-sm-12">
-						<h4 class="m-t-0 header-title" style="padding:10px;"><b>관리자 리스트</b></h4>
+						<h4 class="m-t-0 header-title"><b>관리자 리스트</b></h4>
 					</div>
 					<form onsubmit="gridReload(); return false" class="form-horizontal" role="form" method="post" action="#" accept-charset="utf-8">
 						<div class="col-sm-12" style="">
-							<div class="card-box" style="margin-bottom:10px; padding-bottom:0px;">
+							<div class="card-box" style="margin-bottom:0; padding-bottom:0px;">
 								<div class="row">
 									<div class="col-md-12">
 										<div class="row">
-											<div class="col-xs-3 col-sm-6 col-md-6 col-lg-9"></div>
-											<div class="col-xs-3 col-sm-2 col-md-2 col-lg-1 text-right">
-												<label>
-												<select id="searchType" class="form-control form-control-middle">
-														<option value="adminName">성명</option>
-														<option value="adminDept">소속</option>
-												</select>
-												</label>
-											</div>
-											<div class="col-xs-3 col-sm-2 col-md-2 col-lg-2">
-											<label>
-												<div class="form-group" style="margin-bottom:10px;">
-													<div class="col-md-8 text-left">
-														<input type="text" id="searchWord" class="form-control form-control-middle" placeholder="" value="">
-													</div>
-													<div class="col-md-4 text-left">
-														<button class="btn btn-silver btn-rounded waves-effect waves-light" type="button" onclick="gridReload();">검색</button>
-													</div>
+											<div class="col-lg-1"></div>
+											<div class="search-section">
+												<div class="pull-left mr30">
+													<label>
+													<select id="searchType" class="selectpicker form-control form-control-middle" data-container="body">
+															<option value="adminName">성명</option>
+															<option value="adminDept">소속</option>
+													</select>
+													</label>
 												</div>
-											</label>
+												<div class="pull-left">
+													<label>
+														<div class="form-group" style="margin-bottom:0;">
+															<div class="pull-left mr10">
+																<input type="text" id="searchWord" class="form-control form-control-middle" placeholder="" value="">
+															</div>
+															<div class="pull-left">
+																<button class="btn btn-primary waves-effect waves-light" type="button" onclick="gridReload();">Search</button>
+															</div>
+														</div>
+													</label>
+												</div>
 											</div>
 										</div>
 									</div>
@@ -102,9 +146,10 @@ function popup(type, rowid){
 								<table id="list-grid" style="width:98%;"></table>
 								<div id="list-pager"></div>
 							</div>
-							<div class="row">
-								<div class="col-sm-12 text-right" style="padding-top: 20px;">
-									<button class="btn btn-silver btn-rounded waves-effect waves-light" type="button" onclick="javascript:popup('reg');">계정 추가하기</button>
+							<div class="row board-bottom">
+								<div class="col-sm-12 text-right">
+									<button class="btn waves-effect waves-light" type="button" onclick="javascript:deleteRow();">관리자 삭제하기</button>
+									<button class="btn waves-effect waves-light" type="button" onclick="javascript:popup('reg');">계정 추가하기</button>
 								</div>
 							</div>
 						</div>

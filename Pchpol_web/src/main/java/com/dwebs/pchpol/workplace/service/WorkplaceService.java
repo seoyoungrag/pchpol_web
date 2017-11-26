@@ -72,4 +72,18 @@ public interface WorkplaceService {
 	 */
 	void insertWorkplacementDetailList(List<WorkplacePlacementDetail> detailList);
 
+	/**
+	 * <PRE>
+	 * 1. MethodName : findWp
+	 * 2. ClassName  : WorkplaceService
+	 * 3. Comment   : 
+	 * 4. 작성자    : yrseo
+	 * 5. 작성일    : 2017. 11. 23. 오후 2:19:16
+	 * </PRE>
+	 *   @return WorkplacePlacement
+	 *   @param wp
+	 *   @return
+	 */
+	List<WorkplacePlacement> findWp(WorkplacePlacement wp);
+
 }

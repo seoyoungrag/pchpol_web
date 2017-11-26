@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=3.0, minimum-scale=1.0, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="icon" href="/img/favicon.ico">
+<title>::평창올림픽 동원경찰관::</title>
+<link href="resources/css/common.css" rel="stylesheet" type="text/css">
+<link href="resources/css/style.css" rel="stylesheet" type="text/css">
+<link href="resources/css/main.css" rel="stylesheet" type="text/css">
+<script src="resources/js/jquery-1.12.1.min.js"></script>
+<script src="resources/js/common.js"></script>
+</head>
+<body class="">
+  <div class="login-wrap">
+    <div class="logo">
+      <img class="police" src="resources/images/logo-police.png" alt="Police" />
+      <img class="olympic" src="resources/images/logo-olympic.png" alt="PyeongChang Olympic" />
+    </div>
+    <div class="login-form">
+        <form action="">
+          <legend>평창동계올림픽 동원경찰관 로그인폼</legend>
+          <div class="login-input">
+            <input class="id" type="text" placeholder="통합포털 계정"/>
+            <a href="#this" class="del" data-id="id" ><img src="resources/images/ico-login-del.png" alt="통합포털 계정 수정" /></a>
+          </div>
+          <div class="login-input pw">
+            <input class="password" type="password" placeholder="비밀번호 입력"/>
+            <a href="#this" class="del" data-id="password" ><img src="resources/images/ico-login-del.png" alt="비밀번호 수정" /></a>
+          </div>
+          <a class="btn-login" href="index.html">로그인</a>
+        </form>
+    </div>
+    <div class="login-footer">
+        <a class="call" href="tel:02-123-1234"><img src="resources/images/ico-login-call.png" alt="콜센터연결" />콜센터 연결</a>
+        <a class="help" href="">화면 도움말<img src="resources/images/ico-login-help.png" alt="화면 도움말" /></a>
+    </div>
+  </div>
+</body>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $(".del").bind('click', function(){
+      var str_id = $(this).attr("data-id");
+      $("."+str_id).val('');
+    });
+  });
+</script>
+</html>

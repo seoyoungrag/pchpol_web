@@ -21,6 +21,8 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -28,8 +30,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.dwebs.pchpol.model.Code_;
+import com.dwebs.pchpol.model.Unit;
 import com.dwebs.pchpol.model.WorkplacePlacement;
 import com.dwebs.pchpol.model.WorkplacePlacementDetail;
+import com.dwebs.pchpol.model.WorkplacePlacementDetail_;
 import com.dwebs.pchpol.model.WorkplacePlacement_;
 import com.dwebs.pchpol.workplace.dao.WorkplaceDao;
 
@@ -110,6 +114,39 @@ public class WorkplaceDaoImpl implements WorkplaceDao {
 		}
 		em.getTransaction().commit();
 		em.close();
+	}
+
+	/* (non-Javadoc)
+	 * @see com.dwebs.pchpol.workplace.dao.WorkplaceDao#findWp(com.dwebs.pchpol.model.WorkplacePlacement)
+	 */
+	@Override
+	public List<WorkplacePlacement> findWp(WorkplacePlacement wp) {
+		EntityManager em = emf.createEntityManager();
+		CriteriaBuilder builder = em.getCriteriaBuilder();
+		CriteriaQuery<WorkplacePlacement> cQuery = builder.createQuery(WorkplacePlacement.class);
+		Root<WorkplacePlacement> from = cQuery.from(WorkplacePlacement.class);
+
+		List<Predicate> restrictions = new ArrayList<Predicate>();
+		restrictions.add(builder.equal(from.get(WorkplacePlacement_.workplacePlacementWorkDt), wp.getWorkplacePlacementWorkDt()));
+
+		Join<WorkplacePlacement, WorkplacePlacementDetail> wpdJoin = from.join(WorkplacePlacement_.workplacePlacementDetail);
+		
+		Expression<Unit> exp = wpdJoin.get(WorkplacePlacementDetail_.unit);
+		List<Unit> inUnit = new ArrayList<Unit>();
+		if(wp.getWorkplacePlacementDetail()!=null&&wp.getWorkplacePlacementDetail().size()>0){
+			for(WorkplacePlacementDetail wpd : wp.getWorkplacePlacementDetail()){
+				inUnit.add(wpd.getUnit());
+			}
+		}
+		Predicate inUnitPre = exp.in(inUnit);
+		
+		restrictions.add(inUnitPre);
+		
+		cQuery.where(restrictions.toArray(new Predicate[]{}));
+		
+		//생성한 쿼리를 실행한다.
+		TypedQuery<WorkplacePlacement> typedQuery = em.createQuery(cQuery);
+		return typedQuery.getResultList();
 	}
 
 }

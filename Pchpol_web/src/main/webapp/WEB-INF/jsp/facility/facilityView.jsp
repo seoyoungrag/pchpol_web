@@ -4,96 +4,136 @@
 <html>
 <head>
 <jsp:include page="/common/header.jsp" flush="false" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/ref/reg.css" />
 <script src="${pageContext.request.contextPath}/ref/js/common_board.js"></script>
 <script>
 jQuery(function ($) {
+	$("#facilityType").change(function(){
+		
+	});
 });    
 </script>
 </head>
 <body>
-	<!-- Begin menu -->
-	<header> 
-	<!-- 로고를 상단 가운데에 따로 띄우려면 topbar 주석 -->
-	<div class="container-fluid">
-		<div class="topbar">
-			<jsp:include page="/common/topmenu.jsp" flush="false" />
-		</div>
+<!-- Begin menu -->
+<header> 
+<!-- 로고를 상단 가운데에 따로 띄우려면 topbar 주석 -->
+<div class="container-fluid">
+	<div class="topbar">
+		<jsp:include page="/common/topmenu.jsp" flush="false" />
 	</div>
-	</header>
-	<!-- menu End --> 
-	<!-- Body -->
-	<div class="wrapper">       
-		<div id="content-page" class="content-page">
-			<div class="content" style="margin-top:60px;">
-				<div class="container">
-					<div class="col-sm-5">
-						<h4 class="m-t-0 header-title" style="padding:10px;"><b>숙영/급식 추가하기</b></h4>
-					</div>
-								
-                    <form class="form-horizontal" role="form" id="linkageRegForm" name="linkageRegForm" method="post" action="${pageContext.request.contextPath}/linkage/insert.do" accept-charset="utf-8">
-						<div class="col-sm-12">
-							<div class="card-box" style="margin-bottom:10px; padding-bottom:0px;">
-                       			<div class="row">
-                        				<div class="col-md-6" style="padding-left:20px;">
-                        					
-	                                            <div class="form-group" style="margin-bottom:10px;">
-	                                                <label class="col-md-3 control-label" style="text-align:left;">제목 :</label>
-	                                                <div class="col-md-9">
-	                                                    <input class="form-control" type="text" id="title" name="title" placeholder="제목을 입력 하세요.">
-	                                                </div>
-	                                            </div>
-	                                            <!-- <div class="form-group" style="margin-bottom:10px;">
-	                                                <label class="col-md-3 control-label" style="text-align:left;">업무구분 :</label>
-	                                                <div class="col-md-9">
-	                                                    <input class="form-control" type="text" value="업무구분을 입력 하세요.">
-	                                                </div>
-	                                            </div> -->
-	                                            <!-- <div class="form-group" style="margin-bottom:10px;">
-	                                                <label class="col-md-3 control-label">컬럼 한글명 :</label>
-	                                                <div class="col-md-9">
-	                                                <label class="col-md-3 control-label" style="text-align:left;">업무구분 :</label>
-	                                                <div class="col-md-9">
-	                                                    <input class="form-control" type="text" value="검색어를 입력 하세요.">
-	                                                </div>
-	                                            </div> -->
-                        				</div>
-
-                        				<div class="col-md-6" style="padding-right:20px;">
-                                            <div class="form-group" style="margin-bottom:10px;">
-                                                <label class="col-md-3 control-label" style="text-align:left;">자료유형 :  </label>
-                                                <div class="col-md-6">
-                                                    <select class="selectpicker"  name="referenceType">
-													  <option value="1">접수대기</option>
-													  <option value="2">접수보류</option>
-													  <option value="3">접수반려</option>
-													  <option value="4">작업진행</option>
-													  <option value="5">작업완료</option>
-													  <option value="6">작업취소</option>
-													</select>
-                                                </div>
-                                                <div class="col-md-3 text-right">
-                                    				<button class="btn btn-silver waves-effect waves-light" type="button"  onclick="javascript:linkageInsert();">등록</button>
-                                                    <button class="btn btn-warning waves-effect waves-light" onclick="javascript:goList();" type="button" >취소</button>
-                                                </div>
-                                            </div>
-                        				</div>
-                        			</div>
-                       			<div id='daum_editor_panel'></div>
-                       		<input type='hidden' id='content' name='content' value=''/>
-                       		<input type='hidden' id='fileList' name='fileList' value=''/>
-                       		</div>
-                        </div>
-                        </form>
-                         <div class="col-md-12 portlets">
-                            <div class="m-b-30">
-                                <form class="dropzone dz-clickable" id="dropzone" action="../fileUpload" name="dropzone" method="post" enctype="multipart/form-data">
-                                	<div class="dz-default dz-message"><span>file upload</span>
-                                	</div>
-                                </form>
+</div>
+</header>
+<!-- menu End --> 
+<!-- Body -->
+<div id="wrapper" style="margin-top:80px;">
+	<div class="">
+	<!-- Start content -->
+		<div class="content text-center">
+			<div class="container leftright-padding">
+				<h4 class="m-t-0 header-title popup-title text-center">
+					<span>소속별 숙영, 급식 시설 적용하기</span>
+				</h4>
+				<div class="col-lg-12">
+					<div class="card-box updown-padding">
+						<form onsubmit="return reg()" class="form-horizontal" role="form" id="regForm" method="post" action="${pageContext.request.contextPath}/facility/troopsFacilityPlacement" accept-charset="utf-8">
+							<div class="form-group bottom-line">
+								<label class="col-xs-12 col-sm-12 control-label text-right">
+								<select class="selectpicker form-control" data-container="body" data-size="15" required data-width="auto" id="facilityType">
+									<option value="bed">숙영시설</option>
+									<option value="food">급식시설</option>
+								</select>
+								</label>
 							</div>
-		               	</div>
-		</div>
-	</div>
+							<div class="form-group bottom-line">
+								<label class="col-xs-2 col-sm-2 margin-top5 control-label">
+								&nbsp;시설명</label>
+								<label class="col-xs-4 col-sm-4 control-label input-label">
+								<input class="form-control" type="text" placeholder="시설이름을 입력 하세요" name="facilityName" id="facilityName" >
+								</label>
+								<label class="col-xs-3 col-sm-3 margin-top5 control-label text-right">
+								&nbsp;지역</label>
+								<label class="col-xs-3 col-sm-3 control-label input-label text-left">
+								<input class="form-control" type="text" placeholder="지역" name="area" id="area" >
+								</label>
+							</div>
+							<div class="form-group bottom-line">
+								<label class="col-xs-2 col-sm-2 margin-top5 control-label">
+								&nbsp;주소</label>
+								<label class="col-xs-4 col-sm-4 control-label input-label text-left">
+								<div class="col-xs-6 col-sm-6 text-right">
+								<input class="form-control" type="text" placeholder="우편번호" name="facilityName" id="facilityName" >
+								</div>
+								<div class="col-xs-6 col-sm-6 text-left" style="padding: 0;">
+								<button class="btn btn-default btn-rounded waves-effect"  style="font-size: 0.9em;" onclick="javascript:self.close();">우편번호 찾기</button>
+								</div>
+								</label>
+								<label class="col-xs-3 col-sm-3 control-label input-label text-left">
+								<input class="form-control" type="text" placeholder="주소" name="facilityName" id="facilityName" >
+								</label>
+								<label class="col-xs-3 col-sm-3 control-label input-label text-left">
+								<input class="form-control" type="text" placeholder="세부주소" name="facilityName" id="facilityName" >
+								</label>
+							</div>
+							<div class="form-group bottom-line">
+								<label class="col-xs-2 col-sm-2 margin-top5 control-label">
+								&nbsp;상세내용</label>
+								<label class="col-xs-10 col-sm-10 control-label">
+									<div class="form-group">
+										<label class="col-xs-2 col-sm-2 control-label" style="margin-top: 5px;">
+										&nbsp;담당자</label>
+										<label class="col-xs-4 col-sm-4 control-label input-label">
+										<input class="form-control" type="text" placeholder="담당자를 입력 하세요" name="facilityChargerName" id="facilityChargerName" >
+										</label>
+										<label class="col-xs-2 col-sm-2 control-label" style="margin-top: 5px;">
+										&nbsp;연락처</label>
+										<label class="col-xs-4 col-sm-4 control-label input-label">
+										<input class="form-control" type="text" placeholder="연락처를 입력 하세요" name="facilityChargerTel" id="facilityChargerTel" >
+										</label>
+										<div>
+											<label class="col-xs-2 col-sm-2 control-label input-label" style="margin-top: 5px;">
+												&nbsp;목욕탕
+											</label>
+											<label class="col-xs-10 col-sm-10 control-label input-label">
+												<input class="form-control" type="text" placeholder="목욕탕을 입력 하세요" name="facilityShelterBath" id="facilityShelterBath" >
+											</label>
+										</div>
+										<div>
+											<label class="col-xs-2 col-sm-2 control-label input-label" style="margin-top: 5px;">
+												&nbsp;세탁실
+											</label>
+											<label class="col-xs-10 col-sm-10 control-label input-label">
+												<input class="form-control" type="text" placeholder="세탁실을 입력 하세요" name="facilityShelterLaundry" id="facilityShelterLaundry" >
+											</label>
+										</div>
+										<div>
+											<label class="col-xs-2 col-sm-2 control-label input-label" style="margin-top: 5px;">
+												&nbsp;기타 편의시설
+											</label>
+											<label class="col-xs-10 col-sm-10 control-label input-label">
+												<input class="form-control" type="text" placeholder="기타 편의시설을 입력 하세요" name="facilityShelterOther" id="facilityShelterOther" >
+											</label>
+										</div>
+									</div>
+								</label>
+							</div>
+							<div class="form-group">
+								<div class="text-center">
+									<button class="btn btn-silver btn-rounded waves-effect" id="submitBtn">
+										추가/수정하기
+									</button>
+									<button class="btn btn-default btn-rounded waves-effect" onclick="javascript:self.close();">
+										취소
+									</button>
+								</div>
+							</div>
+						</form>	
+					</div>
+               	</div>
+            </div>
+        </div>
+    </div>
+</div>
 	<!-- end body -->
 </body>
 </html>

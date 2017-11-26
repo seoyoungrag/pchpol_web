@@ -21,6 +21,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -30,6 +31,7 @@ import org.springframework.stereotype.Component;
 import com.dwebs.pchpol.admin.dao.AdminDao;
 import com.dwebs.pchpol.common.vo.PagingVO;
 import com.dwebs.pchpol.model.Admin;
+import com.dwebs.pchpol.model.Admin_;
 
 /**
  * <PRE>
@@ -135,6 +137,63 @@ public class AdminDaoImpl implements AdminDao {
 		EntityManager em = emf.createEntityManager();
 		Admin result = em.find(Admin.class, Integer.parseInt(id));
 		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.dwebs.pchpol.admin.dao.AdminDao#login(com.dwebs.pchpol.model.Admin)
+	 */
+	@Override
+	public Admin login(Admin admin) {
+		EntityManager em = emf.createEntityManager();
+		//기본 select ~ from ~ 쿼리를 생성한다.
+		CriteriaBuilder builder = em.getCriteriaBuilder();
+		CriteriaQuery<Admin> cQuery = builder.createQuery(Admin.class);
+		Root<Admin> from = cQuery.from(Admin.class);
+
+		List<Predicate> restrictions = new ArrayList<Predicate>();
+		restrictions.add(builder.equal(from.get(Admin_.adminId), admin.getAdminId()));
+		restrictions.add(builder.equal(from.get(Admin_.adminPassword), admin.getAdminPassword()));
+		
+		cQuery.where(restrictions.toArray(new Predicate[]{}));
+		
+		//생성한 쿼리를 실행한다.
+		TypedQuery<Admin> typedQuery = em.createQuery(cQuery);
+		List<Admin> result = new ArrayList<Admin>();
+		
+		result = typedQuery.getResultList();
+		if(result.size()>0){
+			return result.get(0);
+		}else{
+			return null;
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see com.dwebs.pchpol.admin.dao.AdminDao#deleteByIds(java.util.List)
+	 */
+	@Override
+	public void deleteByIds(List<Integer> ids) {
+		EntityManager em = emf.createEntityManager();
+		CriteriaBuilder builder = em.getCriteriaBuilder();
+		CriteriaQuery<Admin> cQuery = builder.createQuery(Admin.class);
+		Root<Admin> from = cQuery.from(Admin.class);
+
+		List<Predicate> restrictions = new ArrayList<Predicate>();
+		Expression<Integer> exp = from.get(Admin_.adminNo);
+		Predicate predicate = exp.in(ids);
+
+		restrictions.add(predicate);
+		cQuery.where(restrictions.toArray(new Predicate[]{}));
+		
+		List<Admin> resultList = em.createQuery(cQuery).getResultList();
+
+		em.getTransaction().begin();
+		for(Admin unit : resultList){
+			em.remove(unit);
+		}
+		em.getTransaction().commit();
+		em.close();
+		
 	}
 
 }

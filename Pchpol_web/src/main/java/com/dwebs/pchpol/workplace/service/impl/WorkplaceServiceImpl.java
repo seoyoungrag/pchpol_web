@@ -133,4 +133,12 @@ public class WorkplaceServiceImpl implements WorkplaceService {
 		workplaceDao.insertOrUpdate(detailList);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.dwebs.pchpol.workplace.service.WorkplaceService#findWp(com.dwebs.pchpol.model.WorkplacePlacement)
+	 */
+	@Override
+	public List<WorkplacePlacement> findWp(WorkplacePlacement wp) {
+		return workplaceDao.findWp(wp);
+	}
+
 }

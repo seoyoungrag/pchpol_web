@@ -1,7 +1,7 @@
 package com.dwebs.pchpol.model;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,15 +25,15 @@ public class TroopsFacilityPlacement implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="TROOPS_FACILITY_PLACEMENT_NO")
 	private int troopsFacilityPlacementNo;
 
 	@Column(name="TROOPS_FACILITY_MOBIL_END_DT")
-	private Timestamp troopsFacilityMobilEndDt;
+	private Date troopsFacilityMobilEndDt;
 
 	@Column(name="TROOPS_FACILITY_MOBIL_START_DT")
-	private Timestamp troopsFacilityMobilStartDt;
+	private Date troopsFacilityMobilStartDt;
 
 	//bi-directional many-to-one association to Code
 	@ManyToOne
@@ -56,19 +56,19 @@ public class TroopsFacilityPlacement implements Serializable {
 		this.troopsFacilityPlacementNo = troopsFacilityPlacementNo;
 	}
 
-	public Timestamp getTroopsFacilityMobilEndDt() {
-		return this.troopsFacilityMobilEndDt;
+	public Date getTroopsFacilityMobilEndDt() {
+		return troopsFacilityMobilEndDt;
 	}
 
-	public void setTroopsFacilityMobilEndDt(Timestamp troopsFacilityMobilEndDt) {
+	public void setTroopsFacilityMobilEndDt(Date troopsFacilityMobilEndDt) {
 		this.troopsFacilityMobilEndDt = troopsFacilityMobilEndDt;
 	}
 
-	public Timestamp getTroopsFacilityMobilStartDt() {
-		return this.troopsFacilityMobilStartDt;
+	public Date getTroopsFacilityMobilStartDt() {
+		return troopsFacilityMobilStartDt;
 	}
 
-	public void setTroopsFacilityMobilStartDt(Timestamp troopsFacilityMobilStartDt) {
+	public void setTroopsFacilityMobilStartDt(Date troopsFacilityMobilStartDt) {
 		this.troopsFacilityMobilStartDt = troopsFacilityMobilStartDt;
 	}
 

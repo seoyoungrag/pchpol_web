@@ -21,6 +21,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -137,6 +138,11 @@ public class UnitDaoImpl implements UnitDao {
 		//생성한 쿼리를 실행한다.
 		TypedQuery<Unit> typedQuery = em.createQuery(cQuery);
 		List<Unit> result = new ArrayList<Unit>();
+		if(pagingVO.getStartNum()!=0){
+			typedQuery.setFirstResult(pagingVO.getStartNum());
+			typedQuery.setMaxResults(pagingVO.getRows());
+		}
+		else 
 		if(pagingVO.getPage()>0){
 			int page = pagingVO.getPage();
 			int pageSize = pagingVO.getRows();
@@ -224,6 +230,56 @@ public class UnitDaoImpl implements UnitDao {
 		EntityManager em = emf.createEntityManager();
 		Unit result = em.find(Unit.class, Integer.parseInt(id));
 		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.dwebs.pchpol.unit.dao.UnitDao#getByPchId(java.lang.String)
+	 */
+	@Override
+	public Unit getByPchId(String loginId) {
+		EntityManager em = emf.createEntityManager();
+		CriteriaBuilder builder = em.getCriteriaBuilder();
+		CriteriaQuery<Unit> cQuery = builder.createQuery(Unit.class);
+		Root<Unit> from = cQuery.from(Unit.class);
+
+		List<Predicate> restrictions = new ArrayList<Predicate>();
+		restrictions.add(builder.equal(from.get(Unit_.unitPolId), loginId));
+
+		cQuery.where(restrictions.toArray(new Predicate[]{}));
+		List<Unit> resultList = em.createQuery(cQuery).getResultList();
+		if(resultList.size()>0){
+			return resultList.get(0);
+		}
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.dwebs.pchpol.unit.dao.UnitDao#deleteByIds(java.util.List)
+	 */
+	@Override
+	public void deleteByIds(List<Integer> ids) {
+		EntityManager em = emf.createEntityManager();
+		CriteriaBuilder builder = em.getCriteriaBuilder();
+		CriteriaQuery<Unit> cQuery = builder.createQuery(Unit.class);
+		Root<Unit> from = cQuery.from(Unit.class);
+
+		List<Predicate> restrictions = new ArrayList<Predicate>();
+		Expression<Integer> exp = from.get(Unit_.unitNo);
+		Predicate predicate = exp.in(ids);
+
+		restrictions.add(predicate);
+		cQuery.where(restrictions.toArray(new Predicate[]{}));
+		
+		List<Unit> resultList = em.createQuery(cQuery).getResultList();
+
+		em.getTransaction().begin();
+		for(Unit unit : resultList){
+			em.remove(unit);
+		}
+		em.getTransaction().commit();
+		em.close();
+		
+		
 	}
 
 }

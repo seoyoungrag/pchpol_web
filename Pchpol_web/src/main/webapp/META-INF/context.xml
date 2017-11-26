@@ -9,13 +9,13 @@
 		password="dlfgkwk9!" 
 		driverClassName="com.ibm.db2.jcc.DB2Driver"
 		factory="org.apache.tomcat.jdbc.pool.DataSourceFactory" 
-		initialSize="3"
+		initialSize="20"
 		jdbcInterceptors="org.apache.tomcat.jdbc.pool.interceptor.ConnectionState;org.apache.tomcat.jdbc.pool.interceptor.StatementFinalizer"
 		jmxEnabled="true" 
 		logAbandoned="true" 
-		maxActive="20" 
-		maxIdle="3"
-		maxWait="1000" 
+		maxActive="60" 
+		maxIdle="20"
+		maxWait="-1" 
 		minEvictableIdleTimeMillis="3000" 
 		minIdle="1" 
 		removeAbandoned="true" 
@@ -23,7 +23,7 @@
 		testOnBorrow="true" 
 		testOnReturn="false" 
 		testWhileIdle="true"
-		timeBetweenEvictionRunsMillis="30000" 
-		validationInterval="30000" 
-		validationQuery="SELECT 1" />
+		timeBetweenEvictionRunsMillis="3000" 
+		validationInterval="3000" 
+		validationQuery="select 1 from sysibm.sysdummy1" />
 </Context>

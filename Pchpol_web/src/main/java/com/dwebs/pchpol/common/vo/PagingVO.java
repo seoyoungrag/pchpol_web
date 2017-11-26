@@ -7,7 +7,7 @@ import com.dwebs.pchpol.common.util.CommonUtil;
 public class PagingVO {
 
 	private int page;
-	private int nApp = 20; // 기본 목록 갯수
+	private int nApp = 10; // 기본 목록 갯수
 	private int rows;
 	private int startNum;
 	private int lastPage;
@@ -105,14 +105,15 @@ public class PagingVO {
 		this.searchWord = searchWord;
 	}
 	public void setStartNum(int startNum) {
-		this.startNum = (this.page-1)*this.rows;	
+		//this.startNum = (this.page-1)*this.rows;	
+		this.startNum = startNum;
 	}
 	
 	public void setPaging(HttpServletRequest request){
 		this.page = Integer.parseInt(nullTrim(request.getParameter("page"),"1"));
 		this.rows = Integer.parseInt(nullTrim(request.getParameter("rows"),"0"));
 		this.rows = this.rows == 0 ? this.nApp : this.rows;
-		this.startNum = (this.page-1) == 0 ? 1 : (this.page-1) * this.rows ;	
+		//this.startNum = (this.page-1) == 0 ? 1 : (this.page-1) * this.rows ;	
 		this.isSearch = Boolean.parseBoolean(request.getParameter("_search"));
 		this.sidx = CommonUtil.null2str(request.getParameter("sidx"));
 		this.sord = CommonUtil.null2str(request.getParameter("sord"));
@@ -124,4 +125,5 @@ public class PagingVO {
 		this.lastPage = (this.listCount % this.rows > 0)? 1:0;
 		this.total = (this.listCount / this.rows) + this.lastPage;
 	}
+	
 }

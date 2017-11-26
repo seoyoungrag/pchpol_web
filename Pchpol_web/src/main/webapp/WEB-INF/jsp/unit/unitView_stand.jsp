@@ -96,6 +96,11 @@ jQuery(document).ready(function($) {
 		selectpickerObj.setByCode();
 	});
 	$("#code1_code2depth").change(function() { 
+		if($(this).val()=='여경'){
+			$("#code1_code4depth").attr("required", false);
+		}else{
+			$("#code1_code4depth").attr("required", true);
+		}
 		selectpickerObj = new SelectpickerObj();
 		selectpickerObj.divName = 'code1_code3depth';
 		selectpickerObj.category = 'troops';
@@ -150,7 +155,7 @@ jQuery(document).ready(function($) {
 								<label class="col-xs-2 col-sm-2 margin-top5 control-label">
 								&nbsp;지방청</label>
 								<label class="col-xs-4 col-sm-4 control-label">
-								<select class="selectpicker form-control"  data-size="15" required data-width="auto" id="code1_code1depth">
+								<select class="selectpicker form-control" data-container="body" data-size="15" required data-width="auto" id="code1_code1depth">
 									<option value="">지방청 선택</option>
 								</select>
 								</label>
@@ -158,7 +163,7 @@ jQuery(document).ready(function($) {
 								&nbsp;구분
 								</label>
 								<label class="col-xs-4 col-sm-4 control-label">
-								<select class="selectpicker form-control"  data-size="15" required data-width="auto" id="code1_code2depth">
+								<select class="selectpicker form-control" data-container="body" data-size="15" required data-width="auto" id="code1_code2depth">
 									<option value="">구분 선택</option>
 								</select>
 								</label>
@@ -167,7 +172,7 @@ jQuery(document).ready(function($) {
 								<label class="col-xs-2 col-sm-2 margin-top5 control-label">
 								&nbsp;부대명</label>
 								<label class="col-xs-4 col-sm-4 control-label">
-								<select class="selectpicker form-control"  data-size="15" required data-width="auto" id="code1_code3depth">
+								<select class="selectpicker form-control" data-container="body" data-size="15" required data-width="auto" id="code1_code3depth">
 									<option value="">부대명 선택</option>
 								</select>
 								</label>
@@ -175,7 +180,7 @@ jQuery(document).ready(function($) {
 								&nbsp;세부소속
 								</label>
 								<label class="col-xs-4 col-sm-4 control-label">
-								<select class="selectpicker form-control"  data-size="15" required data-width="auto" id="code1_code4depth">
+								<select class="selectpicker form-control" data-container="body" data-size="15" required data-width="auto" id="code1_code4depth">
 									<option value="">세부소속 선택</option>
 								</select>
 								</label>
@@ -184,7 +189,7 @@ jQuery(document).ready(function($) {
 								<label class="col-xs-2 col-sm-2 margin-top5 control-label">
 								&nbsp;계급</label>
 								<label class="col-xs-4 col-sm-4 control-label">
-								<select class="selectpicker form-control"  data-size="15" required data-width="auto" name="code2.codeNo" id="rankCodeNo">
+								<select class="selectpicker form-control" data-container="body" data-size="15" required data-width="auto" name="code2.codeNo" id="rankCodeNo">
 									<option value="">계급 선택</option>
 								</select>
 								</label>

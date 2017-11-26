@@ -5,8 +5,13 @@ function ListObj(){
 	this.colNames;
 	this.colModel;
 	this.idColName;
+	this.excelColNames;
 	this.jqgrid = function(onSelectRow, loadError, loadComplete){
 		var idColName = this.idColName;
+		var preventSelectCell = this.preventSelectCell;
+		if(typeof preventSelectCell ==='undefined'){
+			preventSelectCell = [];
+		}
 	   	jQuery(this.grid).jqGrid({
 	   		recordtext: "{0} - {1} / {2}",
 	   		url : this.url,
@@ -20,7 +25,7 @@ function ListObj(){
 	   	   	colNames: this.colNames,
 	   	   	colModel: this.colModel,
 			styleUI : 'Bootstrap',
-	        rownumbers: true,
+	        rownumbers: false,
 			multiselect: false,
 	        height : 'auto',
 	   	   	rowNum:10,
@@ -31,23 +36,39 @@ function ListObj(){
 	   	    sortorder: "desc",
 	   	    autowidth:true,
 	   	    shrinkToFit: true,
-		   	onSelectRow:function(rowid){
-		   		if(typeof onSelectRow !== 'undefined'){
-			   		onSelectRow(rowid);
-		   		}else{
-		   			var id = jQuery(listObj.grid).jqGrid ('getCell', rowid, idColName);
-		   			popup('view',id);
-		   		}
+	   	    curRowNum: 1,
+		   	onSelectRow:function(rowid,status,e){
+		   		var name = $(e.target).closest("td").attr('aria-describedby');
+		   	    name = name.split(this.p.id+"_");
+		   	    name = name[1];
+		   	    var isPrevent = false;
+		   	    $.each(preventSelectCell, function(idx, txt){
+		   	    	if(txt==name){
+		   	    		isPrevent = true;
+		   	    		return false;
+		   	    	}
+		   	    });
+		   	    if(!isPrevent){
+		   	    	if(typeof onSelectRow !== 'undefined'){
+				   		onSelectRow(rowid);
+			   		}else{
+			   			var id = jQuery(listObj.grid).jqGrid ('getCell', rowid, idColName);
+			   			popup('view',id);
+			   		}
+		   	    }
 		   	},
 		   	loadError : function(xhr,st,err) { 
 		   		if(typeof loadError !== 'undefined'){
 		   			loadError(xhr,st,err);
 		   		}else{
-		   		    alert("리스트갱신이 실패했습니다.\nType: "+st+"; Response: "+ xhr.status + " "+xhr.statusText);
+		   		    //alert("리스트갱신이 실패했습니다.\nType: "+st+"; Response: "+ xhr.status + " "+xhr.statusText);
 		   		}
 		   	},
 	   	    loadComplete : function(res)
 	   		{	
+                var p = $(this).jqGrid("getGridParam");
+                p.curRowNum = 1; // reset curRowNum
+
 		   		if(typeof loadComplete !== 'undefined'){
 		   			loadComplete(res);
 		   		}else{
@@ -114,6 +135,7 @@ function SelectpickerObj(){
 						if(depth=='1'){
 							$.each(res.data, function (index, text) {
 								if($.inArray(text.code1depth, codes) == -1 && text.code1depth!=null){
+									/*1104 여경을 상설부대원에 추가요청
 									if(troopstype=='stand'){
 										if(text.code2depth!='경찰관 기동대'&&text.code2depth!='의경 중대'){
 											return true;
@@ -122,7 +144,14 @@ function SelectpickerObj(){
 										if(text.code2depth!='여경'){
 											return true;
 										}
-									}else if(troopstype=='indiv'){
+									}
+									*/
+									if(troopstype=='stand'){
+										if(text.code2depth!='경찰관 기동대'&&text.code2depth!='의경 중대'&&text.code2depth!='여경'){
+											return true;
+										}
+									}
+									else if(troopstype=='indiv'){
 										if(text.code2depth!='경찰관 기동대'&&text.code2depth!='의경 중대'){
 											return true;
 										}
@@ -142,12 +171,19 @@ function SelectpickerObj(){
 						}else if(depth=='2'){
 							$.each(res.data, function (index, text) {
 								if($.inArray(text.code2depth, codes) == -1 && text.code2depth!=null){
+									/*1104 여경을 상설부대원에 추가요청
 									if(troopstype=='stand'){
 										if(text.code2depth!='경찰관 기동대'&&text.code2depth!='의경 중대'){
 											return true;
 										}
 									}else if(troopstype=='female'){
 										if(text.code2depth!='여경'){
+											return true;
+										}
+									}
+									*/
+									if(troopstype=='stand'){
+										if(text.code2depth!='경찰관 기동대'&&text.code2depth!='의경 중대'&&text.code2depth!='여경'){
 											return true;
 										}
 									}else if(troopstype=='indiv'){
@@ -174,12 +210,19 @@ function SelectpickerObj(){
 						}else if(depth=='3'){
 							$.each(res.data, function (index, text) {
 								if($.inArray(text.code3depth, codes) == -1 && text.code3depth!=null){
+									/*1104 여경을 상설부대원에 추가요청
 									if(troopstype=='stand'){
 										if(text.code2depth!='경찰관 기동대'&&text.code2depth!='의경 중대'){
 											return true;
 										}
 									}else if(troopstype=='female'){
 										if(text.code2depth!='여경'){
+											return true;
+										}
+									}
+									*/
+									if(troopstype=='stand'){
+										if(text.code2depth!='경찰관 기동대'&&text.code2depth!='의경 중대'&&text.code2depth!='여경'){
 											return true;
 										}
 									}else if(troopstype=='indiv'){
@@ -207,12 +250,19 @@ function SelectpickerObj(){
 						}else if(depth=='4'){
 							$.each(res.data, function (index, text) {
 								if($.inArray(text.code4depth, codes) == -1 && text.code4depth!=null){
+									/*1104 여경을 상설부대원에 추가요청
 									if(troopstype=='stand'){
 										if(text.code2depth!='경찰관 기동대'&&text.code2depth!='의경 중대'){
 											return true;
 										}
 									}else if(troopstype=='female'){
 										if(text.code2depth!='여경'){
+											return true;
+										}
+									}
+									*/
+									if(troopstype=='stand'){
+										if(text.code2depth!='경찰관 기동대'&&text.code2depth!='의경 중대'&&text.code2depth!='여경'){
 											return true;
 										}
 									}else if(troopstype=='indiv'){
@@ -241,12 +291,19 @@ function SelectpickerObj(){
 						}else if(depth=='5'){
 							$.each(res.data, function (index, text) {
 								if($.inArray(text.code5depth, codes) == -1 && text.code5depth!=null){
+									/*1104 여경을 상설부대원에 추가요청
 									if(troopstype=='stand'){
 										if(text.code2depth!='경찰관 기동대'&&text.code2depth!='의경 중대'){
 											return true;
 										}
 									}else if(troopstype=='female'){
 										if(text.code2depth!='여경'){
+											return true;
+										}
+									}
+									*/
+									if(troopstype=='stand'){
+										if(text.code2depth!='경찰관 기동대'&&text.code2depth!='의경 중대'&&text.code2depth!='여경'){
 											return true;
 										}
 									}else if(troopstype=='indiv'){
@@ -268,12 +325,19 @@ function SelectpickerObj(){
 						});
 					}else{
 						$.each(res.data, function (index, text) {
+							/*1104 여경을 상설부대원에 추가요청
 							if(troopstype=='stand'){
 								if(text.code2depth!='경찰관 기동대'&&text.code2depth!='의경 중대'){
 									return true;
 								}
 							}else if(troopstype=='female'){
 								if(text.code2depth!='여경'){
+									return true;
+								}
+							}
+							*/
+							if(troopstype=='stand'){
+								if(text.code2depth!='경찰관 기동대'&&text.code2depth!='의경 중대'&&text.code2depth!='여경'){
 									return true;
 								}
 							}else if(troopstype=='indiv'){
@@ -317,6 +381,12 @@ function setSelectPickerTroops(troopstype){
 				$.each(res.data, function (index, text) {
 					if($.inArray(text.code1depth, code1depth) == -1 && text.code1depth!=null){
 						if(troopstype=='stand'){
+							if(text.code2depth!='경찰관 기동대'&&text.code2depth!='의경 중대'&&text.code2depth!='여경'){
+								return true;
+							}
+						}
+						/* 여경을 상설부대원에 포함 1104
+						if(troopstype=='stand'){
 							if(text.code2depth!='경찰관 기동대'&&text.code2depth!='의경 중대'){
 								return true;
 							}
@@ -324,7 +394,8 @@ function setSelectPickerTroops(troopstype){
 							if(text.code2depth!='여경'){
 								return true;
 							}
-						}else if(troopstype=='indiv'){
+						}*/
+						else if(troopstype=='indiv'){
 							if(text.code2depth!='경찰관 기동대'&&text.code2depth!='의경 중대'){
 								return true;
 							}
@@ -335,6 +406,12 @@ function setSelectPickerTroops(troopstype){
 				$.each(res.data, function (index, text) {
 					if($.inArray(text.code2depth, code2depth) == -1 && text.code2depth!=null){
 						if(troopstype=='stand'){
+							if(text.code2depth!='경찰관 기동대'&&text.code2depth!='의경 중대'&&text.code2depth!='여경'){
+								return true;
+							}
+						}
+						/* 여경을 상설부대원에 포함 1104
+						if(troopstype=='stand'){
 							if(text.code2depth!='경찰관 기동대'&&text.code2depth!='의경 중대'){
 								return true;
 							}
@@ -342,7 +419,9 @@ function setSelectPickerTroops(troopstype){
 							if(text.code2depth!='여경'){
 								return true;
 							}
-						}else if(troopstype=='indiv'){
+						}
+						*/
+						else if(troopstype=='indiv'){
 							if(text.code2depth!='경찰관 기동대'&&text.code2depth!='의경 중대'){
 								return true;
 							}
@@ -353,6 +432,12 @@ function setSelectPickerTroops(troopstype){
 				$.each(res.data, function (index, text) {
 					if($.inArray(text.code3depth, code3depth) == -1 && text.code3depth!=null){
 						if(troopstype=='stand'){
+							if(text.code2depth!='경찰관 기동대'&&text.code2depth!='의경 중대'&&text.code2depth!='여경'){
+								return true;
+							}
+						}
+						/* 여경을 상설부대원에 포함 1104
+						if(troopstype=='stand'){
 							if(text.code2depth!='경찰관 기동대'&&text.code2depth!='의경 중대'){
 								return true;
 							}
@@ -360,7 +445,8 @@ function setSelectPickerTroops(troopstype){
 							if(text.code2depth!='여경'){
 								return true;
 							}
-						}else if(troopstype=='indiv'){
+						}
+						*/else if(troopstype=='indiv'){
 							if(text.code2depth!='경찰관 기동대'&&text.code2depth!='의경 중대'){
 								return true;
 							}
@@ -371,6 +457,12 @@ function setSelectPickerTroops(troopstype){
 				$.each(res.data, function (index, text) {
 					if($.inArray(text.code4depth, code4depth) == -1 && text.code4depth!=null){
 						if(troopstype=='stand'){
+							if(text.code2depth!='경찰관 기동대'&&text.code2depth!='의경 중대'&&text.code2depth!='여경'){
+								return true;
+							}
+						}
+						/* 여경을 상설부대원에 포함 1104
+						if(troopstype=='stand'){
 							if(text.code2depth!='경찰관 기동대'&&text.code2depth!='의경 중대'){
 								return true;
 							}
@@ -378,7 +470,9 @@ function setSelectPickerTroops(troopstype){
 							if(text.code2depth!='여경'){
 								return true;
 							}
-						}else if(troopstype=='indiv'){
+						}
+						*/
+						else if(troopstype=='indiv'){
 							if(text.code2depth!='경찰관 기동대'&&text.code2depth!='의경 중대'){
 								return true;
 							}
@@ -420,7 +514,7 @@ function setSelectPickerTroops(troopstype){
 			}
 		});
 }
-function sendFormByAjax(){
+function sendFormByAjax(successFunc){
 	var regForm = $("#regForm");
 	var formData = regForm.serialize();
 	$.ajax({
@@ -429,13 +523,17 @@ function sendFormByAjax(){
 		cache : false,
 		data : formData,
 		success : function(res){
-			if(res.success){
-				alert('데이터를 입력하였습니다.');
-				window.opener.jQuery("#list-grid").trigger("reloadGrid");
-				self.close();
+			if(typeof successFunc === 'undefined'){
+				if(res.success){
+					alert('데이터를 입력하였습니다.');
+					window.opener.jQuery("#list-grid").trigger("reloadGrid");
+					self.close();
+				}else{
+					alert('데이터 입력을 실패하였습니다.');
+					alert(res.message);
+				}
 			}else{
-				alert('데이터 입력을 실패하였습니다.');
-				alert(res.message);
+				successFunc(res);
 			}
 		},
 		error : function(res){
@@ -471,6 +569,15 @@ function dateFormatterGmt (cellvalue, options, rowObject)
 {
     var format = 'YYYY-MM-DD';
     var retVal = moment(cellvalue).utcOffset(+900).format(format);
+	if(retVal == 'Invalid date'){
+		retVal = '';
+	}
+	return retVal
+}
+function dateFormatter (cellvalue, options, rowObject)
+{
+    var format = 'YYYY-MM-DD';
+    var retVal = moment(cellvalue).format(format);
 	if(retVal == 'Invalid date'){
 		retVal = '';
 	}
@@ -582,6 +689,38 @@ function setSelectPickerWorkplace(){
 				});
 				$.each(code4depth, function (index, text) {
 				    $('select#workplace_code4depth').append($('<option>', {
+				        value: text,
+				        text : text
+				    }));
+				});
+				$('.selectpicker').selectpicker('refresh')
+			 }else{
+					alert('데이터 조회를 실패하였습니다.');
+			 }
+		 },
+			error : function(res){
+					alert('데이터 조회를 실패하였습니다.');
+			}
+		});
+}
+
+
+function setSelectPickerFacilityArea(){
+	$.ajax({
+	 type: "GET",
+	 url:contextPath+'/code/list/facility_area', 
+		 contentType: "application/json; charset=utf-8",
+		 dataType: "json",
+		 success: function(res) {
+			 if(res.success){
+				var code1depth = [];
+				$.each(res.data, function (index, text) {
+					if($.inArray(text.code1depth, code1depth) == -1 && text.code1depth!=null){
+						code1depth.push(text.code1depth);
+					}
+				});
+				$.each(code1depth, function (index, text) {
+				    $('select#facilityArea_code1depth').append($('<option>', {
 				        value: text,
 				        text : text
 				    }));
