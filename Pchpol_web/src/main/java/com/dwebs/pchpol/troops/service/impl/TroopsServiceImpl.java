@@ -28,6 +28,7 @@ import com.dwebs.pchpol.model.TroopsPlacement;
 import com.dwebs.pchpol.model.WorkplacePlacement;
 import com.dwebs.pchpol.troops.dao.TroopsDao;
 import com.dwebs.pchpol.troops.service.TroopsService;
+import com.dwebs.pchpol.workplace.controller.TroopsPlacementDelete;
 import com.dwebs.pchpol.workplace.controller.TroopsPlacementModel;
 import com.dwebs.pchpol.workplace.vo.WorkplaceWithTroops;
 
@@ -234,6 +235,18 @@ public class TroopsServiceImpl implements TroopsService {
 			}
 		}
 		
+	}
+
+	/* (non-Javadoc)
+	 * @see com.dwebs.pchpol.troops.service.TroopsService#deleteTroopsPlacement(com.dwebs.pchpol.workplace.controller.TroopsPlacementDelete)
+	 */
+	@Override
+	public void deleteTroopsPlacement(TroopsPlacementDelete delete) {
+		TroopsPlacement stp = new TroopsPlacement();
+		stp.setCode1(delete.getTroops());
+		stp.setCode2(delete.getWorkplace());
+		List<TroopsPlacement> list = troopsDao.getTroopsWorkplace(stp);
+		troopsDao.deleteTroopsPlacement(list);
 	}
 
 

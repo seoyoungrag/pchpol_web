@@ -63,7 +63,8 @@ jQuery(document).ready(function($) {
 					};
 			$.ajax({
 				type: "GET",
-				url : "${pageContext.request.contextPath}/code",
+				url : "${pageContext.request.contextPath}/code", 
+				contentType: "application/json; charset=utf-8",
 				cache : false,
 				data: code,
 				async: false,
@@ -148,7 +149,8 @@ function reg(){
 			};
 	$.ajax({
 		type: "GET",
-		url : "${pageContext.request.contextPath}/code",
+		url : "${pageContext.request.contextPath}/code", 
+		contentType: "application/json; charset=utf-8",
 		cache : false,
 		data: code,
 		async: false,
@@ -179,7 +181,8 @@ function reg(){
 				};
 		$.ajax({
 			type: "GET",
-			url : "${pageContext.request.contextPath}/code",
+			url : "${pageContext.request.contextPath}/code", 
+			contentType: "application/json; charset=utf-8",
 			cache : false,
 			data: code,
 			async: false,
@@ -215,6 +218,7 @@ function reg(){
 			$.ajax({
 				type: "GET",
 				url : "${pageContext.request.contextPath}/code",
+				contentType: "application/json; charset=utf-8",
 				cache : false,
 				data: code,
 				async: false,

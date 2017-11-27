@@ -55,7 +55,7 @@ function getList(){
                                 classes: "defaultCursor",
                                 formatter: function (c,o,r) {
             			   			var id = r.unitNo;
-                                    return "<input type='checkbox' uid='"+id+"'>";
+                                    return "<input type='radio' name='selectRow' uid='"+id+"'>";
                                 } },
                             { name: "No", width:"40", sortable:false, resizable:false, hidedlg:true, search:false, align:"center", fixed:true,
                                 classes: "jqgrid-rownum active defaultCursor",
@@ -82,8 +82,12 @@ function getList(){
 	listObj.jqgrid();
 }
 function deleteRow(){
-	if(confirm('선택한 부대원 정보를 삭제하시겠습니까?')){
 	var rows = jQuery(listObj.grid).find('input:checked');
+	if(rows.length==0){
+		alert('삭제할 행을 선택해 주세요.');
+		return false;
+	}
+	if(confirm('선택한 부대원 정보를 삭제하시겠습니까?')){
 	var ids = [];
 	$.each(rows, function(idx, txt){
 		ids.push($(txt).attr('uid'));		

@@ -25,6 +25,43 @@ jQuery(function ($) {
 	});
 	getList();
 });    
+function deleteRow(){
+	var row = jQuery(listObj.grid).find('input:checked');
+	if(row.length==0){
+		alert('삭제할 행을 선택해 주세요.');
+		return false;
+	}
+	if(confirm('선택한 상설부대 배치 정보를 삭제하시겠습니까?')){
+	var workplace = {};
+	workplace.code1depth = $(row).attr('workplace.code1depth');
+	workplace.code2depth = $(row).attr('workplace.code2depth');
+	var troops = {};
+	troops.code1depth = $(row).attr('troops.code1depth');
+	troops.code2depth = $(row).attr('troops.code2depth');
+	troops.code3depth = $(row).attr('troops.code3depth');
+	var data = {};
+	data.troops = troops;
+	data.workplace = workplace;
+	$.ajax({
+	 type: "POST",
+	 url:contextPath+'/workplace/deleteTroopsPlacement', 
+		 contentType: "application/json; charset=utf-8",
+		 dataType: "json",
+		 data: JSON.stringify(data),
+		 success: function(res) {
+			 if(res.success){
+				 alert('데이터를 삭제하였습니다.');
+				 gridReload();
+			 }else{
+				 alert('데이터를 삭제를 실패하였습니다.');
+			 }
+		 },
+			error : function(res){
+					alert('통신 중 실패하였습니다.');
+			}
+		});
+	}
+}    
 function onSelectRow(rowid){
 		//jqgrid의 한 행은 group by되서 보여지는 값이며, 현재 ui는 개별적인 수정을 할 수 있는 구조가 아님.
 		//var id = jQuery(listObj.grid).jqGrid ('getCell', rowid, listObj.idColName);
@@ -43,16 +80,22 @@ function getList(){
 	listObj.grid = "#list-grid";
 	listObj.pager = "#list-pager";
 	listObj.url = "${pageContext.request.contextPath}/workplace/troopsWorkplacePlacementList?listType=jqgrid";
-	listObj.colNames = ['지역','대회시설','지방청','기동대/의경 구분','구분','부대명'];
+	listObj.colNames = ['','지역','대회시설','지방청','기동대/의경 구분','구분','부대명'];
 	listObj.colModel = [
-	               	   		{name:'workplace.code1depth', width:"70", align:"center"},
-	               	   		{name:'workplace.code2depth', width:"70", align: "center"},
-	               	   		{name:'troops.code1depth', width:"70", align: "center"},
-	               	   		{name:'troops.code2depth', hidden:true, width:"70", align: "center"},
-	               	   		{name:'troops.code3depth', width:"70", align:"center", formatter:formatterCode3depth},
-	               	   		{name:'troopsDetail', sortable:false , width:"70", align:"center", formatter:formatterTroopsDetail}
+						{name: "select", width: "40", sortable:false, resizable:false, hidedlg:true, search:false, align:"center", fixed:true,
+                            classes: "defaultCursor",
+                            formatter: function (c,o,r) {
+                                return "<input type='radio' name='selectRow' workplace.code1depth='"+r.workplace.code1depth+"' workplace.code2depth='"+r.workplace.code2depth+"' troops.code1depth='"+r.troops.code1depth+"' troops.code2depth='"+r.troops.code2depth+"' troops.code3depth='"+r.troops.code3depth+"' ";
+                            } },
+               	   		{name:'workplace.code1depth', width:"70", align:"center"},
+               	   		{name:'workplace.code2depth', width:"70", align: "center"},
+               	   		{name:'troops.code1depth', width:"70", align: "center"},
+               	   		{name:'troops.code2depth', hidden:true, width:"70", align: "center"},
+               	   		{name:'troops.code3depth', width:"70", align:"center", formatter:formatterCode3depth},
+               	   		{name:'troopsDetail', sortable:false , width:"70", align:"center", formatter:formatterTroopsDetail}
 	               	   	];
 	listObj.idColName = 'workplace.code1depth';
+	listObj.preventSelectCell = ['select'];
 	listObj.jqgrid(onSelectRow);
 }
 function formatterCode3depth(cellvalue, options, rowObject)
@@ -178,6 +221,7 @@ function gridReloadAll(){
 							<div class="row board-bottom">
 								<div class="col-sm-12 text-right">
 									<button class="btn waves-effect waves-light" type="button" onclick="javascript:popup('reg');">상설 부대 배치 등록하기</button>
+									<button class="btn waves-effect waves-light" type="button" onclick="javascript:deleteRow();">상설 부대 배치 삭제하기</button>
 									<button class="btn waves-effect waves-light" type="button" onclick="javascript:gridReloadAll();">전체 배치 현황 보기</button>
 								</div>
 							</div>

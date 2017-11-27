@@ -1068,6 +1068,16 @@ table.focus-on tbody tr.focused td {
 #content-page .ui-jqgrid .ui-jqgrid-htable .ui-th-div {
 	display:inline-block;
 }
+/* 1126추가 */
+#content-page .ui-jqgrid .ui-jqgrid-hdiv .ui-jqgrid-htable th {
+	height:30px; 
+	overflow:hidden;
+	padding-right:4px;
+	padding-top:2px;
+	position:relative;
+	vertical-align:text-top;
+	white-space:normal !important;
+}
 #content-page .table > tbody > tr.active > td, 
 #content-page .table > tbody > tr > td.active {
 	background-color:transparent;
@@ -1743,4 +1753,28 @@ table.dataTable td.focus {
 }
 .widget-icon .wid-icon-info {
   margin-left: 80px;
+}
+.ui-pg-selbox {
+    border: 1px solid #ccc;
+    /* width: 120px; */
+    border-radius: 3px;
+    overflow: hidden;
+    /* background: #fafafa url("img/icon-select.png") no-repeat 90% 50%; */
+    font-size: 14px !important;
+    padding: 0px !important;
+    color: #367cff;
+}
+
+.ui-pg-selbox select {
+    padding: 5px 8px;
+    width: 100%;
+    border: none;
+    box-shadow: none;
+    background: transparent;
+    background-image: none;
+    -webkit-appearance: none;
+}
+
+.ui-pg-selbox select:focus {
+    outline: none;
 }

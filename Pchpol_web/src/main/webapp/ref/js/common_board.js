@@ -66,6 +66,8 @@ function ListObj(){
 		   	},
 	   	    loadComplete : function(res)
 	   		{	
+
+	   	    	//$('.ui-pg-selbox').selectpicker('refresh');
                 var p = $(this).jqGrid("getGridParam");
                 p.curRowNum = 1; // reset curRowNum
 

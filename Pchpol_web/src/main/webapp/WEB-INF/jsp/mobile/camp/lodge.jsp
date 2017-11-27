@@ -10,6 +10,25 @@
 </head>
 
 <body>
+<style>
+  .wrap textarea {
+    width: 100%;
+    resize: none;
+    overflow-y: hidden; /* prevents scroll bar flash */
+    padding: 1.1em; /* prevents text jump on Enter keypress */
+    padding-bottom: 0.2em;
+    line-height: 1.6;
+  }
+</style>
+<script>
+$(document).ready(function() {
+    $('.wrap').on( 'keyup', 'textarea', function (e){
+      $(this).css('height', 'auto' );
+      $(this).height( this.scrollHeight );
+    });
+    $('.wrap').find( 'textarea' ).keyup();
+  });
+</script>
 <div class="wrap_hide">   
     <div class="wrap">
 		<!-- // id : header -->
@@ -56,9 +75,14 @@
                     <td colspan="2"  class="txt-light"><fmt:formatDate pattern="yyyy년 MM월 dd일" value="${startDt }" /> ~ <fmt:formatDate pattern="yyyy년 MM월 dd일" value="${endDt }" /></td>
                   </tr>
                   <tr>
-                    <th rowspan="5">정보</th>
+                    <th rowspan="6">정보</th>
                     <td class="txt-center txt-navy border-right pad10">숙소명</td>
                     <td class="txt-light">${facility.facilityName }</td>
+                  </tr>
+                  <tr>
+                    <td class="txt-light" colspan="2">
+                  	<img style="max-width: 100%;" src="${pageContext.request.contextPath}/mobile/resources/images/lodge-${facility.facilityNo }.png" onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/mobile/resources/images/lodge-${facility.facilityNo }.jpg'" alt="" />
+                    </td>
                   </tr>
                   <tr>
                     <td class="txt-center txt-navy border-right pad10">주소</td>
@@ -68,7 +92,7 @@
                     <td colspan="2">
                       <p class="txt-navy"> ＜상세내용＞</p>
                       <p class="txt-light">
-						<textarea readonly style="border:0px;width:100%;height:150px;">${facility.facilityShelterOther }</textarea>
+						<textarea class="autosize" readonly style="border:0px;width:100%;min-height:150px;">${facility.facilityShelterOther }</textarea>
                       </p>
                     </td>
                   </tr>

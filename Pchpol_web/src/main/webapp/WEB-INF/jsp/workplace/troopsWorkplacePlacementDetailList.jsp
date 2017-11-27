@@ -32,8 +32,12 @@ jQuery(function ($) {
 	getList();
 });
 function deleteRow(){
-	if(confirm('선택한 근무 정보를 삭제하시겠습니까?')){
 	var rows = jQuery(listObj.grid).find('input:checked');
+	if(rows.length==0){
+		alert('삭제할 행을 선택해 주세요.');
+		return false;
+	}
+	if(confirm('선택한 근무 정보를 삭제하시겠습니까?')){
 	var ids = [];
 	$.each(rows, function(idx, txt){
 		ids.push($(txt).attr('uid'));		
@@ -74,7 +78,7 @@ function getList(){
                                 classes: "defaultCursor",
                                 formatter: function (c,o,r) {
             			   			var id = r.workplace.codeNo;
-                                    return "<input type='checkbox' uid='"+id+"'>";
+                                    return "<input type='radio' name='selectRow' uid='"+id+"'>";
                                 } },
                             { name: "No", width:"40", sortable:false, resizable:false, hidedlg:true, search:false, align:"center", fixed:true,
                                 classes: "jqgrid-rownum active defaultCursor",
@@ -272,7 +276,7 @@ function excel(type){
 									<button class="btn btn-primary waves-effect waves-light" type="button" onclick="javascript:gridReloadNotReg();">미 등록 근무지 보기</button>
 									<button class="btn btn-primary waves-effect waves-light" type="button" onclick="javascript:excel('all');">엑셀 다운로드</button>
 								</div><div class="col-sm-6 text-right">
-									<button class="btn waves-effect waves-light" type="button" onclick="javascript:deleteRow();">부대원 삭제하기</button>
+									<button class="btn waves-effect waves-light" type="button" onclick="javascript:deleteRow();">근무정보 배치 삭제하기</button>
 									<button class="btn waves-effect waves-light" type="button" onclick="javascript:gridReloadNotAll();">전체 근무 현황 보기</button>
 								</div>
 							</div>

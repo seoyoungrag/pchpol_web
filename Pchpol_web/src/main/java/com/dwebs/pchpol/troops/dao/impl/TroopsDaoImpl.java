@@ -360,7 +360,7 @@ public class TroopsDaoImpl implements TroopsDao {
 				e = workplace.get(pagingVO.getSidx());
 			}
 
-			List<Order> orderList = new ArrayList();
+			List<Order> orderList = new ArrayList<Order>();
 			orderList.add(builder.asc(workplace.get(Code_.code1depth)));
 			orderList.add(builder.asc(workplace.get(Code_.code2depth)));
 			if(pagingVO.getSord().equals("asc")){
@@ -830,8 +830,23 @@ public class TroopsDaoImpl implements TroopsDao {
 		List<WorkplacePlacement> resultList = em.createQuery(cQuery).getResultList();
 
 		em.getTransaction().begin();
-		for(WorkplacePlacement unit : resultList){
-			em.remove(unit);
+		for(WorkplacePlacement wp : resultList){
+			em.remove(wp);
+		}
+		em.getTransaction().commit();
+		em.close();
+	}
+
+
+	/* (non-Javadoc)
+	 * @see com.dwebs.pchpol.troops.dao.TroopsDao#deleteTroopsPlacement(java.util.List)
+	 */
+	@Override
+	public void deleteTroopsPlacement(List<TroopsPlacement> list) {
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		for(TroopsPlacement tp : list){
+			em.remove(em.contains(tp) ? tp : em.merge(tp));
 		}
 		em.getTransaction().commit();
 		em.close();

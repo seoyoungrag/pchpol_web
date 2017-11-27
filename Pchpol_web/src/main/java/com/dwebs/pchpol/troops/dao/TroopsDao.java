@@ -229,4 +229,18 @@ public interface TroopsDao {
 	 *   @param ids
 	 */
 	void deleteWorkplaceTroopsByIds(List<Integer> ids);
+
+	/**
+	 * <PRE>
+	 * 1. MethodName : deleteTroopsPlacement
+	 * 2. ClassName  : TroopsDao
+	 * 3. Comment   : 
+	 * 4. 작성자    : yrseo
+	 * 5. 작성일    : 2017. 11. 26. 오후 8:18:46
+	 * </PRE>
+	 *   @return Exception
+	 *   @param list
+	 *   @return
+	 */
+	void deleteTroopsPlacement(List<TroopsPlacement> list);
 }

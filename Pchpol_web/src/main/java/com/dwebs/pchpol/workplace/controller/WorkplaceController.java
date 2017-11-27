@@ -639,6 +639,14 @@ public class WorkplaceController extends BaseController {
 		return ResponseEntity.ok(res);
 	}
 
+	@RequestMapping(value = "/workplace/deleteTroopsPlacement", method = RequestMethod.POST)
+	public ResponseEntity<?> deleteTroopsPlacement(@RequestBody TroopsPlacementDelete delete) {
+		Response res = new Response();
+		troopsService.deleteTroopsPlacement(delete);
+		//troopsService.deleteWorkplaceTroopsByIds(ids); 
+		//res.setData(ids);
+		return ResponseEntity.ok(res);
+	}
 }
 
 class Descending implements Comparator<TroopsPlacement> {

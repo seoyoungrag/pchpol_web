@@ -88,6 +88,24 @@
 .ui-jqgrid .ui-pg-table td {font-weight:normal; vertical-align:middle; padding:0px 1px;}
 .ui-jqgrid .ui-pg-button  { height:auto}
 .ui-jqgrid .ui-pg-button span { display: block; margin: 2px; float:left;}
+.ui-jqgrid #first_list-pager.ui-pg-button span,
+.ui-jqgrid #prev_list-pager.ui-pg-button span,
+.ui-jqgrid #next_list-pager.ui-pg-button span,
+.ui-jqgrid #last_list-pager.ui-pg-button span {width:30px;height:30px;border-radius:50%;text-align:center}
+.ui-jqgrid #first_list-pager.ui-pg-button span,
+.ui-jqgrid #last_list-pager.ui-pg-button span {padding:6px 0 0 0}
+.ui-jqgrid #prev_list-pager.ui-pg-button span,
+.ui-jqgrid #next_list-pager.ui-pg-button span {background-color:#367cff;color:#fff}
+.ui-jqgrid #prev_list-pager.ui-pg-button.ui-disabled span,
+.ui-jqgrid #next_list-pager.ui-pg-button.ui-disabled span {background-color:#eee;color:#c2c2c2}
+.ui-jqgrid .ui-pg-button.ui-disabled {opacity:1}
+.ui-jqgrid #prev_list-pager.ui-pg-button span {padding:8px 3px 0 0}
+.ui-jqgrid #next_list-pager.ui-pg-button span {padding:8px 0 0 3px}
+.ui-jqgrid #first_list-pager.ui-pg-button span,
+.ui-jqgrid #last_list-pager.ui-pg-button span {border:2px solid #367cff;color:#367cff}
+.ui-jqgrid #first_list-pager.ui-pg-button.ui-disabled span,
+.ui-jqgrid #last_list-pager.ui-pg-button.ui-disabled span {border:2px solid #cdcdcd;color:#cdcdcd}
+
 /* .ui-jqgrid .ui-pg-button:hover { padding: 0;} */
 .ui-jqgrid .ui-pg-button:hover { }
 .ui-jqgrid .ui-state-disabled:hover {padding:0px;}

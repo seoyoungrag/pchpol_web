@@ -20,6 +20,7 @@ import com.dwebs.pchpol.facility.vo.TroopsPlacementWithFacilities;
 import com.dwebs.pchpol.model.TroopsFacilityPlacement;
 import com.dwebs.pchpol.model.TroopsPlacement;
 import com.dwebs.pchpol.model.WorkplacePlacement;
+import com.dwebs.pchpol.workplace.controller.TroopsPlacementDelete;
 import com.dwebs.pchpol.workplace.controller.TroopsPlacementModel;
 import com.dwebs.pchpol.workplace.vo.WorkplaceWithTroops;
 
@@ -257,4 +258,17 @@ public interface TroopsService {
 	 *   @param troopsPlacement
 	 */
 	void insertTroopsWorkplacePlacement(TroopsPlacementModel troopsPlacement);
+
+	/**
+	 * <PRE>
+	 * 1. MethodName : deleteTroopsPlacement
+	 * 2. ClassName  : TroopsService
+	 * 3. Comment   : 
+	 * 4. 작성자    : yrseo
+	 * 5. 작성일    : 2017. 11. 26. 오후 8:14:04
+	 * </PRE>
+	 *   @return void
+	 *   @param delete
+	 */
+	void deleteTroopsPlacement(TroopsPlacementDelete delete);
 }

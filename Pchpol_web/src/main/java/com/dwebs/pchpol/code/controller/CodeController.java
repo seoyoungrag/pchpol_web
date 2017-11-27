@@ -72,7 +72,7 @@ public class CodeController extends BaseController {
 	 *   @return
 	 */
 	@RequestMapping(value = "/code", method = RequestMethod.GET)
-	public ResponseEntity<?> getCodeNo(Code code) {
+	public ResponseEntity<?> getCodeNo(@ModelAttribute Code code, HttpServletRequest request) {
 		Response res = new Response();
 		Code resultCode = codeService.getCode(code);
 		res.setData(resultCode);
