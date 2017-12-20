@@ -42,7 +42,7 @@
                 <p>여자 1 세부종목 : 노멀힐 여자 개인</p>
               </div>
               <div class="map">
-                <img src="${pageContext.request.contextPath}/mobile/resources/images/pyeongchang-stadium03.jpg" alt="알펜시아 스키점프 센터 지도" />
+                <%-- <img src="${pageContext.request.contextPath}/mobile/resources/images/pyeongchang-stadium03.jpg" alt="알펜시아 스키점프 센터 지도" /> --%>
                 <p>주소 : 강원도 평창군 대관령면 수하리 240-19</p>
               </div>
           </div>

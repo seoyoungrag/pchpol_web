@@ -1,11 +1,33 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <jsp:include page="/common/header.jsp" flush="false" />
 <script src="${pageContext.request.contextPath}/ref/js/common_board.js"></script>
 <script>
+function onSelectRow(rowid){
+	//jqgrid의 한 행은 group by되서 보여지는 값이며, 현재 ui는 개별적인 수정을 할 수 있는 구조가 아님.
+	//var id = jQuery(listObj.grid).jqGrid ('getCell', rowid, listObj.idColName);
+	var codeNo = jQuery(listObj.grid).jqGrid ('getCell', rowid, 'codeNo');
+	var code1depth = jQuery(listObj.grid).jqGrid ('getCell', rowid, 'code1depth');
+	var code2depth = jQuery(listObj.grid).jqGrid ('getCell', rowid, 'code2depth');
+	var code3depth = jQuery(listObj.grid).jqGrid ('getCell', rowid, 'code3depth');
+	var code4depth = jQuery(listObj.grid).jqGrid ('getCell', rowid, 'code4depth');
+   	var popWidth = 680;
+	var popHeight = 380;
+	var width = screen.width;
+	var height = screen.height;
+	var left = (screen.width/2)-(popWidth/2);
+	var top = (screen.height/2)-(popHeight/2);
+	var param = "width="+popWidth+",height="+popHeight+",left="+left+",top="+top;
+	var url ="${pageContext.request.contextPath}/workplace/view.do?1=1";
+	url+="&code1depth="+code1depth+"&code2depth="+code2depth;
+	url+="&code3depth="+code3depth+"&code4depth="+code4depth+"&codeNo="+codeNo;
+	
+	window.open(encodeURI(url),'',param);
+}
 jQuery(function ($) {
 	//setSelectPickerWorkplace();
 	selectpickerObj = new SelectpickerObj();
@@ -58,7 +80,14 @@ function getList(){
 	               	   		{name:'code4depth', width:"70", align:"center"}
 	               	   	];
 	listObj.idColName = 'codeNo';
-	listObj.jqgrid(nonAction);
+	<c:choose>
+	<c:when test="${admin.code.codeOrderNo eq '1'}">
+		listObj.jqgrid(onSelectRow);
+	</c:when>
+	<c:otherwise>
+		listObj.jqgrid(nonAction);
+	</c:otherwise>
+	</c:choose>
 }
 function gridReload(){
 	jQuery(listObj.grid).jqGrid('setGridParam',{

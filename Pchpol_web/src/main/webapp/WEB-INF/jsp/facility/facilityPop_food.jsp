@@ -12,7 +12,7 @@ function findAddrPop(){
 	var area = $("#facilityArea").val();
 	
 	var area = "";
-   	var popWidth = 650;
+   	var popWidth = 1150;
 	var popHeight = 740;
 	var width = screen.width;
 	var height = screen.height;

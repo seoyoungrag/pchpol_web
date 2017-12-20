@@ -44,7 +44,7 @@
                 <p>여자 4 세부종목 : 평행대회전 / 하프파이프 / 스노보드 크로스 / 슬로프스타일</p>
               </div>
               <div class="map">
-                <img src="${pageContext.request.contextPath}/mobile/resources/images/pyeongchang-stadium05.jpg" alt="휘닉스 스노 경기장 지도" />
+                <%-- <img src="${pageContext.request.contextPath}/mobile/resources/images/pyeongchang-stadium05.jpg" alt="휘닉스 스노 경기장 지도" /> --%>
                 <p>주소 : 강원도 평창군 봉평면 무이리 729-7</p>
               </div>
           </div>

@@ -18,6 +18,40 @@ function formatterfacilityInsert(cellvalue, options, rowObject)
 {
 	return '<span onclick="insert('+options.rowId+')" class="text-danger">입력</span>';
 }
+function deleteRow(){
+	var rows = jQuery(listObj.grid).find('input:checked');
+	if(rows.length==0){
+		alert('삭제할 행을 선택해 주세요.');
+		return false;
+	}
+	if(confirm('선택한 시설 정보를 삭제하시겠습니까?')){
+	var ids = [];
+	$.each(rows, function(idx, txt){
+		ids.push($(txt).attr('uid'));		
+	});
+	$.ajax({
+	 type: "POST",
+	 url:contextPath+'/facility/delete', 
+		 contentType: "application/json; charset=utf-8",
+		 dataType: "json",
+		 data: JSON.stringify(ids),
+		 success: function(res) {
+			 if(res.success){
+				 alert('데이터를 삭제하였습니다.');
+				 gridReload();
+			 }else{
+				 alert('데이터를 삭제를 실패하였습니다.');
+			 }
+		 },
+			error : function(res){
+					alert('통신 중 실패하였습니다.');
+			}
+		});
+	}
+} 
+function gridReload(){
+	jQuery(listObj.grid).jqGrid('setGridParam',{url:encodeURI(listObj.url),page:1}).trigger("reloadGrid");
+}
 function insert(rowid){
 	var facilityNo = jQuery(listObj.grid).jqGrid ('getCell', rowid, 'facilityNo');
 	var facilityArea = jQuery(listObj.grid).jqGrid ('getCell', rowid, 'facilityArea');
@@ -33,7 +67,7 @@ function insert(rowid){
 }
 function detailPopup(id){
    	var popWidth = 1024;
-	var popHeight = 540;
+	var popHeight = 740;
 	var width = screen.width;
 	var height = screen.height;
 	var left = (screen.width/2)-(popWidth/2);
@@ -51,9 +85,23 @@ function getList(){
 	listObj.grid = "#list-grid";
 	listObj.pager = "#list-pager";
 	listObj.url = "${pageContext.request.contextPath}/facility?listType=jqgrid&facilityType=${facType}";
-	listObj.colNames = ['No.','지역','시설명','주소','상세','입력'];
+	listObj.colNames = ['facilityNo','','No.','지역','시설명','주소','상세','입력'];
 	listObj.colModel = [
 							{name:'facilityNo', hidden:true, sortable: false, width:"10", align:"center"},
+							{name: "select", width: "40", sortable:false, resizable:false, hidedlg:true, search:false, align:"center", fixed:true,
+	                            classes: "defaultCursor",
+	                            formatter: function (c,o,r) {
+	        			   			var id = r.facilityNo;
+	                                return "<input type='checkbox' name='selectRow' uid='"+id+"'>";
+	                            } },
+	                        { name: "No", width:"40", sortable:false, resizable:false, hidedlg:true, search:false, align:"center", fixed:true,
+	                            classes: "jqgrid-rownum active defaultCursor",
+	                            formatter: function () {
+	                                var p = $(this).jqGrid("getGridParam"),
+	                                    rn = p.curRowNum + (parseInt(p.page, 10) - 1)*parseInt(p.rowNum, 10);
+	                                p.curRowNum++;
+	                                return rn.toString();
+	                            } },
 							{name:'facilityArea', width:"110", align:"center"},
 	               	   		{name:'facilityName',  width:"110", align:"left"},
 	               	   		{name:'facilityAddrJuso',  width:"150", align:"left"},
@@ -61,6 +109,7 @@ function getList(){
 	               	   		{name:'facilityNo',  width:"70", align:"center", sortable:false, formatter:formatterfacilityInsert}
 	               	   	];
 	listObj.idColName = 'facilityNo';
+	listObj.preventSelectCell = ['select','No'];
 	listObj.jqgrid(selectRow);
 }
 jQuery(document).ready(function($) {
@@ -101,6 +150,11 @@ function findFac(){
 						        <div class="row">
 									<table id="list-grid" style="width:98%;"></table>
 									<div id="list-pager"></div>
+								</div>
+								<div class="row board-bottom">
+									<div class="col-sm-12 text-right">
+										<button class="btn waves-effect waves-light" type="button" onclick="javascript:deleteRow();">시설 삭제하기</button>
+									</div>
 								</div>
 							</div>
 						</div>

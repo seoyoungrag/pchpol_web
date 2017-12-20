@@ -10,7 +10,7 @@ import java.util.List;
  * 
  */
 @Entity
-@Table(name="ADDR_ROAD_CODE")
+@Table(name="PCHPOL.ADDR_ROAD_CODE")
 @NamedQuery(name="AddrRoadCode.findAll", query="SELECT a FROM AddrRoadCode a")
 public class AddrRoadCode implements Serializable {
 	private static final long serialVersionUID = 1L;

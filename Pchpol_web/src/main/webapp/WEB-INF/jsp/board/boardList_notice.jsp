@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,6 +11,37 @@ jQuery(function ($) {
 	getList();
 	$('.selectpicker').selectpicker('refresh');
 });    
+function deleteRow(){
+	var rows = jQuery(listObj.grid).find('input:checked');
+	if(rows.length==0){
+		alert('삭제할 행을 선택해 주세요.');
+		return false;
+	}
+	if(confirm('선택한 게시물을 삭제하시겠습니까?')){
+	var ids = [];
+	$.each(rows, function(idx, txt){
+		ids.push($(txt).attr('uid'));		
+	});
+	$.ajax({
+	 type: "POST",
+	 url:contextPath+'/board/delete', 
+		 contentType: "application/json; charset=utf-8",
+		 dataType: "json",
+		 data: JSON.stringify(ids),
+		 success: function(res) {
+			 if(res.success){
+				 alert('데이터를 삭제하였습니다.');
+				 gridReload();
+			 }else{
+				 alert('데이터를 삭제를 실패하였습니다.');
+			 }
+		 },
+			error : function(res){
+					alert('통신 중 실패하였습니다.');
+			}
+		});
+	}
+} 
 var listObj;
 function adminFormatter(c,o,r){
 	return r.admin.adminName;
@@ -19,9 +51,23 @@ function getList(){
 	listObj.grid = "#list-grid";
 	listObj.pager = "#list-pager";
 	listObj.url = "${pageContext.request.contextPath}/board/list?listType=jqgrid&boardType=notice";
-	listObj.colNames = ['No.','구분','내용','지역','작성자','게시일'];
+	listObj.colNames = ['boardNo','','No.','구분','내용','지역','작성자','게시일'];
 	listObj.colModel = [
-	           	   		{name:'boardNo',hidden:true, index:'adminNo', width:"30", align: "center"},
+	           	   		{name:'boardNo',hidden:true, index:'boardNo', width:"30", align: "center"},
+						{name: "select", width: "40", sortable:false, resizable:false, hidedlg:true, search:false, align:"center", fixed:true,
+                            classes: "defaultCursor",
+                            formatter: function (c,o,r) {
+        			   			var id = r.boardNo;
+                                return "<input type='checkbox' name='selectRow' uid='"+id+"'>";
+                            } },
+                        { name: "No", width:"40", sortable:false, resizable:false, hidedlg:true, search:false, align:"center", fixed:true,
+                            classes: "jqgrid-rownum active defaultCursor",
+                            formatter: function () {
+                                var p = $(this).jqGrid("getGridParam"),
+                                    rn = p.curRowNum + (parseInt(p.page, 10) - 1)*parseInt(p.rowNum, 10);
+                                p.curRowNum++;
+                                return rn.toString();
+                            } },
 	           	   		{name:'boardCategory', width:"70",align:"center"},
 	           	   		{name:'boardTitle', width:"200", align: "left"},
 	           	   		{name:'boardArea',  width:"70",align:"center"},
@@ -29,6 +75,7 @@ function getList(){
 	           	   		{name:'boardWriteDt', width:"100", align:"center", formatter:dateFormatter}
 	           	   		];
 	listObj.idColName = 'boardNo';
+	listObj.preventSelectCell = ['select','No'];
 	listObj.jqgrid();
 }
 function gridReload(){
@@ -118,7 +165,10 @@ function popup(type, boardNo){
 							</div>
 							<div class="row board-bottom">
 								<div class="col-sm-12 text-right" style="padding-top: 20px;">
-									<button class="btn waves-effect waves-light" type="button" onclick="javascript:popup('reg');">등록하기</button>
+									<c:if test="${admin.code.codeOrderNo eq '1' || admin.code.codeOrderNo eq '2' || admin.code.codeOrderNo eq '3'}">
+										<button class="btn waves-effect waves-light" type="button" onclick="javascript:deleteRow();">게시물 삭제하기</button>
+										<button class="btn waves-effect waves-light" type="button" onclick="javascript:popup('reg');">등록하기</button>
+									</c:if>
 								</div>
 							</div>
 						</div>

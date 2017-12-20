@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,6 +36,7 @@ import com.dwebs.pchpol.model.Admin;
 import com.dwebs.pchpol.model.Attach;
 import com.dwebs.pchpol.model.Board;
 import com.dwebs.pchpol.model.Unit;
+import com.dwebs.pchpol.push.service.PushService;
 
 /**
  * <PRE>
@@ -54,6 +57,9 @@ public class BoardController extends BaseController {
 	@Autowired
 	@Qualifier("attachService")
 	private AttachService attachService;
+	@Autowired
+	@Qualifier("pushService")
+	private PushService pushService;
 
 	/**
 	 * <PRE>
@@ -188,7 +194,10 @@ public class BoardController extends BaseController {
 		HttpSession session = request.getSession();
 		Admin admin = (Admin)session.getAttribute("admin");
 		board.setAdmin(admin);
-		if(admin==null){
+		if(board.getUnit()!=null&&board.getUnit().getUnitNo()!=0){
+			
+		}
+		else if(admin==null){
 			if(board.getBoardType().equals("notice")){
 				Admin user = (Admin)session.getAttribute("user");
 				//TODO 테스트
@@ -213,7 +222,15 @@ public class BoardController extends BaseController {
 		List<Attach> attaches = setFileList(request, fileListArr, board);
 		board.setAttaches(attaches);
 		attachService.insertBoardAttaches(attaches);
-		
+		// 긴급일시에 push 처리
+		if(board.getBoardCategory()!=null&&board.getBoardCategory().equals("긴급")){
+			try{
+				pushService.insertPush(board);
+			}catch(Exception e){
+				e.printStackTrace();
+				logger.error("pushInsertErr: "+board.getBoardNo()+" "+new Date());
+			}
+		}
 		res.setData(board);
 		return ResponseEntity.ok(res);
 	}
@@ -278,4 +295,13 @@ public class BoardController extends BaseController {
 		}
 		return attaches;
 	}
+
+	@RequestMapping(value = "/board/delete", method = RequestMethod.POST)
+	public ResponseEntity<?> deleteById(@RequestBody List<Integer> ids) {
+		Response res = new Response();
+		boardService.deleteByIds(ids); 
+		res.setData(ids);
+		return ResponseEntity.ok(res);
+	}
+	
 }

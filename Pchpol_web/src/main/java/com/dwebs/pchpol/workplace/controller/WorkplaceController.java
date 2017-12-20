@@ -99,6 +99,14 @@ public class WorkplaceController extends BaseController {
 		return new ModelAndView("workplace/workplaceList");
 	}
 
+	@RequestMapping(value = "/workplace/view.do")
+	public ModelAndView workplaceView(@ModelAttribute Code workplace
+			){
+		ModelAndView mav = new ModelAndView("workplace/workplaceView");
+		mav.addObject("workplace",workplace);
+		return mav;
+	}
+	
 	/**
 	 * <PRE>
 	 * 1. MethodName : troopsWorkplacePlacementListPage
@@ -336,7 +344,7 @@ public class WorkplaceController extends BaseController {
 				}else if(detailList.size()>1){
 					String start = WorktimeConvert.start(detailList.get(0));
 					String end = WorktimeConvert.end(detailList.get(detailList.size()-1));
-					str.append(start+":"+end);
+					str.append(start+"~"+end);
 				}else{
 					
 				}
@@ -364,6 +372,10 @@ public class WorkplaceController extends BaseController {
 					res.setData(detailList);
 				}
 				*/
+				
+
+				TroopsCodeAscending trAscending = new TroopsCodeAscending(); 
+				Collections.sort(wwt.getTroopsDetail(), trAscending);
 			}
 			int num = 0;
 			if(reloadType.equals("notReg")){
@@ -640,7 +652,7 @@ public class WorkplaceController extends BaseController {
 	}
 
 	@RequestMapping(value = "/workplace/deleteTroopsPlacement", method = RequestMethod.POST)
-	public ResponseEntity<?> deleteTroopsPlacement(@RequestBody TroopsPlacementDelete delete) {
+	public ResponseEntity<?> deleteTroopsPlacement(@RequestBody List<TroopsPlacementDelete> delete) {
 		Response res = new Response();
 		troopsService.deleteTroopsPlacement(delete);
 		//troopsService.deleteWorkplaceTroopsByIds(ids); 
@@ -689,6 +701,15 @@ class WorkplacePlacementDetailAscending implements Comparator<WorkplacePlacement
     @Override
     public int compare(WorkplacePlacementDetail o2, WorkplacePlacementDetail o1) {
 		return Integer.valueOf(o2.getWorkplacePlacementDetailWorkTime().substring(4, o2.getWorkplacePlacementDetailWorkTime().length())).compareTo(Integer.valueOf(o1.getWorkplacePlacementDetailWorkTime().substring(4, o1.getWorkplacePlacementDetailWorkTime().length())));
+    }
+ 
+}
+
+class TroopsCodeAscending implements Comparator<Code> {
+	 
+    @Override
+    public int compare(Code o2, Code o1) {
+    	return (o2.getCode1depth()+o2.getCode2depth()+o2.getCode3depth()+o2.getCode4depth()).compareTo(o1.getCode1depth()+o1.getCode2depth()+o1.getCode3depth()+o1.getCode4depth());
     }
  
 }

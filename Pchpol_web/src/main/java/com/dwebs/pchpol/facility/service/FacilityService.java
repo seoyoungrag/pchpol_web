@@ -100,4 +100,17 @@ public interface FacilityService {
 	 */
 	Facility getById(int facilityNo);
 
+	/**
+	 * <PRE>
+	 * 1. MethodName : deleteByIds
+	 * 2. ClassName  : FacilityService
+	 * 3. Comment   : 
+	 * 4. 작성자    : yrseo
+	 * 5. 작성일    : 2017. 11. 27. 오후 4:49:19
+	 * </PRE>
+	 *   @return void
+	 *   @param ids
+	 */
+	void deleteByIds(List<Integer> ids);
+
 }

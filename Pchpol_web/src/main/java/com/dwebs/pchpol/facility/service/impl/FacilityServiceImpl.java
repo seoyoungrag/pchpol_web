@@ -107,4 +107,12 @@ public class FacilityServiceImpl implements FacilityService {
 	public Facility getById(int facilityNo) {
 		return facilityDao.getById(facilityNo);
 	}
+
+	/* (non-Javadoc)
+	 * @see com.dwebs.pchpol.facility.service.FacilityService#deleteByIds(java.util.List)
+	 */
+	@Override
+	public void deleteByIds(List<Integer> ids) {
+		facilityDao.deleteByIds(ids);
+	}
 }

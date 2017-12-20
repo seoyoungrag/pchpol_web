@@ -48,7 +48,7 @@ var rows = '${rows}';
 							</dd>
 						</dl>
 
-						<div class="content">${board.boardContent }</div>
+						<div style="min-height:200px;border: 1px solid #e0e0e0;" class="content">${board.boardContent }</div>
 						<c:if test="${fn:length(board.attaches)!=0}">
 							<div class="attach">
 								<span class="tit">첨부파일</span>

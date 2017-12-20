@@ -13,6 +13,10 @@
  */
 package com.dwebs.pchpol.facility.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +27,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,11 +36,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.dwebs.pchpol.code.service.CodeService;
 import com.dwebs.pchpol.common.controller.BaseController;
+import com.dwebs.pchpol.common.util.FileHandler;
 import com.dwebs.pchpol.common.vo.JQGridVO;
 import com.dwebs.pchpol.common.vo.PagingVO;
 import com.dwebs.pchpol.common.vo.Response;
 import com.dwebs.pchpol.facility.service.FacilityService;
 import com.dwebs.pchpol.facility.vo.TroopsPlacementWithFacilities;
+import com.dwebs.pchpol.model.Attach;
 import com.dwebs.pchpol.model.Code;
 import com.dwebs.pchpol.model.Facility;
 import com.dwebs.pchpol.model.TroopsFacilityPlacement;
@@ -184,17 +191,30 @@ public class FacilityController extends BaseController {
 	@RequestMapping(value = "/facility/view.do")
 	public ModelAndView reg(
 			@RequestParam(value="facType") String facType,
-			@RequestParam(value="facilityNo") String facilityNo) {
+			@RequestParam(value="facilityNo") String facilityNo
+			) {
 		ModelAndView mav = new ModelAndView("facility/facilityPop_"+facType);
 		mav.addObject("facilityNo",facilityNo);
 		return mav;
 	}
+	
 	@RequestMapping(value = "/facility/{facilityNo}")
 	public ResponseEntity<?> getFacility(
+			HttpServletRequest request, 
 			@PathVariable("facilityNo") int facilityNo
 			) {
 		Response res = new Response();
 		Facility fac = facilityService.getById(facilityNo); 
+		String fileStrNmJpg = "lodge-"+fac.getFacilityNo()+".jpg";
+		String fileStrNmPng = "lodge-"+fac.getFacilityNo()+".png";
+		String facImgPath = request.getSession().getServletContext().getRealPath("/")+ File.separator +"mobile"+ File.separator +"resources"+ File.separator +"images"+File.separator;
+		File imgJpg = new File(facImgPath+fileStrNmJpg);
+		File imgPng = new File(facImgPath+fileStrNmPng);
+		if(imgJpg.exists()){
+			fac.setFacImg(imgJpg.getName());
+		}else if(imgPng.exists()){
+			fac.setFacImg(imgPng.getName());
+		}
 		res.setData(fac);
 		return ResponseEntity.ok(res);
 	}
@@ -233,15 +253,116 @@ public class FacilityController extends BaseController {
 	 *   @return
 	 *   @throws Exception
 	 */
+	@SuppressWarnings("unused")
 	@RequestMapping(value = "/facility", method = RequestMethod.POST)
-	public ResponseEntity<?> insertOrUpdateFacility(@ModelAttribute Facility facility) throws Exception {
+	public ResponseEntity<?> insertOrUpdateFacility(
+			HttpServletRequest request, 
+			@ModelAttribute Facility facility,
+			@RequestParam(value="fileList", required=false) String fileListArr
+			) throws Exception {
 		Response res = new Response();
 		//주소와 상호명이 중복되면 수정함.
 		facilityService.insertFacility(facility);
+		try{
+			if(fileListArr==null||fileListArr.equals("")){
+				String fileStrNmJpg = "lodge-"+facility.getFacilityNo()+".jpg";
+				String fileStrNmPng = "lodge-"+facility.getFacilityNo()+".png";
+				String facImgPath = request.getSession().getServletContext().getRealPath("/")+ File.separator +"mobile"+ File.separator +"resources"+ File.separator +"images"+File.separator;
+				File imgJpg = new File(facImgPath+fileStrNmJpg);
+				File imgPng = new File(facImgPath+fileStrNmPng);
+				if(imgJpg.exists()){
+					imgJpg.delete();
+				}
+				if(imgPng.exists()){
+					imgPng.delete();
+				}
+			}else{
+				List<Attach> attaches = setFileList(request, fileListArr, facility);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 		res.setData(facility);
 		return ResponseEntity.ok(res);
 	}
 	
+
+	/**
+	 * <PRE>
+	 * 1. MethodName : setFileList
+	 * 2. ClassName  : FacilityController
+	 * 3. Comment   : 
+	 * 4. 작성자    : yrseo
+	 * 5. 작성일    : 2017. 11. 28. 오전 10:34:10
+	 * </PRE>
+	 *   @return List<Attach>
+	 *   @param request
+	 *   @param fileListArr
+	 *   @param facility
+	 *   @return
+	 * @throws Exception 
+	 */
+	private List<Attach> setFileList(HttpServletRequest request, String fileListArr, Facility facility) throws Exception {
+		String saveLocation = FileHandler.FILE_STORE_PATH;
+
+		List<Attach> attaches = new ArrayList<Attach>();
+		
+		if(!fileListArr.equals("")){
+			String[] fileList = fileListArr.split("\\*");
+			if(fileList.length != 0 && fileListArr.contains("*")){
+				File directory = new File(saveLocation);
+				
+	 	        if(directory.exists() == false){
+	 	        	directory.mkdirs();
+	 	        }
+				
+				for(int i = 0; i <fileList.length; i++){
+					Attach attach = new Attach();
+					int fileLen = fileList[i].length();
+					int lastIdx = fileList[i].lastIndexOf('.');
+					String fileExt = fileList[i].substring(lastIdx, fileLen).toLowerCase();
+					String fileStrNm = "lodge-"+facility.getFacilityNo()+fileExt;
+					 
+					FileInputStream inputStream = new FileInputStream(saveLocation + File.separator + fileList[i].replaceAll("&amp;", "&"));  
+					Long filesize = inputStream.getChannel().size();
+					String facImgPath = request.getSession().getServletContext().getRealPath("/")+ File.separator +"mobile"+ File.separator +"resources"+ File.separator +"images";
+					FileOutputStream outputStream = new FileOutputStream(facImgPath + File.separator + fileStrNm); 
+					String fileStrNmJpg = "lodge-"+facility.getFacilityNo()+".jpg";
+					String fileStrNmPng = "lodge-"+facility.getFacilityNo()+".png";
+					File imgJpg = new File(facImgPath + File.separator + fileStrNmJpg);
+					File imgPng = new File(facImgPath + File.separator + fileStrNmPng);
+					if(imgJpg.exists()){
+						imgJpg.delete();
+					}
+					if(imgPng.exists()){
+						imgPng.delete();
+					}  
+					if (logger.isDebugEnabled()) {
+						logger.debug("lodge img file path :  " + facImgPath + File.separator + fileStrNm);
+					}
+					FileChannel fcin =  inputStream.getChannel();
+					FileChannel fcout = outputStream.getChannel();
+					  
+					long size = fcin.size();
+					fcin.transferTo(0, size, fcout);
+					  
+					fcout.close();
+					fcin.close();
+					  
+					outputStream.close();
+					inputStream.close();
+					
+					attach.setAttachOriName(fileList[i]);
+					attach.setAttachServerName(fileStrNm);
+					//fileList[i].substring(fileList[i].lastIndexOf("."))
+					attach.setAttachFileSize(String.valueOf(filesize.intValue()));
+					attaches.add(attach);
+				}
+			}
+		}
+		return attaches;
+	}
+
 
 	/**
 	 * <PRE>
@@ -314,6 +435,14 @@ public class FacilityController extends BaseController {
 			troopsService.insertTroopsFacilityPlacement(troopsFacilities);
 			res.setData(troopsFacilities);
 		}
+		return ResponseEntity.ok(res);
+	}
+
+	@RequestMapping(value = "/facility/delete", method = RequestMethod.POST)
+	public ResponseEntity<?> getUnitById(@RequestBody List<Integer> ids) {
+		Response res = new Response();
+		facilityService.deleteByIds(ids); 
+		res.setData(ids);
 		return ResponseEntity.ok(res);
 	}
 }

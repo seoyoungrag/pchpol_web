@@ -13,7 +13,6 @@
 			<p class="logo logo-lg">
 			    <img class="police" src="${pageContext.request.contextPath}/ref/images/logo-police.png" alt="Police" />
    				<img class="olympic" src="${pageContext.request.contextPath}/ref/images/logo-olympic.png" alt="PyeongChang Olympic" />
-				<div style="font-size: 20px; color: #797979 !important;">테스트계정: admin/admin</div>
 			</p>
 		</div>
 		<div class="text-center"
@@ -117,8 +116,13 @@
 						+ encodeURIComponent(loginPassword),
 				success : function(data) {
 					if (data.success) {
-						//location.href = '${pageContext.request.contextPath}/admin/main.do';
-						location.href = '${pageContext.request.contextPath}/unit/list.do?type=stand';
+						//
+						if(data.data.code.code1depth=='동원부대'){
+							location.href = '${pageContext.request.contextPath}/admin/main.do';
+						}else{
+							location.href = '${pageContext.request.contextPath}/unit/list.do?type=stand';	
+						}
+						
 					} else {
 						alert('로그인이 실패하였습니다.');
 					}

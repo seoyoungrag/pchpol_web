@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -31,6 +32,14 @@ function getViewById(id){
 	viewObj.ajax(successFunc);
 }
 function reg(){
+	<c:if test="${admin.code.codeOrderNo ne '1'}">
+	var typeVal  = $("#codeAdminType").val();
+	var typeTxt = $("#codeAdminType option[value='"+typeVal+"']").text();
+	if(typeTxt=='마스터'){
+		alert('마스터 권한을 가진 사용자만 마스터 권한을 생성할 수 있습니다.');
+		return false;
+	}
+	</c:if>
 	sendFormByAjax();
 	return false;
 }
@@ -119,7 +128,7 @@ jQuery(document).ready(function($) {
 										<button class="btn btn-silver btn-rounded waves-effect" id="submitBtn">
 											계정 추가하기
 										</button>
-										<button class="btn btn-default btn-rounded waves-effect" onclick="javascript:self.close();">
+										<button type="button" class="btn btn-default btn-rounded waves-effect" onclick="javascript:self.close();">
 											취소
 										</button>
 									</div>

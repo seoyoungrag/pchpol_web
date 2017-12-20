@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -92,6 +93,7 @@ function deleteRow(){
 		});
 	}
 }
+function nonAction(){};
 function getList(){
 	listObj = new ListObj();
 	listObj.grid = "#list-grid";
@@ -105,7 +107,7 @@ function getList(){
                                 classes: "defaultCursor",
                                 formatter: function (c,o,r) {
             			   			var id = r.unitNo;
-                                    return "<input type='radio' name='selectRow' uid='"+id+"'>";
+                                    return "<input type='checkbox' name='selectRow' uid='"+id+"'>";
                                 } },
                             { name: "No", width:"40", sortable:false, resizable:false, hidedlg:true, search:false, align:"center", fixed:true,
                                 classes: "jqgrid-rownum active defaultCursor",
@@ -126,7 +128,14 @@ function getList(){
 	               	   	];
 	listObj.idColName = 'unitNo';
 	listObj.preventSelectCell = ['select','No'];
-	listObj.jqgrid();
+	<c:choose>
+	<c:when test="${admin.code.codeOrderNo eq '1' || admin.code.codeOrderNo eq '2'}">
+		listObj.jqgrid();
+	</c:when>
+	<c:otherwise>
+		listObj.jqgrid(nonAction);
+	</c:otherwise>
+	</c:choose>
 }
 function gridReload(){
 	jQuery(listObj.grid).jqGrid('setGridParam',{
@@ -234,8 +243,10 @@ function popup(viewType, rowid){
 									<button class="btn btn-primary waves-effect waves-light" type="button" onclick="javascript:excel('search');">선택 검색 다운로드</button>
 								</div>
 								<div class="col-sm-6 text-right">
-									<button class="btn waves-effect waves-light" type="button" onclick="javascript:deleteRow();">부대원 삭제하기</button>
-									<button class="btn waves-effect waves-light" type="button" onclick="javascript:popup('reg');">부대원 추가하기</button>
+									<c:if test="${admin.code.codeOrderNo eq '1' || admin.code.codeOrderNo eq '2'}">
+										<button class="btn waves-effect waves-light" type="button" onclick="javascript:deleteRow();">부대원 삭제하기</button>
+										<button class="btn waves-effect waves-light" type="button" onclick="javascript:popup('reg');">부대원 추가하기</button>
+									</c:if>
 								</div>
 							</div>
 						</div>

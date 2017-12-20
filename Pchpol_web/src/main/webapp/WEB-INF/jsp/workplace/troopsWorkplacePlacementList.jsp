@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,28 +27,33 @@ jQuery(function ($) {
 	getList();
 });    
 function deleteRow(){
-	var row = jQuery(listObj.grid).find('input:checked');
-	if(row.length==0){
+	var rows = jQuery(listObj.grid).find('input:checked');
+	if(rows.length==0){
 		alert('삭제할 행을 선택해 주세요.');
 		return false;
 	}
+	var datas = [];
+	$.each(rows, function(idx, txt){
+		var workplace = {};
+		workplace.code1depth = $(txt).attr('workplace.code1depth');
+		workplace.code2depth = $(txt).attr('workplace.code2depth');
+		var troops = {};
+		troops.code1depth = $(txt).attr('troops.code1depth');
+		troops.code2depth = $(txt).attr('troops.code2depth');
+		troops.code3depth = $(txt).attr('troops.code3depth');
+		var data = {};
+		data.troops = troops;
+		data.workplace = workplace;	
+		datas.push(data);
+	});
 	if(confirm('선택한 상설부대 배치 정보를 삭제하시겠습니까?')){
-	var workplace = {};
-	workplace.code1depth = $(row).attr('workplace.code1depth');
-	workplace.code2depth = $(row).attr('workplace.code2depth');
-	var troops = {};
-	troops.code1depth = $(row).attr('troops.code1depth');
-	troops.code2depth = $(row).attr('troops.code2depth');
-	troops.code3depth = $(row).attr('troops.code3depth');
-	var data = {};
-	data.troops = troops;
-	data.workplace = workplace;
+	
 	$.ajax({
 	 type: "POST",
 	 url:contextPath+'/workplace/deleteTroopsPlacement', 
 		 contentType: "application/json; charset=utf-8",
 		 dataType: "json",
-		 data: JSON.stringify(data),
+		 data: JSON.stringify(datas),
 		 success: function(res) {
 			 if(res.success){
 				 alert('데이터를 삭제하였습니다.');
@@ -85,7 +91,8 @@ function getList(){
 						{name: "select", width: "40", sortable:false, resizable:false, hidedlg:true, search:false, align:"center", fixed:true,
                             classes: "defaultCursor",
                             formatter: function (c,o,r) {
-                                return "<input type='radio' name='selectRow' workplace.code1depth='"+r.workplace.code1depth+"' workplace.code2depth='"+r.workplace.code2depth+"' troops.code1depth='"+r.troops.code1depth+"' troops.code2depth='"+r.troops.code2depth+"' troops.code3depth='"+r.troops.code3depth+"' ";
+                            	console.log(o);
+                                return "<input type='checkbox' name='selectRow' workplace.code1depth='"+r.workplace.code1depth+"' workplace.code2depth='"+r.workplace.code2depth+"' troops.code1depth='"+r.troops.code1depth+"' troops.code2depth='"+r.troops.code2depth+"' troops.code3depth='"+r.troops.code3depth+"' ";
                             } },
                	   		{name:'workplace.code1depth', width:"70", align:"center"},
                	   		{name:'workplace.code2depth', width:"70", align: "center"},
@@ -96,7 +103,14 @@ function getList(){
 	               	   	];
 	listObj.idColName = 'workplace.code1depth';
 	listObj.preventSelectCell = ['select'];
-	listObj.jqgrid(onSelectRow);
+	<c:choose>
+	<c:when test="${admin.code.codeOrderNo eq '1' || admin.code.codeOrderNo eq '2'}">
+		listObj.jqgrid(onSelectRow);
+	</c:when>
+	<c:otherwise>
+		listObj.jqgrid(nonAction);
+	</c:otherwise>
+	</c:choose>
 }
 function formatterCode3depth(cellvalue, options, rowObject)
 {	
@@ -220,8 +234,10 @@ function gridReloadAll(){
 							</div>
 							<div class="row board-bottom">
 								<div class="col-sm-12 text-right">
-									<button class="btn waves-effect waves-light" type="button" onclick="javascript:popup('reg');">상설 부대 배치 등록하기</button>
-									<button class="btn waves-effect waves-light" type="button" onclick="javascript:deleteRow();">상설 부대 배치 삭제하기</button>
+									<c:if test="${admin.code.codeOrderNo eq '1' || admin.code.codeOrderNo eq '2'}">
+										<button class="btn waves-effect waves-light" type="button" onclick="javascript:popup('reg');">상설 부대 배치 등록하기</button>
+										<button class="btn waves-effect waves-light" type="button" onclick="javascript:deleteRow();">상설 부대 배치 삭제하기</button>
+									</c:if>
 									<button class="btn waves-effect waves-light" type="button" onclick="javascript:gridReloadAll();">전체 배치 현황 보기</button>
 								</div>
 							</div>

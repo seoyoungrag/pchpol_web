@@ -98,4 +98,12 @@ public class BoardServiceImpl implements BoardService {
 		return boardDao.getTotCnt(pagingVO, board, unit, admin);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.dwebs.pchpol.board.service.BoardService#deleteByIds(java.util.List)
+	 */
+	@Override
+	public void deleteByIds(List<Integer> ids) {
+		boardDao.deleteByIds(ids);
+	}
+
 }

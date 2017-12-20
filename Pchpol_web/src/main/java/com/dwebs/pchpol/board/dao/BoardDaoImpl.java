@@ -22,6 +22,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -330,6 +331,33 @@ public class BoardDaoImpl implements BoardDao {
 		Long result = em.createQuery(cQuery).getSingleResult();
 		
 		return result.intValue();
+	}
+
+	/* (non-Javadoc)
+	 * @see com.dwebs.pchpol.board.dao.BoardDao#deleteByIds(java.util.List)
+	 */
+	@Override
+	public void deleteByIds(List<Integer> ids) {
+		EntityManager em = emf.createEntityManager();
+		CriteriaBuilder builder = em.getCriteriaBuilder();
+		CriteriaQuery<Board> cQuery = builder.createQuery(Board.class);
+		Root<Board> from = cQuery.from(Board.class);
+
+		List<Predicate> restrictions = new ArrayList<Predicate>();
+		Expression<Integer> exp = from.get(Board_.boardNo);
+		Predicate predicate = exp.in(ids);
+
+		restrictions.add(predicate);
+		cQuery.where(restrictions.toArray(new Predicate[]{}));
+		
+		List<Board> resultList = em.createQuery(cQuery).getResultList();
+
+		em.getTransaction().begin();
+		for(Board board : resultList){
+			em.remove(board);
+		}
+		em.getTransaction().commit();
+		em.close();
 	}
 
 }

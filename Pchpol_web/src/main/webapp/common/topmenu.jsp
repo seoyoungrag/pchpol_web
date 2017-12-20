@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script src="${pageContext.request.contextPath}/ref/js/topmenu.js"></script>
-
 <div class="topbar-left">
 	<div class="text-center">
 		<%-- <a class="logo" id="logo" href="#" onclick="javascript:bodyLoad('${pageContext.request.contextPath}/admin/main.do');"> --%>
@@ -11,21 +11,23 @@
 		</a>
 	</div>
 </div>
-
 <div class="navbar navbar-default" role="navigation" >
 	<div class="container">
 		<div>
 			<ul class="nav navbar-nav hidden-xs">
 				<!-- <li><a class="waves-effect" href="#">Files</a></li> -->
-				<li class="dropdown">
-				<a class="dropdown-toggle waves-effect waves-primary forscreensize" role="button" aria-expanded="true" aria-haspopup="true" href="#"
-					data-toggle="dropdown">관리자 정보 <span class="caret"></span>
-				</a>
-					<ul class="dropdown-menu">
-						<%-- <li><a href="#" onclick="javascript:bodyLoad('${pageContext.request.contextPath}/admin/list.do');">관리자 리스트</a></li> --%>
-						<li><a href="${pageContext.request.contextPath}/admin/list.do"">관리자 리스트</a></li>
-					</ul>
-				</li>
+				<c:if test="${admin.code.codeOrderNo eq '1' || admin.code.codeOrderNo eq '2'}">
+					<li class="dropdown">
+					<a class="dropdown-toggle waves-effect waves-primary forscreensize" role="button" aria-expanded="true" aria-haspopup="true" href="#"
+						data-toggle="dropdown">관리자 정보 <span class="caret"></span>
+					</a>
+						<ul class="dropdown-menu">
+							<%-- <li><a href="#" onclick="javascript:bodyLoad('${pageContext.request.contextPath}/admin/list.do');">관리자 리스트</a></li> --%>
+							<li><a href="${pageContext.request.contextPath}/admin/list.do"">관리자 리스트</a></li>
+						</ul>
+					</li>
+				</c:if>
+				<c:if test="${admin.code.codeOrderNo eq '1' || admin.code.codeOrderNo eq '2' || admin.code.codeOrderNo eq '3'}">
 				<li class="dropdown">
 				<a
 					class="dropdown-toggle waves-effect waves-primary forscreensize"
@@ -39,6 +41,8 @@
 						<li><a href="${pageContext.request.contextPath}/unit/list.do?type=female">여경 리스트</a></li> --%>
 					</ul>
 				</li>
+				</c:if>
+				<c:if test="${admin.code.codeOrderNo eq '1' || admin.code.codeOrderNo eq '2' || admin.code.codeOrderNo eq '3'}">
 				<li class="dropdown">
 				<a
 					class="dropdown-toggle waves-effect waves-primary forscreensize"
@@ -50,6 +54,8 @@
 						<li><a href="${pageContext.request.contextPath}/facility/reg.do?facType=bed">숙영시설</a></li>
 					</ul>
 				</li>
+				</c:if>
+				<c:if test="${admin.code.codeOrderNo eq '1' || admin.code.codeOrderNo eq '2' || admin.code.codeOrderNo eq '3'}">
 				<li class="dropdown ">
 				<a class="dropdown-toggle waves-effect waves-primary forscreensize" role="button" aria-expanded="false" aria-haspopup="true" href="#"
 					data-toggle="dropdown">근무지 <span class="caret"></span></a>
@@ -60,6 +66,7 @@
 							href="${pageContext.request.contextPath}/workplace/troopsWorkplacePlacementList.do">상설 부대 배치</a></li>
 					</ul>
 				</li>
+				</c:if>
 				<li class="dropdown">
 				<a
 					class="dropdown-toggle waves-effect waves-primary forscreensize"

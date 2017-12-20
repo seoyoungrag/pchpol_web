@@ -49,7 +49,7 @@ function successFunc(){
                   </tr>
                   <tr>
                     <th>내용</th>
-                    <td><textarea name='boardContent'>${board.boardContent }</textarea></td>
+                    <td><div style="min-height:200px;border: 1px solid #e0e0e0;" contenteditable="true" id='boardContentDiv'>${board.boardContent }</div></td>
                   </tr>
                   <tr>
                     <th>첨부파일</th>
@@ -67,6 +67,7 @@ function successFunc(){
                   </td>
                   </tr>
                 </tbody>
+				<input type="hidden" id="boardContent" name="boardContent" value="">
 				<input type="hidden" name="boardNo" value="${curBoardNo}">
 				<input type="hidden" name="boardType" value="normal">
 				<input type="hidden" name="boardCategory" value="건의">

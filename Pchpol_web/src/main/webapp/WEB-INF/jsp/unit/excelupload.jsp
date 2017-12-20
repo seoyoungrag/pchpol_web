@@ -34,9 +34,12 @@ function getViewById(id){
 	var successFunc = function(res){
 		$("#boardNo").val(res.data.boardNo);
 		//$("#boardArea").val(res.data.boardArea);
-		$('input:radio[name=boardArea]:input[value='+res.data.boardArea+']').attr("checked", true);
 		//$("#boardCategory").val(res.data.boardCategory);
+		try{
 		$('input:radio[name=boardCategory]:input[value='+res.data.boardCategory+']').attr("checked", true);
+		}catch(e){
+			
+		}
 		$("#editor_contents_source").val(res.data.boardContent);
 		daumEditor = new DaumEditor('BBS');
 		daumEditor.create();

@@ -57,6 +57,7 @@
 	    		<value>/mobile/login.do</value>
 		    	<value>/mobile/logout.do</value>
 		    	<value>/mobile/login</value>
+		    	<value>/mobile/loginById</value>
 		    	<value>/mobile/mobileFileUpload</value>
 		    	<value>/pxy</value>
 	    	</list>

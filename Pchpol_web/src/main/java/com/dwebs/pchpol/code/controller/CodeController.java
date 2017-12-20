@@ -1,6 +1,8 @@
 package com.dwebs.pchpol.code.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -55,6 +57,10 @@ public class CodeController extends BaseController {
 	public ResponseEntity<?> getCodeList(@PathVariable("category") String category) {
 		Response res = new Response();
 		List<Code> codes= codeService.getCodeListByCategory(category); 
+		if(category!=null&&category.equals("troops")){
+			TroopsCodeAscending ascending = new TroopsCodeAscending(); 
+			Collections.sort(codes, ascending);
+		}
 		res.setData(codes);
 		return ResponseEntity.ok(res);
 	}
@@ -78,6 +84,21 @@ public class CodeController extends BaseController {
 		res.setData(resultCode);
 		return ResponseEntity.ok(res);
 	}
+
+	@RequestMapping(value = "/code", method = RequestMethod.POST)
+	public ResponseEntity<?> saveCode(@ModelAttribute Code code, HttpServletRequest request) {
+		Response res = new Response();
+		Code sCode = new Code();
+		sCode.setCodeNo(code.getCodeNo());
+		Code resultCode = codeService.getCode(sCode);
+		resultCode.setCode1depth(code.getCode1depth());
+		resultCode.setCode2depth(code.getCode2depth());
+		resultCode.setCode3depth(code.getCode3depth());
+		resultCode.setCode4depth(code.getCode4depth());
+		codeService.insertCode(resultCode);
+		res.setData(resultCode);
+		return ResponseEntity.ok(res);
+	}
 	
 
 	@RequestMapping(value = "/code/list", method = RequestMethod.GET)
@@ -96,7 +117,11 @@ public class CodeController extends BaseController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseEntity.ok(new Response(false, e.getMessage()));
-		} 
+		}
+		if(code.getCodeCategory()!=null&&code.getCodeCategory().equals("troops")){
+			TroopsCodeAscending ascending = new TroopsCodeAscending(); 
+			Collections.sort(list, ascending);
+		}
 		pagingVO.setListCount(totCnt);
 		pagingVO.setLastPage();
 		if(listType.equals("jqgrid")){
@@ -112,4 +137,13 @@ public class CodeController extends BaseController {
 		//return할때 join되는 entity가 섞여 있으면 @ManyToOne(fetch = FetchType.EAGER)를 설정하거나 @jsonpropertyignore로 설정해야 한다.
 		return ResponseEntity.ok(res);
 	}
+}
+
+class TroopsCodeAscending implements Comparator<Code> {
+	 
+    @Override
+    public int compare(Code o2, Code o1) {
+    	return (o2.getCode1depth()+o2.getCode2depth()+o2.getCode3depth()+o2.getCode4depth()).compareTo(o1.getCode1depth()+o1.getCode2depth()+o1.getCode3depth()+o1.getCode4depth());
+    }
+ 
 }

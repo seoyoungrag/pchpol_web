@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -44,15 +45,22 @@ function getViewById(id){
 	var successFunc = function(res){
 		$("#boardNo").val(res.data.boardNo);
 		//$("#boardArea").val(res.data.boardArea);
-		$('input:radio[name=boardArea]:input[value='+res.data.boardArea+']').attr("checked", true);
 		//$("#boardCategory").val(res.data.boardCategory);
-		$('input:radio[name=boardCategory]:input[value='+res.data.boardCategory+']').attr("checked", true);
-		$("#editor_contents_source").val(res.data.boardContent);
+		try{
+			$('input:radio[name=boardCategory]:input[value='+res.data.boardCategory+']').attr("checked", true);
+		}catch(e){
+			
+		}
+		var boxText = res.data.boardContent.replace(/\n/g, '<br/>');
+		$("#editor_contents_source").val(boxText);
+		<c:if test="${admin.code.codeOrderNo eq '1'}">
 		daumEditor = new DaumEditor('BBS');
 		daumEditor.create();
 		daumEditor.setContent();
+		</c:if>
 		$("#boardTitle").val(res.data.boardTitle);
 		$("#boardType").val(res.data.boardType);
+		$("#unitNo").val(res.data.unit.unitNo);
 		//$("#attaches").val(res.data.attaches);
 		$("#admin").val(res.data.admin);
 		$("#unit").val(res.data.unit);
@@ -90,6 +98,18 @@ function getViewById(id){
                 }); 
 	        }
 	    });
+		<c:if test="${admin.code.codeOrderNo ne '1'}">
+			$('#wrapper input').attr('readonly', 'readonly');
+			$('#wrapper input').attr("disabled", true);
+			$('.dz-remove').remove();
+			$('#dropzone').removeClass('dz-clickable');
+			//var boxText = res.data.boardContent.replace(/<br\s?\/?>/g,"\n");
+			$("#daum_editor_panel").html(boxText);
+			
+			//document.getElementById("tx_toolbar_basic").style.display = "none";
+			//document.getElementById("tx_toolbar_advanced").style.display = "none";
+			//var edite = $('#tx_canvas_wysiwyg').contents().find('.tx-content-container').removeAttr("contenteditable");
+		</c:if>
 	}
 	viewObj.ajax(successFunc);
 }
@@ -112,6 +132,9 @@ function validation() {
 
 	var check = false;
 	var content = daumEditor.getContent();
+	content = content.replace(/<br\s?\/?>/g,"\n");
+	content = content.replace(/<p>/g,"");
+	content = content.replace(/<p\s?\/?>/g,"\n");
 	$("#boardContent").val(content);
 
 	if ($("#title").val() == "") {
@@ -206,6 +229,7 @@ jQuery(document).ready(function($) {
 								<div class="col-xs-10 col-sm-10" id='daum_editor_panel'>
 								</div>
 							</div>
+							<c:if test="${admin.code.codeOrderNo eq '1'}">
 							<div class="form-group">
 								<div class="col-xs-12">
 									<div class="col-xs-12 text-center">
@@ -218,10 +242,12 @@ jQuery(document).ready(function($) {
 									</div>
 								</div>
 							</div>
+							</c:if>
 							<input type="hidden" name="boardNo" id="boardNo" value="${boardNo}">
 							<input type="hidden" name="boardType" id="boardType" value="${boardType}">
 							<input type='hidden' id='boardContent' name='boardContent' value=''/>
                    			<input type='hidden' id='fileList' name='fileList' value=''/>
+                   			<input type='hidden' id='unitNo' name='unit.unitNo' value='${unit.unitNo }'/>
 						</form>	
 					</div>
                	</div>

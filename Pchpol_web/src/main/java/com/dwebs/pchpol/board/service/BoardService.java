@@ -136,4 +136,17 @@ public interface BoardService {
 	 */
 	int getTotCntMobile(PagingVO pagingVO, Board board, Unit unit, Admin admin);
 
+	/**
+	 * <PRE>
+	 * 1. MethodName : deleteByIds
+	 * 2. ClassName  : BoardService
+	 * 3. Comment   : 
+	 * 4. 작성자    : yrseo
+	 * 5. 작성일    : 2017. 11. 27. 오후 5:00:24
+	 * </PRE>
+	 *   @return void
+	 *   @param ids
+	 */
+	void deleteByIds(List<Integer> ids);
+
 }

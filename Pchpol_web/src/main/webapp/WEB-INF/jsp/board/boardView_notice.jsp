@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -44,13 +45,20 @@ function getViewById(id){
 	var successFunc = function(res){
 		$("#boardNo").val(res.data.boardNo);
 		//$("#boardArea").val(res.data.boardArea);
+		try{
 		$('input:radio[name=boardArea]:input[value='+res.data.boardArea+']').attr("checked", true);
 		//$("#boardCategory").val(res.data.boardCategory);
 		$('input:radio[name=boardCategory]:input[value='+res.data.boardCategory+']').attr("checked", true);
-		$("#editor_contents_source").val(res.data.boardContent);
+		}catch(e){
+			
+		}
+		var boxText = res.data.boardContent.replace(/\n/g, '<br/>');
+		$("#editor_contents_source").val(boxText);
+		<c:if test="${admin.code.codeOrderNo ne '4'}">
 		daumEditor = new DaumEditor('BBS');
 		daumEditor.create();
 		daumEditor.setContent();
+		</c:if>
 		$("#boardTitle").val(res.data.boardTitle);
 		$("#boardType").val(res.data.boardType);
 		//$("#attaches").val(res.data.attaches);
@@ -73,7 +81,7 @@ function getViewById(id){
 	                preview = preview[preview.length - 1];
 	                var imageName = document.createElement('span');
 	                //imageName.innerHTML = file.name;
-	                imageName.innerHTML = "<a class='text-center' style='cursor:auto;' href='javascript:fileDownload(\""+file.name+"\");'>"+file.name+"</span>";
+	                imageName.innerHTML = "<a class='text-center' style='cursor:auto;' href='javascript:fileDownload(\""+file.name+"\",\""+file.name+"\");'>"+file.name+"</span>";
 	                preview.insertBefore(imageName, preview.firstChild);
 	            });
 	            thisDropzone = this;
@@ -90,6 +98,18 @@ function getViewById(id){
                 }); 
 	        }
 	    });
+		<c:if test="${admin.code.codeOrderNo eq '4'}">
+			$('#wrapper input').attr('readonly', 'readonly');
+			$('#wrapper input').attr("disabled", true);
+			$('.dz-remove').remove();
+			$('#dropzone').removeClass('dz-clickable');
+			var boxText = res.data.boardContent.replace(/\n/g, '<br/>');
+			$("#daum_editor_panel").html(boxText);
+			
+			//document.getElementById("tx_toolbar_basic").style.display = "none";
+			//document.getElementById("tx_toolbar_advanced").style.display = "none";
+			//var edite = $('#tx_canvas_wysiwyg').contents().find('.tx-content-container').removeAttr("contenteditable");
+		</c:if>
 	}
 	viewObj.ajax(successFunc);
 }
@@ -112,6 +132,9 @@ function validation() {
 
 	var check = false;
 	var content = daumEditor.getContent();
+	content = content.replace(/<br\s?\/?>/g,"\n");
+	content = content.replace(/<p>/g,"");
+	content = content.replace(/<p\s?\/?>/g,"\n");
 	$("#boardContent").val(content);
 
 	if ($("#title").val() == "") {
@@ -215,18 +238,20 @@ jQuery(document).ready(function($) {
 								<div class="col-xs-10 col-sm-10" id='daum_editor_panel'>
 								</div>
 							</div>
-							<div class="form-group">
-								<div class="col-xs-12">
-									<div class="col-xs-12 text-center">
-										<button class="btn btn-silver btn-rounded waves-effect" id="submitBtn">
-											글쓰기
-										</button>
-										<button class="btn btn-default btn-rounded waves-effect" onclick="javascript:self.close();">
-											취소
-										</button>
+							<c:if test="${admin.code.codeOrderNo eq '1' || admin.code.codeOrderNo eq '2' || admin.code.codeOrderNo eq '3'}">
+								<div class="form-group">
+									<div class="col-xs-12">
+										<div class="col-xs-12 text-center">
+											<button class="btn btn-silver btn-rounded waves-effect" id="submitBtn">
+												글쓰기
+											</button>
+											<button class="btn btn-default btn-rounded waves-effect" onclick="javascript:self.close();">
+												취소
+											</button>
+										</div>
 									</div>
 								</div>
-							</div>
+							</c:if>
 							<input type="hidden" name="boardNo" id="boardNo" value="${boardNo}">
 							<input type="hidden" name="boardType" id="boardType" value="${boardType}">
 							<input type='hidden' id='boardContent' name='boardContent' value=''/>

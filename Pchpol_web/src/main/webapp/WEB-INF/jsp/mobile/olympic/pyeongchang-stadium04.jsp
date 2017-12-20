@@ -49,7 +49,7 @@
                 <p>여자 1 세부종목 : 여자</p>
               </div>
               <div class="map">
-                <img src="${pageContext.request.contextPath}/mobile/resources/images/pyeongchang-stadium04.jpg" alt="올림픽 슬라이딩 센터 지도" />
+                <%-- <img src="${pageContext.request.contextPath}/mobile/resources/images/pyeongchang-stadium04.jpg" alt="올림픽 슬라이딩 센터 지도" /> --%>
                 <p>주소 : 강원도 평창군 대관령면 용산리 153-4</p>
               </div>
           </div>

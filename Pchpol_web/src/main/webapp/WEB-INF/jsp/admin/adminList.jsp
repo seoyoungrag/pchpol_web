@@ -53,7 +53,7 @@ function getList(){
                             classes: "defaultCursor",
                             formatter: function (c,o,r) {
         			   			var id = r.adminNo;
-                                return "<input type='radio' name='selectRow' uid='"+id+"'>";
+                                return "<input type='checkbox' name='selectRow' uid='"+id+"'>";
                             } },
                         { name: "No", width:"40", sortable:false, resizable:false, hidedlg:true, search:false, align:"center", fixed:true,
                             classes: "jqgrid-rownum active defaultCursor",

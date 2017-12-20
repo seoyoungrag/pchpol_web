@@ -224,7 +224,7 @@ function deleteFile(obj){
 
 function boardWrite(){
 	var url = fullPath+'/mobile/mobileFileUpload/';
-
+	$("#boardContent").val($("#boardContentDiv").html());
 	if(typeof app !== 'undefined'){
 		app.fileupload(url);
 	}else{

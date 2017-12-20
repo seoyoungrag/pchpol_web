@@ -40,7 +40,7 @@
                 <p>여자 3 세부종목 : 활강 / 슈퍼대회전 / 복합</p>
               </div>
               <div class="map">
-                <img src="${pageContext.request.contextPath}/mobile/resources/images/pyeongchang-stadium06.jpg" alt="정선 알파인 경기장 지도" />
+                <%-- <img src="${pageContext.request.contextPath}/mobile/resources/images/pyeongchang-stadium06.jpg" alt="정선 알파인 경기장 지도" /> --%>
                 <p>주소 : 강원도 정선군 북평면 오대천로 625</p>
               </div>
           </div>

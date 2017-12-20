@@ -41,7 +41,7 @@
                 <p>혼성 단체전</p>
               </div>
               <div class="map">
-                <img src="${pageContext.request.contextPath}/mobile/resources/images/pyeongchang-stadium07.jpg" alt="용평 알파인 경기장 지도" />
+                <%-- <img src="${pageContext.request.contextPath}/mobile/resources/images/pyeongchang-stadium07.jpg" alt="용평 알파인 경기장 지도" /> --%>
                 <p>주소 : 강원도 평창군 대관령면 용산리 산142-3</p>
               </div>
           </div>

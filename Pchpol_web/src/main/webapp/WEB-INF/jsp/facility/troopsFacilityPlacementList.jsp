@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -47,7 +48,7 @@ jQuery(function ($) {
 	});
 	getList();
 });    
-
+function nonAction(){};
 function facilityFormatter (cellvalue, options, rowObject)
 {	
 	var retVal = '';
@@ -78,7 +79,14 @@ function getList(){
 	               	 		//{name:'foodFacility', sortable:false, width:"70", align:"center",formatter:facilityFormatter}
 	               	   	];
 	listObj.idColName = 'codeNo';
-	listObj.jqgrid(popup);
+	<c:choose>
+	<c:when test="${admin.code.codeOrderNo eq '1' || admin.code.codeOrderNo eq '2'}">
+		listObj.jqgrid(popup);
+	</c:when>
+	<c:otherwise>
+		listObj.jqgrid(nonAction);
+	</c:otherwise>
+	</c:choose>
 }
 function gridReload(){
 	jQuery(listObj.grid).jqGrid('setGridParam',{

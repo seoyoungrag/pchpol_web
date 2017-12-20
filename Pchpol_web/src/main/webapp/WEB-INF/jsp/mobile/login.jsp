@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <html lang="ko">
 <head>
@@ -34,6 +35,9 @@
 </body>
 <script type="text/javascript">
 $(document).ready(function(){
+	<c:if test="${login eq 'empty'}">
+	alert('동원지원 시스템에 로그인 정보가 없습니다.\n관리자에게 문의하세요.');
+	</c:if>
   $(".del").bind('click', function(){
     var str_id = $(this).attr("data-id");
     $("."+str_id).val('');
@@ -63,6 +67,9 @@ function doLogin() {
 		data : 'loginId='+loginId+'&loginPassword='+loginPassword,
 		success : function(data) {
 			if (data.success) {
+				if(typeof app !== 'undefined'){
+					app.login(loginId, loginPassword);
+				}
 				location.href = '${pageContext.request.contextPath}/mobile/index.do';
 			} else {
 				alert('로그인이 실패하였습니다.');

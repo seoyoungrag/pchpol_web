@@ -21,6 +21,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -197,6 +198,34 @@ public class FacilityDaoImpl implements FacilityDao {
 		//생성한 쿼리를 실행한다.
 		TypedQuery<Facility> typedQuery = em.createQuery(cQuery);
 		return typedQuery.getResultList();
+	}
+
+	/* (non-Javadoc)
+	 * @see com.dwebs.pchpol.facility.dao.FacilityDao#deleteByIds(java.util.List)
+	 */
+	@Override
+	public void deleteByIds(List<Integer> ids) {
+		EntityManager em = emf.createEntityManager();
+		CriteriaBuilder builder = em.getCriteriaBuilder();
+		CriteriaQuery<Facility> cQuery = builder.createQuery(Facility.class);
+		Root<Facility> from = cQuery.from(Facility.class);
+
+		List<Predicate> restrictions = new ArrayList<Predicate>();
+		Expression<Integer> exp = from.get(Facility_.facilityNo);
+		Predicate predicate = exp.in(ids);
+
+		restrictions.add(predicate);
+		cQuery.where(restrictions.toArray(new Predicate[]{}));
+		
+		List<Facility> resultList = em.createQuery(cQuery).getResultList();
+
+		em.getTransaction().begin();
+		for(Facility fac : resultList){
+			em.remove(fac);
+		}
+		em.getTransaction().commit();
+		em.close();
+		
 	}
 
 }

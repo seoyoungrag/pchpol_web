@@ -63,7 +63,7 @@ jQuery(document).ready(function($) {
                   </tr>
                   <tr>
                     <th>내용</th>
-                    <td><textarea name='boardContent' id='boardContent'></textarea></td>
+                    <td><div style="min-height:200px;border: 1px solid #e0e0e0;" contenteditable="true" id='boardContentDiv'></div></td>
                   </tr>
                   <tr>
                     <th>첨부파일</th>
@@ -79,6 +79,7 @@ jQuery(document).ready(function($) {
               </table>
               <input type="hidden" name="boardType" value="normal">
               <input type="hidden" name="boardCategory" value="상황">
+				<input type="hidden" id="boardContent" name="boardContent" value="">
               <input type='hidden' id='fileList' name='fileList' value=''/>
               </form>
             </div>

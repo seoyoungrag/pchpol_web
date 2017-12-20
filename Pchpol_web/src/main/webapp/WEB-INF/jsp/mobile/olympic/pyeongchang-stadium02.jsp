@@ -41,7 +41,7 @@
                 <p>여자 6 세부종목 : 10km / 7.5km+7.5km 스키애슬론 / 스프린트 / 팀 스프린트 / 30km 단체출발 / 4 * 5km 남자계주</p>
               </div>
               <div class="map">
-                <img src="${pageContext.request.contextPath}/mobile/resources/images/pyeongchang-stadium02.jpg" alt="알펜시아 크로스컨트리 센터 지도" />
+                <%-- <img src="${pageContext.request.contextPath}/mobile/resources/images/pyeongchang-stadium02.jpg" alt="알펜시아 크로스컨트리 센터 지도" /> --%>
                 <p>주소 : 강원도 평창군 대관령면 수하리 425</p>
               </div>
           </div>

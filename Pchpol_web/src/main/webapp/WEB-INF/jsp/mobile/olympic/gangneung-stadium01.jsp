@@ -40,7 +40,7 @@
                 <p>여자 1 세부종목</p>
               </div>
               <div class="map">
-                <img src="${pageContext.request.contextPath}/mobile/resources/images/gangneung-stadium01.jpg" alt="관동 하키 센터 지도" />
+                <%-- <img src="${pageContext.request.contextPath}/mobile/resources/images/gangneung-stadium01.jpg" alt="관동 하키 센터 지도" /> --%>
                 <p>주소 : 강원도 강릉시 내곡동 522 가톨릭관동대학교</p>
               </div>
           </div>

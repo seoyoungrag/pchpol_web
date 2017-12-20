@@ -61,3 +61,31 @@
     left: 0;
     right: 0;
 }
+
+input[name="selectRow"] {
+    width: 1.3em;
+    height: 1.3em;
+    background-color: white !important;
+    border-radius: 50%;
+    vertical-align: middle;
+    border: 2px solid #968181;
+    -webkit-appearance: none;
+    outline: none !important;
+    cursor: pointer;
+}
+
+input[name="selectRow"]:checked {
+    background-color: gray !important;
+}
+
+#daum_editor_panel{
+    -webkit-appearance: textfield;
+    background-color: white;
+    border: 1px solid darkgray;
+    box-shadow: 1px 1px 1px 0 lightgrey inset;
+    font: -webkit-small-control;
+    margin-top: 10px;
+    padding: 2px 3px;
+    width: 82%;
+    margin-left: 10px;
+}

@@ -60,7 +60,10 @@ public class Facility implements Serializable {
 
 	@Column(name="FACILITY_TYPE")
 	private String facilityType;
-
+	
+	@Transient
+	private String facImg;
+	
 	public Facility() {
 	}
 
@@ -182,6 +185,14 @@ public class Facility implements Serializable {
 
 	public void setFacilityType(String facilityType) {
 		this.facilityType = facilityType;
+	}
+
+	public String getFacImg() {
+		return facImg;
+	}
+
+	public void setFacImg(String facImg) {
+		this.facImg = facImg;
 	}
 
 }

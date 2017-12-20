@@ -75,29 +75,69 @@ public class LoginMobileController {
 		HttpSession session = request.getSession();
 		Unit unit = null;
 		if(loginAdmin==null){
+			/*
 			try{
 				//exService.login(loginId, loginPassword); //외부 API 인증
 			}catch(Exception e){
 				e.printStackTrace();
 				res = new Response(false, "exService: "+e.getMessage());
 			}
-			try{
-				unit = unitService.getByPchId(loginId);
-			}catch(Exception e){
-				e.printStackTrace();
-				res = new Response(false, "unitService: "+e.getMessage());
-			}
-			if(unit==null){
-				res = new Response(false, "fail");
-			}else{
-				session.setAttribute("unit", unit);
-			}
+			*/
 		}else{
 			session.setAttribute("admin", loginAdmin);
 		}
+		try{
+			unit = unitService.getByPchId(loginId);
+		}catch(Exception e){
+			e.printStackTrace();
+			res = new Response(false, "unitService: "+e.getMessage());
+		}
+		if(unit==null&&loginAdmin==null){
+			res = new Response(false, "fail");
+		}else if(unit!=null){
+			session.setAttribute("unit", unit);
+		}
+		
 		return ResponseEntity.ok(res);
 	}
 
+	@RequestMapping(value="/mobile/loginById", method = RequestMethod.GET)
+	public ModelAndView loginProcess(HttpServletRequest request, 
+			@RequestParam(value="loginId") String loginId){
+		Admin admin = new Admin();
+		admin.setAdminId(loginId);
+		Admin loginAdmin = adminService.loginById(admin);
+		HttpSession session = request.getSession();
+		Unit unit = null;
+		if(loginAdmin==null){
+			/*
+			try{
+				//exService.login(loginId, loginPassword); //외부 API 인증
+			}catch(Exception e){
+				e.printStackTrace();
+				res = new Response(false, "exService: "+e.getMessage());
+			}
+			*/
+		}else{
+			session.setAttribute("admin", loginAdmin);
+		}
+		try{
+			unit = unitService.getByPchId(loginId);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		if(unit!=null){
+			session.setAttribute("unit", unit);
+		}
+		ModelAndView mav;
+		if(loginAdmin==null&&unit==null){
+			mav = new ModelAndView("mobile/login");
+			mav.addObject("login","empty");
+		}else{
+			mav = new ModelAndView("mobile/index");
+		}
+		return mav;
+	}
 
 	@RequestMapping(value="/mobile/logout.do", method = RequestMethod.GET)
 	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response){

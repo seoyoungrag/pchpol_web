@@ -37,7 +37,14 @@ import com.dwebs.pchpol.common.vo.ExceptionBody;
  * </PRE>
  */
 public class CommonUtil {
-
+	public static String escapeHtml(String str){
+		String regex1 = "\\<.*?\\>";
+		@SuppressWarnings("unused")
+		String regex2 = "<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>";
+		String retVal = "";
+		retVal = str.replaceAll(regex1, "");
+		return retVal;
+	}
 	public static String null2str(String org) {
 		return null2str(org, "");
 	}

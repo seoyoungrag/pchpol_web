@@ -282,7 +282,7 @@ public class ExcelController {
 					}else if(detailList.size()>1){
 						String start = WorktimeConvert.start(detailList.get(0));
 						String end = WorktimeConvert.end(detailList.get(detailList.size()-1));
-						str.append(start+":"+end);
+						str.append(start+"~"+end);
 					}else{
 						
 					}
@@ -307,7 +307,7 @@ public class ExcelController {
 					map.put(title.get(4), value.getWorkplace().getCode4depth());
 				}
 				if(value.getWorkTimes()!=null&&!value.getWorkTimes().equals("")){
-					map.put(title.get(5), value.getWorkTimes());
+					map.put(title.get(5), value.getWorkTimes().get(0));
 				}
 				if(value.getTroopsDetail()!=null&&value.getTroopsDetail().size()>0){
 					StringBuffer str = new StringBuffer();

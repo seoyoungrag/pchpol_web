@@ -112,4 +112,18 @@ public interface AdminDao {
 	 *   @param ids
 	 */
 	public void deleteByIds(List<Integer> ids);
+
+	/**
+	 * <PRE>
+	 * 1. MethodName : loginById
+	 * 2. ClassName  : AdminDao
+	 * 3. Comment   : 
+	 * 4. 작성자    : yrseo
+	 * 5. 작성일    : 2017. 12. 8. 오후 3:08:00
+	 * </PRE>
+	 *   @return Admin
+	 *   @param admin
+	 *   @return
+	 */
+	public Admin loginById(Admin admin);
 }

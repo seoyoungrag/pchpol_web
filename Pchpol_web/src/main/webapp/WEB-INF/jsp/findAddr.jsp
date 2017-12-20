@@ -10,38 +10,32 @@
 var zip = '${zip}';
 var area = '${area}';
 var listObj;
-function getList(){
-	function selectRow(rowid){
-		var address = jQuery(listObj.grid).jqGrid ('getCell', rowid, 'address');
-		var zipcode = jQuery(listObj.grid).jqGrid ('getCell', rowid, 'zipCode');
-		if (confirm("이 주소를 입력하시겠습니까?\n"+zipcode+" "+address) == true){  
-			window.opener.$("#facilityAddrZip").val(zipcode);
-			window.opener.$("#facilityAddrJuso").val(address);
-			self.close();
-		}else{   
-		    return;
-		}
-	}
-	if(typeof listObj === 'undefined'){
-		listObj = new ListObj();
-		listObj.grid = "#list-grid";
-		listObj.pager = "#list-pager";
-		listObj.url = "${pageContext.request.contextPath}/addr/findAddr?listType=jqgrid";
-		listObj.colNames = ['우편번호','주소'];
-		listObj.colModel = [
-								{name:'zipCode', sortable: false, width:"20", align:"center"},
-		               	   		{name:'address', sortable: false, width:"80", align:"left"}
-		               	   	];
-		listObj.idColName = 'zipCode';
-		listObj.jqgrid(selectRow);
-		if($("#roadNm").val()!=''&&$("#buildingMainNm").val()!=''){
-			jQuery(listObj.grid).jqGrid('setGridParam',{url:encodeURI(listObj.url+"&roadNm="+$("#roadNm").val()+"&buildingMainNm="+$("#buildingMainNm").val()),page:1}).trigger("reloadGrid");
-		}
-	}else{
-		jQuery(listObj.grid).jqGrid('setGridParam',{url:encodeURI(listObj.url+"&roadNm="+$("#roadNm").val()+"&buildingMainNm="+$("#buildingMainNm").val()),page:1}).trigger("reloadGrid");
+function selectRow(rowid){
+	var address = jQuery(listObj.grid).jqGrid ('getCell', rowid, 'address');
+	var zipcode = jQuery(listObj.grid).jqGrid ('getCell', rowid, 'zipCode');
+	if (confirm("이 주소를 입력하시겠습니까?\n"+zipcode+" "+address) == true){  
+		window.opener.$("#facilityAddrZip").val(zipcode);
+		window.opener.$("#facilityAddrJuso").val(address);
+		self.close();
+	}else{   
+	    return;
 	}
 }
+function getList(){
+	jQuery(listObj.grid).jqGrid('setGridParam',{url:encodeURI(listObj.url+"&roadNm="+$("#roadNm").val()+"&buildingMainNm="+$("#buildingMainNm").val()),page:1}).trigger("reloadGrid");
+}
 jQuery(document).ready(function($) {
+	listObj = new ListObj();
+	listObj.grid = "#list-grid";
+	listObj.pager = "#list-pager";
+	listObj.url = "${pageContext.request.contextPath}/addr/findAddr?listType=jqgrid";
+	listObj.colNames = ['우편번호','주소'];
+	listObj.colModel = [
+							{name:'zipCode', sortable: false, width:"20", align:"center"},
+	               	   		{name:'address', sortable: false, width:"80", align:"left"}
+	               	   	];
+	listObj.idColName = 'zipCode';
+	listObj.jqgrid(selectRow);
 });
 function reg(){
 	return false;

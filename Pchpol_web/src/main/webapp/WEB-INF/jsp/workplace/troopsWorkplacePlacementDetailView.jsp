@@ -100,7 +100,7 @@ jQuery(document).ready(function($) {
 			code4depthTxt+='<input id="fema" type="checkbox" name="troopsNo" value="'+codes[0].codeNo+'" onchange="chgTroops(this)" style="display:none;"><label style="display:none;">'+codes[0].code3depth+'</label></input>';
 		}else{
 			$.each(codes, function(index, text){
-				code4depthTxt+='<input type="checkbox" name="troopsNo" value="'+text.codeNo+'" onchange="chgTroops(this)"><label>'+text.code4depth+'</label></input>';
+				code4depthTxt+='<input type="checkbox" id="troopsNo'+index+'" name="troopsNo" value="'+text.codeNo+'" onchange="chgTroops(this)"><label style="cursor:pointer;"  for="troopsNo'+index+'" style="cursor: pointer;">'+text.code4depth+'</label></input>';
 			});	
 		}
 		//상설부대배치랑 상관없다.
@@ -242,7 +242,7 @@ function getView(){
 		code4depthTxt+='<input id="fema" type="checkbox" name="troopsNo" value="'+codes[0].codeNo+'" onchange="chgTroops(this)" style="display:none;"><label style="display:none;">'+codes[0].code3depth+'</label></input>';
 	}else{
 		$.each(codes, function(index, text){
-			code4depthTxt+='<input type="checkbox" name="troopsNo" value="'+text.codeNo+'" onchange="chgTroops(this)"><label>'+text.code4depth+'</label></input>';
+			code4depthTxt+='<input type="checkbox" id="troopsNo'+index+'" name="troopsNo" value="'+text.codeNo+'" onchange="chgTroops(this)"><label style="cursor:pointer;" for="troopsNo'+index+'">'+text.code4depth+'</label></input>';
 		});	
 	}
 

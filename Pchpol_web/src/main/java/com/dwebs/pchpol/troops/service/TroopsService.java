@@ -270,5 +270,5 @@ public interface TroopsService {
 	 *   @return void
 	 *   @param delete
 	 */
-	void deleteTroopsPlacement(TroopsPlacementDelete delete);
+	void deleteTroopsPlacement(List<TroopsPlacementDelete> delete);
 }

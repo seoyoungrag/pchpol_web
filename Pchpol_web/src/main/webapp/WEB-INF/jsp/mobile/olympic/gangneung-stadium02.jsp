@@ -40,7 +40,7 @@
                 <p>혼성 경기</p>
               </div>
               <div class="map">
-                <img src="${pageContext.request.contextPath}/mobile/resources/images/gangneung-stadium02.jpg" alt="강릉 컬링 센터 지도" />
+                <%-- <img src="${pageContext.request.contextPath}/mobile/resources/images/gangneung-stadium02.jpg" alt="강릉 컬링 센터 지도" /> --%>
                 <p>주소 : 강원도 강릉시 교동 632</p>
               </div>
           </div>

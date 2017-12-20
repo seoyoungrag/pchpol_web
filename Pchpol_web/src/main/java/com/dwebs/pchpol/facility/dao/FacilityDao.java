@@ -114,4 +114,17 @@ public interface FacilityDao {
 	 */
 	List<Facility> getFacility(Facility facility);
 
+	/**
+	 * <PRE>
+	 * 1. MethodName : deleteByIds
+	 * 2. ClassName  : FacilityDao
+	 * 3. Comment   : 
+	 * 4. 작성자    : yrseo
+	 * 5. 작성일    : 2017. 11. 27. 오후 4:49:52
+	 * </PRE>
+	 *   @return void
+	 *   @param ids
+	 */
+	void deleteByIds(List<Integer> ids);
+
 }

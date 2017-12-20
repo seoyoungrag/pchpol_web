@@ -59,7 +59,7 @@ function goModify(){
 						</dl>
 
 						<div class="content">
-						<textarea readonly style="border:0px;width:100%;height:250px;">${board.boardContent }</textarea>
+						<div readonly style="min-height:200px;border: 1px solid #e0e0e0;overflow: auto;">${board.boardContent }</div>
 						
 						</div>
 						<c:if test="${fn:length(board.attaches)!=0}">

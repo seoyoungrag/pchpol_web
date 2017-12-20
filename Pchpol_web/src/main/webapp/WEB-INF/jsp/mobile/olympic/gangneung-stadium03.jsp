@@ -40,7 +40,7 @@
                 <p>여자 1 세부종목</p>
               </div>
               <div class="map">
-                <img src="${pageContext.request.contextPath}/mobile/resources/images/gangneung-stadium03.jpg" alt="강릉 하키 센터 지도" />
+                <%-- <img src="${pageContext.request.contextPath}/mobile/resources/images/gangneung-stadium03.jpg" alt="강릉 하키 센터 지도" /> --%>
                 <p>주소 : 강원도 강릉시 포남동 226-3</p>
               </div>
           </div>

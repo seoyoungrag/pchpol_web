@@ -241,12 +241,14 @@ public class TroopsServiceImpl implements TroopsService {
 	 * @see com.dwebs.pchpol.troops.service.TroopsService#deleteTroopsPlacement(com.dwebs.pchpol.workplace.controller.TroopsPlacementDelete)
 	 */
 	@Override
-	public void deleteTroopsPlacement(TroopsPlacementDelete delete) {
-		TroopsPlacement stp = new TroopsPlacement();
-		stp.setCode1(delete.getTroops());
-		stp.setCode2(delete.getWorkplace());
-		List<TroopsPlacement> list = troopsDao.getTroopsWorkplace(stp);
-		troopsDao.deleteTroopsPlacement(list);
+	public void deleteTroopsPlacement(List<TroopsPlacementDelete> deletes) {
+		for(TroopsPlacementDelete delete : deletes){
+			TroopsPlacement stp = new TroopsPlacement();
+			stp.setCode1(delete.getTroops());
+			stp.setCode2(delete.getWorkplace());
+			List<TroopsPlacement> list = troopsDao.getTroopsWorkplace(stp);
+			troopsDao.deleteTroopsPlacement(list);
+		}
 	}
 
 

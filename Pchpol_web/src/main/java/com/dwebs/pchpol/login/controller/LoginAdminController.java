@@ -64,6 +64,7 @@ public class LoginAdminController {
 		}else{
 			HttpSession session = request.getSession();
 			session.setAttribute("admin", loginAdmin);
+			res.setData(loginAdmin);
 		}
 		return ResponseEntity.ok(res);
 	}

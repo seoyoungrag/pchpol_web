@@ -61,7 +61,6 @@ public class ExcelDownView extends AbstractExcelView {
 
 		// 3. 엑셀파일 생성
 		HSSFCell cell = null;
- 
 		HSSFSheet sheet = workbook.createSheet(sheetName);
 		sheet.createRow(topTitleRow).createCell(topTitleRow).setCellValue(sheetName);// 시트(0, 0)셀에 제목과 같은 텍스트 세팅
 		sheet.setDefaultColumnWidth((short) 12);
@@ -122,29 +121,31 @@ public class ExcelDownView extends AbstractExcelView {
 				for (int j = 0; j < titleList.size(); j++) {
 					sheet.getRow(contentRow+i).createCell(j);
 					cell = sheet.getRow(contentRow + i).getCell(j);
-					//적재현황 조회 같은 케이스는... 다르게 처리
 					int maxLength = 32767;
+					try{
 					String text = (String) getMap.get(titleList.get(j).toString());
 					if(text != null && text.length() > maxLength){
 						text = text.substring(0,maxLength);
 					}
 					cell.setCellValue(text);
-					
-					contentCellStyle.setWrapText(true);
+					}catch(Exception e){
+						e.printStackTrace();
+					}
+					//contentCellStyle.setWrapText(true);
 				    cell.setCellStyle(contentCellStyle);
 
 				    //increase row height to accomodate two lines of text
-				    sheet.getRow(contentRow+i).setHeightInPoints((2*sheet.getDefaultRowHeightInPoints()));
+				    //sheet.getRow(contentRow+i).setHeightInPoints((2*sheet.getDefaultRowHeightInPoints()));
 
 				    //adjust column width to fit the content
-				    sheet.autoSizeColumn((short)2);
+				    //sheet.autoSizeColumn((short)2);
 				}
 			}
 			// these cords have been separated from second loop(for(int j = 0; j < titleList.size(); j++)) to enhance the download speed!
 			for (int k = 0; k < titleList.size(); k++) {
 				try{
-					sheet.autoSizeColumn((short) k);// cell width auto resize
-					sheet.setColumnWidth(k, (sheet.getColumnWidth(k)) + 512); // 자동조정 후 잘리는 부분조정
+					//sheet.autoSizeColumn((short) k);// cell width auto resize
+					//sheet.setColumnWidth(k, (sheet.getColumnWidth(k)) + 512); // 자동조정 후 잘리는 부분조정
 				}catch(Exception e){//12.23 hssf가 아닌 ss를 쓰도록 했는데 hssf를 계속 씀.. 버그인 것 같음.. 로깅 처리
 					logger.error("[error] "+e.getMessage()+", sheetName: "+sheet.getSheetName()+", title: "+ titleList.get(k));
 				}

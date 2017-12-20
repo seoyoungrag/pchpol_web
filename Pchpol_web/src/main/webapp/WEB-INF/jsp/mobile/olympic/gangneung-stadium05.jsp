@@ -40,7 +40,7 @@
                 <p>여자 7 세부종목 : 500m / 1,000m / 1,500m / 3,000m / 5,000m / 팀 추월 / 매스스타트</p>
               </div>
               <div class="map">
-                <img src="${pageContext.request.contextPath}/mobile/resources/images/gangneung-stadium05.jpg" alt="강릉 스피드 스케이팅 경기장 지도" />
+                <%-- <img src="${pageContext.request.contextPath}/mobile/resources/images/gangneung-stadium05.jpg" alt="강릉 스피드 스케이팅 경기장 지도" /> --%>
                 <p>주소 : 강원도 강릉시 포남동 251</p>
               </div>
           </div>

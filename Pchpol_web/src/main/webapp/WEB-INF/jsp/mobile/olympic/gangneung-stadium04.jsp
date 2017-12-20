@@ -46,7 +46,7 @@
                 <p>여자 4 세부종목 : 500m / 1,000m / 1,500m / 계주 3,000m</p>
               </div>
               <div class="map">
-                <img src="${pageContext.request.contextPath}/mobile/resources/images/gangneung-stadium04.jpg" alt="강릉 아이스 아레나 지도" />
+                <%-- <img src="${pageContext.request.contextPath}/mobile/resources/images/gangneung-stadium04.jpg" alt="강릉 아이스 아레나 지도" /> --%>
                 <p>주소 : 강원도 강릉시 교동 468-42</p>
               </div>
           </div>

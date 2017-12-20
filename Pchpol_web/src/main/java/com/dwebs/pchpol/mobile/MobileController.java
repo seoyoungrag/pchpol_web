@@ -13,11 +13,15 @@
  */
 package com.dwebs.pchpol.mobile;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -675,7 +679,11 @@ public class MobileController extends BaseController {
 		Admin admin = (Admin)session.getAttribute("admin");
 		Unit unit = (Unit)session.getAttribute("unit");
 		Response res = new Response();
-		if(admin==null){
+
+		if(board.getUnit()!=null&&board.getUnit().getUnitNo()!=0){
+			
+		}
+		else if(admin==null){
 			if(unit!=null){
 				board.setUnit(unit);
 			}else{
@@ -866,6 +874,96 @@ public class MobileController extends BaseController {
         //System.out.println("RewardController reAddProCtrl n : " + n);
         //System.out.println("RewardController reAddProCtrl uploadPath : " + uploadPath);
 		res.setData(uploadPath);
+		return ResponseEntity.ok(res);
+    }
+
+//  파일을 다운로드하는 컨트롤러 클래스 메소드
+    @RequestMapping(value = "/mobile/mobileFileDownload", method = RequestMethod.POST)
+//  인자로 MulfiPartFile 객체, MultipartHttpServletRequest 객체, 업로드 하려는 도메인 클래스를 받는다
+    public ResponseEntity<?> mobileFileDownload(HttpServletRequest request, HttpServletResponse response){
+
+		Response res = new Response();
+		String saveLocation = FileHandler.FILE_STORE_PATH;
+
+		String fileName = (String) request.getParameter("fileName");
+		String[] fileNameArr = fileName.split("\\*");
+		String serverFile = saveLocation + File.separator + fileNameArr[0];
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("download file path :  " + saveLocation + File.separator + fileNameArr[0]);
+		}
+
+		File downfile = new File(serverFile);
+		if (!downfile.exists()) {
+			try {
+				throw new FileNotFoundException();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
+        List<File> zippedFile = new ArrayList<>();
+        try {
+        	UtilFile.compress(serverFile, serverFile + UtilFile.compressedFIleExt);
+        	//UtilFile.split(serverFile + UtilFile.compressedFIleExt);
+            zippedFile.addAll(UtilFile.getSplitedFiles(serverFile + UtilFile.compressedFIleExt));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        for(File sFile: zippedFile){
+        	String sFn = sFile.getName();
+    		BufferedInputStream fin = null;
+    		BufferedOutputStream fout = null;
+
+    		String encFileName = new String();
+
+    		StringBuffer sb = new StringBuffer();
+    		for (int i = 0; i < sFn.length(); i++) {
+    			char c = sFn.charAt(i);
+    			if (c > '~') {
+    				try {
+						sb.append(URLEncoder.encode("" + c, "UTF-8"));
+					} catch (UnsupportedEncodingException e) {
+						e.printStackTrace();
+					}
+    			} else {
+    				sb.append(c);
+    			}
+    		}
+			response.setContentType("application/octet-stream;charset=UTF-8");
+			response.setHeader("Content-Disposition", "attachment; filename=" + encFileName + ";");
+			response.setHeader("Content-Transfer-Encoding", "binary;");
+			response.setHeader("Pragma", "no-cache;");
+			response.setHeader("Expires", "-1;");
+
+			byte buf[] = new byte[2 * 1024];
+			try {
+				fin = new BufferedInputStream(new FileInputStream(sFile));
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+			try {
+				fout = new BufferedOutputStream(response.getOutputStream());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			int fread = 0;
+
+			try {
+				while ((fread = fin.read(buf)) != -1) {
+					fout.write(buf, 0, fread);
+				}
+				if (fout != null) {
+					fout.flush();
+					fout.close();
+				}
+				if (fin != null) {
+					fin.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+        }
+		res.setData(zippedFile);
 		return ResponseEntity.ok(res);
     }
     

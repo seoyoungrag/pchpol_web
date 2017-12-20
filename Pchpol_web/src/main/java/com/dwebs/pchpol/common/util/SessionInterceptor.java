@@ -43,6 +43,11 @@ public class SessionInterceptor extends HandlerInterceptorAdapter {
 				response.sendRedirect(request.getContextPath() + "/login.do");
 				return false;
 			}
+			if (admin.getCode().equals("")){
+				
+			}
+			//url 체크
+			//
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

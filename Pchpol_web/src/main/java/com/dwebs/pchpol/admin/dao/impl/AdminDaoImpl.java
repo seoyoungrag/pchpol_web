@@ -193,7 +193,34 @@ public class AdminDaoImpl implements AdminDao {
 		}
 		em.getTransaction().commit();
 		em.close();
+	}
+
+	/* (non-Javadoc)
+	 * @see com.dwebs.pchpol.admin.dao.AdminDao#loginById(com.dwebs.pchpol.model.Admin)
+	 */
+	@Override
+	public Admin loginById(Admin admin) {
+		EntityManager em = emf.createEntityManager();
+		//기본 select ~ from ~ 쿼리를 생성한다.
+		CriteriaBuilder builder = em.getCriteriaBuilder();
+		CriteriaQuery<Admin> cQuery = builder.createQuery(Admin.class);
+		Root<Admin> from = cQuery.from(Admin.class);
+
+		List<Predicate> restrictions = new ArrayList<Predicate>();
+		restrictions.add(builder.equal(from.get(Admin_.adminId), admin.getAdminId()));
 		
+		cQuery.where(restrictions.toArray(new Predicate[]{}));
+		
+		//생성한 쿼리를 실행한다.
+		TypedQuery<Admin> typedQuery = em.createQuery(cQuery);
+		List<Admin> result = new ArrayList<Admin>();
+		
+		result = typedQuery.getResultList();
+		if(result.size()>0){
+			return result.get(0);
+		}else{
+			return null;
+		}
 	}
 
 }

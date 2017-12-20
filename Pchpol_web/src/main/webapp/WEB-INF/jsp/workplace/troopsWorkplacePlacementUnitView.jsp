@@ -87,10 +87,12 @@ function reg(){
 	}else{
 		txt = '';
 	}
+	/* 
 	if(a==0){
 		alert('선택된 인원이 없습니다.');
 		return false;
 	}
+	 */
 	var group = window.parent.opener.jQuery("input:checkbox[name='troopsNo']");
 	$.each(group, function(idx, el){
 		if($(el).val()==$('select#troops_code4depth').val()){
@@ -118,10 +120,12 @@ function autoReg(){
 	window.parent.opener.setWorktimelist();
 	
 	var chklist = $(':checkbox[name=unitNo	]:checked');
+	/* 
 	if(chklist.length==0){
 		alert('선택된 인원이 없습니다.');
 		return false;
 	}
+	*/
 	var maxN = chklist.length-1;
 	var initN = 0;
 	for(var i = 1 ; i <= 24; i++){
@@ -133,6 +137,9 @@ function autoReg(){
 		txt +=
 			'<input type="hidden" name="time'+i+'" value="'+$(chklist[initN]).val()+'">'
 			+$(chklist[initN]).next('label').text();
+		if(chklist.length==0){
+			txt='';
+		}
 		window.parent.opener.jQuery("#"+'time'+i).html(txt);
 		if(initN==maxN){
 			initN=0;
@@ -174,11 +181,11 @@ function setUnitList(troops){
 						}
 					});
 					if(isChecked){
-						txt+='<input type="checkbox" name="unitNo" value="'+text.unitNo+'" checked onclick="javascript:checkedUnit(this);">';
+						txt+='<input type="checkbox" name="unitNo" value="'+text.unitNo+'" id="unit'+index+'" checked onclick="javascript:checkedUnit(this);">';
 					}else{
-						txt+='<input type="checkbox" name="unitNo" value="'+text.unitNo+'" onclick="javascript:checkedUnit(this);">';
+						txt+='<input type="checkbox" name="unitNo" value="'+text.unitNo+'" id="unit'+index+'" onclick="javascript:checkedUnit(this);">';
 					}
-					txt+='<label style="font-size: 0.6em;">'
+					txt+='<label for="unit'+index+'" style="font-size: 0.6em;cursor: pointer;">'
 					+'<input type="hidden" name="${time}" value="'+text.unitNo+'">'
 					+text.unitName+' '+rank
 					+'</label>'
